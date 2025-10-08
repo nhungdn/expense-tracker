@@ -1,0 +1,19 @@
+# Java
+*.class
+*.log
+
+# VS Code
+.vscode/
+*.iml
+
+# Build output
+/target/
+/build/
+/out/
+
+# Database or local data
+*.db
+
+# OS files
+.DS_Store
+Thumbs.db
