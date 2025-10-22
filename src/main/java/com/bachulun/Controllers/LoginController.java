@@ -1,9 +1,14 @@
 package com.bachulun.Controllers;
 
+import java.io.IOException;
+
 import com.bachulun.DAOs.UserDAO;
 import com.bachulun.Models.User;
+import com.bachulun.Service.IUserService;
+import com.bachulun.Service.UserService;
+import com.bachulun.Utils.DatabaseException;
+import com.bachulun.Utils.InvalidInputException;
 
-import java.sql.SQLException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TextField;
@@ -20,29 +25,28 @@ public class LoginController {
     @FXML
     private Label errorLabel;
 
-    private UserDAO userDAO = new UserDAO();
-
-    @FXML
-    private void initialize() {
-        errorLabel.setVisible(false);
-    }
+    private final IUserService userService = new UserService();
 
     @FXML
     private void handleLogin() {
-        String username = usernameField.getText();
+        String username = usernameField.getText().trim();
         String password = passwordField.getText();
 
         try {
-            User user = userDAO.loginUser(username, password);
-            if (user != null) {
-                errorLabel.setVisible(true);
-                errorLabel.setText("Login successful." + user.getUsername());
-            } else {
-                errorLabel.setVisible(true);
-                errorLabel.setText("Username or Password is wrong.\n Don't have an account? Register now!");
-            }
-        } catch (SQLException e) {
-            System.err.println("System error: " + e.getMessage());
+            User user = userService.loginUser(username, password);
+            errorLabel.setText("Login successful!");
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/Dashboard.fxml"));
+            Scene scene = new Scene(loader.load());
+            Stage stage = (Stage) usernameField.getScene().getWindow();
+            stage.setScene(scene);
+            stage.setTitle("Expense Tracker");
+            stage.show();
+        } catch (InvalidInputException e) {
+            errorLabel.setText(e.getMessage());
+        } catch (DatabaseException e) {
+            errorLabel.setText("Database error occurred");
+        } catch (IOException e) {
+            errorLabel.setText("Failed to load dashboard");
         }
     }
 
@@ -55,8 +59,8 @@ public class LoginController {
             stage.setScene(scene);
             stage.setTitle("Register");
             stage.show();
-        } catch (Exception e) {
-            System.err.println("Error opening registration screen: " + e.getMessage());
+        } catch (IOException e) {
+            errorLabel.setText("Failed to load registration screen");
         }
     }
 }

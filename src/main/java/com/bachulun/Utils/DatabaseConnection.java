@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class DatabaseUtil {
+public class DatabaseConnection {
     private static final String DB_URL = "jdbc:sqlite:src/main/resources/Database/database.db";
 
     public static Connection getConnection() {
@@ -52,6 +52,7 @@ public class DatabaseUtil {
                         name TEXT NOT NULL,
                         balance REAL NOT NULL,
                         created_at TIMESTAMP NOT NULL,
+                        delete_ban BOOLEAN NOT NULL,
                         FOREIGN KEY (user_id) REFERENCES Users(id) ON DELETE CASCADE
                     )
                     """;
@@ -63,8 +64,8 @@ public class DatabaseUtil {
                         id INTEGER PRIMARY KEY AUTOINCREMENT,
                         user_id INTEGER NOT NULL,
                         name TEXT NOT NULL,
-                        type TEXT NOT NULL CHECK(type IN ('income', 'expense')),
                         created_at TIMESTAMP NOT NULL,
+                        delete_ban BOOLEAN NOT NULL,
                         FOREIGN KEY (user_id) REFERENCES Users(id) ON DELETE CASCADE
                     )
                     """;

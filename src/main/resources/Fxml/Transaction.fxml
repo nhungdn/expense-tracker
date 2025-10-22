@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Pagination?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="765.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bachulun.Controllers.TransactionController">
+   <top>
+      <VBox alignment="CENTER" prefHeight="74.0" prefWidth="766.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label prefHeight="30.0" prefWidth="607.0" text="Quản lí giao dịch" />
+                  <Button fx:id="addTransaction" mnemonicParsing="false" prefHeight="26.0" prefWidth="129.0" text="Thêm giao dịch" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+               <children>
+                  <TextField prefHeight="26.0" prefWidth="42.0" promptText="Tìm kiếm giao dịch" />
+                  <Label nodeOrientation="RIGHT_TO_LEFT" prefHeight="26.0" prefWidth="175.0" text="Từ ngày:">
+                     <graphic>
+                        <DatePicker fx:id="fromDatePicker" nodeOrientation="LEFT_TO_RIGHT" prefHeight="26.0" prefWidth="120.0">
+                           <cursor>
+                              <Cursor fx:constant="DISAPPEAR" />
+                           </cursor>
+                        </DatePicker>
+                     </graphic>
+                  </Label>
+                  <Label nodeOrientation="RIGHT_TO_LEFT" prefHeight="26.0" prefWidth="180.0" text="Đến ngày:">
+                     <graphic>
+                        <DatePicker fx:id="toDatePicker" nodeOrientation="LEFT_TO_RIGHT" prefHeight="26.0" prefWidth="120.0" />
+                     </graphic>
+                  </Label>
+                  <ComboBox fx:id="typeComboBox" prefHeight="26.0" prefWidth="88.0" promptText="Loại" />
+                  <ComboBox fx:id="categoryComboBox" prefHeight="26.0" prefWidth="100.0" promptText="Danh mục" />
+                  <ComboBox fx:id="accountComboBox" prefHeight="26.0" prefWidth="112.0" promptText="Tài khoản" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </top>
+   <center>
+      <VBox prefHeight="456.0" prefWidth="766.0" BorderPane.alignment="CENTER">
+         <children>
+            <TableView fx:id="transactionTable" prefHeight="402.0" prefWidth="745.0">
+              <columns>
+                <TableColumn fx:id="dateCol" prefWidth="100.80001831054688" resizable="false" text="Ngày" />
+                <TableColumn fx:id="typeCol" prefWidth="57.600013732910156" resizable="false" text="Loại" />
+                  <TableColumn fx:id="categoryCol" prefWidth="92.00001525878906" text="Danh mục" />
+                  <TableColumn fx:id="amountCol" prefWidth="120.79998779296875" text="Số tiền" />
+                  <TableColumn fx:id="accountCol" prefWidth="135.20001220703125" text="Tài khoản" />
+                  <TableColumn fx:id="descriptionCol" prefWidth="126.39999389648438" text="Mô tả" />
+                  <TableColumn fx:id="actionCol" minWidth="0.0" prefWidth="112.800048828125" text="Thao tác" />
+              </columns>
+            </TableView>
+            <Pagination fx:id="pagination" prefHeight="59.0" prefWidth="745.0" />
+         </children>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </VBox>
+   </center>
+</BorderPane>

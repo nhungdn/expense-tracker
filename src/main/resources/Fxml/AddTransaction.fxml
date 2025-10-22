@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<Pane prefHeight="450.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bachulun.Controllers.AddTransactionController">
+   <children>
+      <VBox alignment="CENTER_LEFT" layoutX="82.0" layoutY="19.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="415.0" prefWidth="332.0" spacing="5.0">
+         <children>
+            <HBox alignment="TOP_CENTER" prefHeight="40.0" prefWidth="302.0">
+               <children>
+                  <Label text="Thêm giao dịch" textAlignment="CENTER">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <Label nodeOrientation="RIGHT_TO_LEFT" text="Số tiền">
+               <graphic>
+                  <Label fx:id="amountError" nodeOrientation="LEFT_TO_RIGHT" prefHeight="17.0" prefWidth="254.0" textFill="RED" />
+               </graphic></Label>
+            <TextField fx:id="amountTf" prefHeight="26.0" prefWidth="510.0" />
+            <Label nodeOrientation="RIGHT_TO_LEFT" text="Ngày giao dịch">
+               <graphic>
+                  <Label fx:id="tranDateError" nodeOrientation="LEFT_TO_RIGHT" prefHeight="17.0" prefWidth="210.0" textFill="RED" />
+               </graphic>
+            </Label>
+            <DatePicker fx:id="transactionDate" />
+            <Label layoutX="10.0" layoutY="10.0" nodeOrientation="RIGHT_TO_LEFT" text="Mô tả giao dịch">
+               <graphic>
+                  <Label fx:id="descriptionError" nodeOrientation="LEFT_TO_RIGHT" prefHeight="17.0" prefWidth="210.0" textFill="RED" />
+               </graphic></Label>
+            <TextField fx:id="descriptionTf" layoutX="10.0" layoutY="28.0" prefHeight="26.0" prefWidth="510.0" />
+            <Label layoutX="10.0" layoutY="54.0" nodeOrientation="RIGHT_TO_LEFT" text="Tài khoản">
+               <graphic>
+                  <Label fx:id="accountError" nodeOrientation="LEFT_TO_RIGHT" prefHeight="17.0" prefWidth="241.0" textFill="RED" />
+               </graphic></Label>
+            <ComboBox fx:id="accountComboBox" prefWidth="150.0" />
+            <Label layoutX="10.0" layoutY="98.0" nodeOrientation="RIGHT_TO_LEFT" text="Phân loại">
+               <graphic>
+                  <Label fx:id="typeError" nodeOrientation="LEFT_TO_RIGHT" prefHeight="17.0" prefWidth="246.0" textFill="RED" />
+               </graphic></Label>
+            <ComboBox fx:id="typeComboBox" prefWidth="150.0" />
+            <Label layoutX="10.0" layoutY="141.0" nodeOrientation="RIGHT_TO_LEFT" text="Danh mục">
+               <graphic>
+                  <Label fx:id="categoryError" nodeOrientation="LEFT_TO_RIGHT" prefHeight="17.0" prefWidth="235.0" textFill="RED" />
+               </graphic></Label>
+            <ComboBox fx:id="categoryComboBox" layoutX="10.0" layoutY="159.0" prefWidth="150.0" />
+            <HBox alignment="BOTTOM_CENTER" prefHeight="58.0" prefWidth="302.0">
+               <children>
+                  <Button fx:id="confirmButton" mnemonicParsing="false" text="Xác nhận" textAlignment="CENTER" />
+               </children>
+            </HBox>
+         </children>
+         <padding>
+            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+         </padding>
+      </VBox>
+   </children>
+</Pane>
