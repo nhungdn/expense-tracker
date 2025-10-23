@@ -11,13 +11,10 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import com.bachulun.Models.Transaction;
-import com.bachulun.Service.AccountService;
-import com.bachulun.Service.IAccountService;
 import com.bachulun.Utils.DatabaseConnection;
 import com.bachulun.Utils.DatabaseException;
 
 public class TransactionDAO implements ITransactionDAO {
-    private final IAccountService accountService = new AccountService();
 
     @Override
     public void addTransaction(Transaction transaction) throws DatabaseException {
@@ -37,10 +34,6 @@ public class TransactionDAO implements ITransactionDAO {
         } catch (SQLException e) {
             System.err.println("Error when addTransaction: " + e.getMessage());
         }
-
-        // Cap nhat lai tien trong tai khoan
-        accountService.updateAccountBalance(transaction.getAccountId(), transaction.getAmount(), transaction.getType());
-
     }
 
     @Override
@@ -84,7 +77,31 @@ public class TransactionDAO implements ITransactionDAO {
         }
     }
 
-    public List<Transaction> getTransactionByUser(int userId) throws DatabaseException {
+    @Override
+    public Transaction getTransactionById(int transactionId) throws DatabaseException {
+        String sql = "SELECT * FROM TransactionTable WHERE id = ?";
+
+        try (Connection conn = DatabaseConnection.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, transactionId);
+            ResultSet rs = pstmt.executeQuery();
+            return new Transaction(
+                    transactionId,
+                    rs.getInt("account_id"),
+                    rs.getInt("category_id"),
+                    rs.getDouble("amount"),
+                    rs.getString("type"),
+                    rs.getString("description"),
+                    rs.getTimestamp("transaction_date").toLocalDateTime(),
+                    rs.getTimestamp("created_at").toLocalDateTime());
+        } catch (SQLException e) {
+            System.err.println("Error when getTransactionById: " + e.getMessage());
+        }
+        return null;
+    }
+
+    @Override
+    public List<Transaction> getTransactionByUserId(int userId) throws DatabaseException {
         String sql = """
                     SELECT
                         t.id,
@@ -124,6 +141,34 @@ public class TransactionDAO implements ITransactionDAO {
                         rs.getTimestamp("created_at").toLocalDateTime(),
                         rs.getString("accountName"),
                         rs.getString("categoryName")));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public List<Transaction> getTransactionByAccountId(int accountId) throws DatabaseException {
+        String sql = "SELECT * FROM TransactionTable WHERE account_id = ?";
+
+        List<Transaction> list = new ArrayList<>();
+
+        try (Connection conn = DatabaseConnection.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setLong(1, accountId);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                list.add(new Transaction(
+                        rs.getInt("id"),
+                        rs.getInt("account_id"),
+                        rs.getInt("category_id"),
+                        rs.getInt("amount"),
+                        rs.getString("type"),
+                        rs.getString("description"),
+                        rs.getTimestamp("transaction_date").toLocalDateTime(),
+                        rs.getTimestamp("created_at").toLocalDateTime()));
             }
         } catch (SQLException e) {
             e.printStackTrace();

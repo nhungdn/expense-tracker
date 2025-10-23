@@ -1,6 +1,5 @@
 package com.bachulun.Controllers;
 
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.function.Predicate;
@@ -8,9 +7,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.LinkedHashMap;
 
-import com.bachulun.DAOs.AccountDAO;
-import com.bachulun.DAOs.CategoryDAO;
-import com.bachulun.DAOs.TransactionDAO;
 import com.bachulun.Models.Transaction;
 import com.bachulun.Models.User;
 import com.bachulun.Service.AccountService;
@@ -125,14 +121,14 @@ public class TransactionController {
     }
 
     private void loadTypeList() {
-        typeComboBox.setItems(FXCollections.observableArrayList("Tất cả", "income", "expense"));
+        typeComboBox.setItems(FXCollections.observableArrayList("Tất cả", "Thu", "Chi"));
         typeComboBox.getSelectionModel().selectFirst();
     }
 
     private void loadDataFromDB() {
         masterList.clear();
         try {
-            masterList.addAll(tranService.getTransactionByUser(currentUser.getId()));
+            masterList.addAll(tranService.getTransactionByUserId(currentUser.getId()));
         } catch (Exception e) {
             System.err.println("Error when load data from DB: " + e.getMessage());
         }

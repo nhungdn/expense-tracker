@@ -13,9 +13,6 @@ import java.util.LinkedHashMap;
 import com.bachulun.Models.Account;
 import com.bachulun.Utils.DatabaseConnection;
 import com.bachulun.Utils.DatabaseException;
-import com.bachulun.Utils.InvalidInputException;
-import com.bachulun.Utils.SessionManager;
-import com.bachulun.Utils.ValidationUtil;
 
 public class AccountDAO implements IAccountDAO {
     @Override
@@ -64,14 +61,15 @@ public class AccountDAO implements IAccountDAO {
 
     @Override
     public void deleteAccount(int id) throws DatabaseException {
-        int userId = SessionManager.getInstance().getLoggedInUser().getId();
+        String sql = "DELETE FROM Accounts WHERE id = ?";
 
-        // Tim tai khoan mac dinh
-
-        // Tai khoan dang xoa la tai khoan mac dinh -> khong duoc phep xoa
-
-        // Khong phai -> chuyen transaction cua tai khoan dang xoa sang tai khoan mac
-        // dinh
+        try (Connection conn = DatabaseConnection.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, id);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println("Error when deleteAccount: " + e.getMessage());
+        }
     }
 
     @Override
@@ -92,6 +90,29 @@ public class AccountDAO implements IAccountDAO {
                     rs.getBoolean("delete_ban"));
         } catch (SQLException e) {
             System.err.println("Error when getAccountById: " + e.getMessage());
+        }
+        return null;
+    }
+
+    @Override
+    public Account getDefaultAccountByUserId(int userId) throws DatabaseException {
+        String sql = "SELECT * FROM Accounts WHERE user_id = ? AND delete_ban = ?";
+
+        try (Connection conn = DatabaseConnection.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, userId);
+            pstmt.setBoolean(2, true);
+
+            ResultSet rs = pstmt.executeQuery();
+            return new Account(
+                    rs.getInt("id"),
+                    rs.getInt("user_id"),
+                    rs.getString("name"),
+                    rs.getDouble("balance"),
+                    rs.getTimestamp("created_at").toLocalDateTime(),
+                    rs.getBoolean("delete_ban"));
+        } catch (SQLException e) {
+            System.err.println("Error when getDefaultAccountByUserId: " + e.getMessage());
         }
         return null;
     }

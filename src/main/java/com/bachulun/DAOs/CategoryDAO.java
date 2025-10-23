@@ -14,7 +14,6 @@ import com.bachulun.Models.Category;
 import com.bachulun.Utils.DatabaseConnection;
 import com.bachulun.Utils.DatabaseException;
 import com.bachulun.Utils.InvalidInputException;
-import com.bachulun.Utils.ValidationUtil;
 
 public class CategoryDAO implements ICategoryDAO {
     @Override

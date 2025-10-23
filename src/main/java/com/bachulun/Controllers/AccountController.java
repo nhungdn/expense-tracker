@@ -5,9 +5,7 @@ import java.time.LocalDateTime;
 import com.bachulun.Models.Account;
 import com.bachulun.Models.User;
 import com.bachulun.Service.AccountService;
-import com.bachulun.Service.CategoryService;
 import com.bachulun.Service.IAccountService;
-import com.bachulun.Service.ICategoryService;
 import com.bachulun.Utils.SessionManager;
 
 import javafx.beans.property.SimpleIntegerProperty;
@@ -44,7 +42,7 @@ public class AccountController {
     @FXML
     private TableColumn<Account, Number> numCol;
     @FXML
-    private TableColumn<Account, String> accountNameCol;
+    private TableColumn<Account, String> accountNameCol, amountCol;
     @FXML
     private TableColumn<Account, Void> actionCol;
     @FXML
@@ -64,6 +62,7 @@ public class AccountController {
         });
 
         accountNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+        amountCol.setCellValueFactory(new PropertyValueFactory<>("balance"));
 
         loadAccountTable();
 

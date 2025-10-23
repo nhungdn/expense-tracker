@@ -78,7 +78,7 @@ public class DatabaseConnection {
                         account_id INTEGER NOT NULL,
                         category_id INTEGER NOT NULL,
                         amount REAL NOT NULL,
-                        type TEXT NOT NULL CHECK(type IN ('income', 'expense')),
+                        type TEXT NOT NULL CHECK(type IN ('Thu', 'Chi')),
                         description TEXT,
                         transaction_date TIMESTAMP NOT NULL,
                         created_at TIMESTAMP NOT NULL,

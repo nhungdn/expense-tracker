@@ -10,7 +10,7 @@ public class Transaction {
     private int accountId;
     private int categoryId;
     private double amount;
-    private String type; // "income" or "expense"
+    private String type; // "Thu" or "Chi"
     private String description;
     private LocalDateTime transactionDate;
     private LocalDateTime createdAt;
@@ -29,7 +29,7 @@ public class Transaction {
         this.createdAt = createdAt;
     }
 
-    public Transaction(int id, int accountId, int categoryId, int amount,
+    public Transaction(int id, int accountId, int categoryId, double amount,
             String type, String description, LocalDateTime transactionDate, LocalDateTime createdAt,
             String accountName, String categoryName) {
         this.id = id;
@@ -42,6 +42,18 @@ public class Transaction {
         this.createdAt = createdAt;
         this.accountName = accountName;
         this.categoryName = categoryName;
+    }
+
+    public Transaction(int id, int accountId, int categoryId, double amount,
+            String type, String description, LocalDateTime transactionDate, LocalDateTime createdAt) {
+        this.id = id;
+        this.accountId = accountId;
+        this.categoryId = categoryId;
+        this.amount = amount;
+        this.type = type;
+        this.description = description;
+        this.transactionDate = transactionDate;
+        this.createdAt = createdAt;
     }
 
     public int getId() {
@@ -78,12 +90,6 @@ public class Transaction {
 
     public String getType() {
         return type;
-    }
-
-    public String getTypeDisplay() {
-        if (type.equals("income"))
-            return "Thu";
-        return "Chi";
     }
 
     public void setType(String type) {

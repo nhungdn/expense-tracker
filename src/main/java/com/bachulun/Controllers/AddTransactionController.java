@@ -86,7 +86,7 @@ public class AddTransactionController {
     }
 
     private void loadTypeList() {
-        typeComboBox.setItems(FXCollections.observableArrayList("income", "expense"));
+        typeComboBox.setItems(FXCollections.observableArrayList("Thu", "Chi"));
     }
 
     private void addNewTransaction() {

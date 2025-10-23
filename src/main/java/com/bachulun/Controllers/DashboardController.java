@@ -1,8 +1,5 @@
 package com.bachulun.Controllers;
 
-import com.bachulun.DAOs.AccountDAO;
-import com.bachulun.DAOs.ITransactionDAO;
-import com.bachulun.DAOs.TransactionDAO;
 import com.bachulun.Models.Account;
 import com.bachulun.Models.User;
 import com.bachulun.Service.AccountService;
@@ -41,7 +38,6 @@ import javafx.geometry.Pos;
 import javafx.application.Platform;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -236,15 +232,15 @@ public class DashboardController {
     public void loadBarChart() throws Exception {
         incomeExpenseChart.getData().clear();
 
-        Map<String, Double> incomeData = tranService.getMonthlyTotalsByTypeAndYear(currentUser.getId(), "income",
+        Map<String, Double> incomeData = tranService.getMonthlyTotalsByTypeAndYear(currentUser.getId(), "Thu",
                 yearComboBox.getValue());
-        Map<String, Double> expenseData = tranService.getMonthlyTotalsByTypeAndYear(currentUser.getId(), "expense",
+        Map<String, Double> expenseData = tranService.getMonthlyTotalsByTypeAndYear(currentUser.getId(), "Chi",
                 yearComboBox.getValue());
 
         XYChart.Series<String, Double> incomeSeries = new XYChart.Series<>();
-        incomeSeries.setName("Income");
+        incomeSeries.setName("Thu");
         XYChart.Series<String, Double> expenseSeries = new XYChart.Series<>();
-        expenseSeries.setName("Expense");
+        expenseSeries.setName("Chi");
 
         for (int i = 1; i <= 12; i++) {
             String month = String.format("%02d", i);

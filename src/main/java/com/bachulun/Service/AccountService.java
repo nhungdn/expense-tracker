@@ -6,14 +6,20 @@ import java.util.Map;
 
 import com.bachulun.DAOs.AccountDAO;
 import com.bachulun.DAOs.IAccountDAO;
+import com.bachulun.DAOs.ITransactionDAO;
+import com.bachulun.DAOs.TransactionDAO;
 import com.bachulun.Models.Account;
+import com.bachulun.Models.Transaction;
+import com.bachulun.Models.User;
 import com.bachulun.Utils.DatabaseException;
 import com.bachulun.Utils.InvalidInputException;
+import com.bachulun.Utils.SessionManager;
 import com.bachulun.Utils.ValidationUtil;
 
 public class AccountService implements IAccountService {
 
     private final IAccountDAO accountDAO = new AccountDAO();
+    private final ITransactionDAO transactionDAO = new TransactionDAO();
 
     @Override
     public void addAccount(Account account) throws InvalidInputException, DatabaseException {
@@ -32,14 +38,14 @@ public class AccountService implements IAccountService {
     }
 
     @Override
-    public void updateAccountBalance(int accountId, double balance, String type) throws DatabaseException {
+    public void updateAccountBalance(int accountId, double amount, String type) throws DatabaseException {
         Account account = accountDAO.getAccountById(accountId);
         if (account != null) {
             Double money = 0.0;
-            if (type.equals("income")) {
-                money = account.getBalance() + balance;
+            if (type.equals("Thu")) {
+                money = account.getBalance() + amount;
             } else {
-                money = account.getBalance() - balance;
+                money = account.getBalance() - amount;
             }
             accountDAO.updateAccountBalance(accountId, money);
         } else
@@ -48,7 +54,43 @@ public class AccountService implements IAccountService {
 
     @Override
     public void deleteAccount(int id) throws DatabaseException {
-        accountDAO.deleteAccount(id);
+        // Xac dinh xem co phai tai khoan mac dinh khong
+        Account deleteAccount = accountDAO.getAccountById(id);
+        if (deleteAccount.getDeleteBan() == true)
+            throw new DatabaseException("Đây là tài khoản mặc định. Bạn không thể xóa!");
+        else {
+            // Chuyen cac giao dich sang TK mac dinh
+            User user = SessionManager.getInstance().getLoggedInUser();
+            Account defaultAccount = accountDAO.getDefaultAccountByUserId(user.getId());
+            List<Transaction> tranList = transactionDAO.getTransactionByAccountId(id);
+            for (Transaction tran : tranList) {
+                Transaction newTransaction = new Transaction(
+                        tran.getId(),
+                        defaultAccount.getId(),
+                        tran.getCategoryId(),
+                        tran.getAmount(),
+                        tran.getType(),
+                        tran.getDescription(),
+                        tran.getTransactionDate(),
+                        tran.getCreatedAt());
+
+                transactionDAO.updateTransaction(newTransaction);
+            }
+            // Xoa giao dich
+            accountDAO.deleteAccount(id);
+        }
+
+    }
+
+    @Override
+    public Account getAccountById(int accountId) throws DatabaseException {
+        return accountDAO.getAccountById(accountId);
+    }
+
+    @Override
+    public Account getDefaultAccountByUserId(int userId) throws DatabaseException {
+        Account account = accountDAO.getDefaultAccountByUserId(userId);
+        return account;
     }
 
     @Override

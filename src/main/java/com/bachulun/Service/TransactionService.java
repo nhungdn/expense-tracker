@@ -11,7 +11,8 @@ import com.bachulun.Utils.InvalidInputException;
 import com.bachulun.Utils.ValidationUtil;
 
 public class TransactionService implements ITransactionService {
-    final private ITransactionDAO tranDao = new TransactionDAO();
+    private ITransactionDAO tranDao = new TransactionDAO();
+    private IAccountService accountService = new AccountService();
 
     @Override
     public void addTransaction(Transaction transaction) throws InvalidInputException, DatabaseException {
@@ -19,6 +20,9 @@ public class TransactionService implements ITransactionService {
         ValidationUtil.validateDescription(transaction.getDescription());
 
         tranDao.addTransaction(transaction);
+
+        // Cap nhat lai tien trong tai khoan
+        accountService.updateAccountBalance(transaction.getAccountId(), transaction.getAmount(), transaction.getType());
     }
 
     @Override
@@ -26,7 +30,19 @@ public class TransactionService implements ITransactionService {
         ValidationUtil.validateAmount(transaction.getAmount());
         ValidationUtil.validateDescription(transaction.getDescription());
 
+        // Lay thong tin giao dich truoc khi update:
+        Transaction oldTran = tranDao.getTransactionById(transaction.getId());
+        // Rut giao dich ra khoi tai khoan de update moi:
+        if (oldTran.getType().equals("Thu"))
+            accountService.updateAccountBalance(oldTran.getAccountId(), oldTran.getAmount(), "Chi");
+        else
+            accountService.updateAccountBalance(oldTran.getAccountId(), oldTran.getAmount(), "Thu");
+
+        // Cap nhat lai giao dich
         tranDao.updateTransaction(transaction);
+
+        // Cap nhat lai tien trong tai khoan
+        accountService.updateAccountBalance(transaction.getAccountId(), transaction.getAmount(), transaction.getType());
     }
 
     @Override
@@ -35,8 +51,14 @@ public class TransactionService implements ITransactionService {
     }
 
     @Override
-    public List<Transaction> getTransactionByUser(int userId) throws DatabaseException {
-        List<Transaction> tranList = tranDao.getTransactionByUser(userId);
+    public List<Transaction> getTransactionByUserId(int userId) throws DatabaseException {
+        List<Transaction> tranList = tranDao.getTransactionByUserId(userId);
+        return tranList;
+    }
+
+    @Override
+    public List<Transaction> getTransactionByAccountId(int accountId) throws DatabaseException {
+        List<Transaction> tranList = tranDao.getTransactionByAccountId(accountId);
         return tranList;
     }
 

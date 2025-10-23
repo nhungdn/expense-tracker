@@ -13,9 +13,13 @@ public interface IAccountService {
 
     void updateAccount(Account account) throws InvalidInputException, DatabaseException;
 
-    void updateAccountBalance(int accountId, double balance, String type) throws DatabaseException;
+    void updateAccountBalance(int accountId, double amount, String type) throws DatabaseException;
 
     void deleteAccount(int id) throws DatabaseException;
+
+    Account getAccountById(int accountId) throws DatabaseException;
+
+    Account getDefaultAccountByUserId(int userId) throws DatabaseException;
 
     List<Account> getAccountsByUserId(int userId) throws DatabaseException;
 
