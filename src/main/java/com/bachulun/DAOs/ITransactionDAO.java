@@ -5,12 +5,11 @@ import java.util.Map;
 
 import com.bachulun.Models.Transaction;
 import com.bachulun.Utils.DatabaseException;
-import com.bachulun.Utils.InvalidInputException;
 
 public interface ITransactionDAO {
-    void addTransaction(Transaction transaction) throws InvalidInputException, DatabaseException;
+    void addTransaction(Transaction transaction) throws DatabaseException;
 
-    void updateTransaction(Transaction transaction) throws InvalidInputException, DatabaseException;
+    void updateTransaction(Transaction transaction) throws DatabaseException;
 
     void deleteTransaction(int transactionId) throws DatabaseException;
 

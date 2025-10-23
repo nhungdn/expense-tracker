@@ -5,14 +5,17 @@ import java.util.Map;
 
 import com.bachulun.Models.Account;
 import com.bachulun.Utils.DatabaseException;
-import com.bachulun.Utils.InvalidInputException;
 
 public interface IAccountDAO {
-    void addAccount(Account account) throws InvalidInputException, DatabaseException;
+    void addAccount(Account account) throws DatabaseException;
 
-    void updateAccount(Account account) throws InvalidInputException, DatabaseException;
+    void updateAccount(Account account) throws DatabaseException;
+
+    void updateAccountBalance(int accountId, double balance) throws DatabaseException;
 
     void deleteAccount(int id) throws DatabaseException;
+
+    Account getAccountById(int accountId) throws DatabaseException;
 
     List<Account> getAccountsByUserId(int userId) throws DatabaseException;
 

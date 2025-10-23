@@ -19,7 +19,7 @@ import com.bachulun.Utils.ValidationUtil;
 
 public class AccountDAO implements IAccountDAO {
     @Override
-    public void addAccount(Account account) throws InvalidInputException, DatabaseException {
+    public void addAccount(Account account) throws DatabaseException {
         String sql = "INSERT INTO Accounts (user_id, name, balance, created_at, delete_ban) VALUES (?, ?, ?, ?, ?)";
         try (Connection conn = DatabaseConnection.getConnection();
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -35,7 +35,7 @@ public class AccountDAO implements IAccountDAO {
     }
 
     @Override
-    public void updateAccount(Account account) throws InvalidInputException, DatabaseException {
+    public void updateAccount(Account account) throws DatabaseException {
         String sql = "UPDATE Accounts SET name = ?, balance = ? WHERE id = ? AND user_id = ?";
         try (Connection conn = DatabaseConnection.getConnection();
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -45,7 +45,20 @@ public class AccountDAO implements IAccountDAO {
             pstmt.setInt(4, account.getUserId());
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            throw new DatabaseException("Error when add Account", e);
+            throw new DatabaseException("Error when update Account", e);
+        }
+    }
+
+    @Override
+    public void updateAccountBalance(int accountId, double balance) throws DatabaseException {
+        String sql = "UPDATE Accounts SET balance = ? WHERE id = ?";
+        try (Connection conn = DatabaseConnection.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setDouble(1, balance);
+            pstmt.setInt(2, accountId);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new DatabaseException("Error when update AccountBalance", e);
         }
     }
 
@@ -59,6 +72,28 @@ public class AccountDAO implements IAccountDAO {
 
         // Khong phai -> chuyen transaction cua tai khoan dang xoa sang tai khoan mac
         // dinh
+    }
+
+    @Override
+    public Account getAccountById(int accountId) throws DatabaseException {
+        String sql = "SELECT * FROM Accounts WHERE id = ?";
+
+        try (Connection conn = DatabaseConnection.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, accountId);
+
+            ResultSet rs = pstmt.executeQuery();
+            return new Account(
+                    accountId,
+                    rs.getInt("user_id"),
+                    rs.getString("name"),
+                    rs.getDouble("balance"),
+                    rs.getTimestamp("created_at").toLocalDateTime(),
+                    rs.getBoolean("delete_ban"));
+        } catch (SQLException e) {
+            System.err.println("Error when getAccountById: " + e.getMessage());
+        }
+        return null;
     }
 
     @Override

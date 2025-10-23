@@ -35,6 +35,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.Node;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.application.Platform;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -42,6 +46,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -174,13 +179,27 @@ public class DashboardController {
 
         for (Account acc : accountList) {
             VBox card = new VBox();
-            card.setStyle("-fx-border-color: GRAY");
-            card.setSpacing(5);
-            card.setPrefHeight(100);
+            card.setSpacing(10);
+            card.setPadding(new Insets(15));
+            card.setPrefSize(200, 100);
             card.setPrefWidth(200);
+            card.setPrefHeight(120);
+            card.setMinHeight(120);
+            card.setMaxHeight(120);
+
+            card.setAlignment(Pos.CENTER_LEFT);
 
             Label accountName = new Label(acc.getName());
-            Label money = new Label(String.valueOf(acc.getBalance()));
+            Label money = new Label("$" + String.format("%,.0f", acc.getBalance()));
+
+            card.setStyle(
+                    "-fx-background-color: linear-gradient(to bottom right, #ffffff, #f9f9f9);"
+                            + "-fx-background-radius: 15;"
+                            + "-fx-border-radius: 15;"
+                            + "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.15), 6, 0, 0, 3);");
+
+            accountName.setStyle("-fx-font-size: 14px; -fx-text-fill: #555; -fx-font-weight: bold;");
+            money.setStyle("-fx-font-size: 26px; -fx-font-weight: bold; -fx-text-fill: #333;");
 
             card.getChildren().addAll(accountName, money);
             accountsBox.getChildren().add(card);
@@ -234,6 +253,41 @@ public class DashboardController {
         }
 
         incomeExpenseChart.getData().addAll(incomeSeries, expenseSeries);
+
+        // Gán màu cột
+        setBarColor(incomeSeries, "#00ff05");
+        setBarColor(expenseSeries, "#e02c2c");
+
+        // Cập nhật màu legend
+        updateLegendColors();
+    }
+
+    private void setBarColor(XYChart.Series<String, Double> series, String color) {
+        // Cần đợi JavaFX render node xong mới chỉnh màu
+        Platform.runLater(() -> {
+            for (XYChart.Data<String, Double> data : series.getData()) {
+                Node node = data.getNode();
+                if (node != null) {
+                    node.setStyle("-fx-bar-fill: " + color + ";");
+                }
+            }
+        });
+    }
+
+    private void updateLegendColors() {
+        Platform.runLater(() -> {
+            Node legend = incomeExpenseChart.lookup(".chart-legend");
+            if (legend != null) {
+                // Lấy tất cả item trong legend
+                List<Node> legendItems = legend.lookupAll(".chart-legend-item-symbol").stream().toList();
+                if (legendItems.size() >= 2) {
+                    // Active User
+                    legendItems.get(0).setStyle("-fx-background-color: #00ff05;");
+                    // Inactive User
+                    legendItems.get(1).setStyle("-fx-background-color: #e02c2c;");
+                }
+            }
+        });
     }
 
     public void PieChart() {

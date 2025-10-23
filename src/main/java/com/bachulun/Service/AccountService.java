@@ -32,6 +32,21 @@ public class AccountService implements IAccountService {
     }
 
     @Override
+    public void updateAccountBalance(int accountId, double balance, String type) throws DatabaseException {
+        Account account = accountDAO.getAccountById(accountId);
+        if (account != null) {
+            Double money = 0.0;
+            if (type.equals("income")) {
+                money = account.getBalance() + balance;
+            } else {
+                money = account.getBalance() - balance;
+            }
+            accountDAO.updateAccountBalance(accountId, money);
+        } else
+            throw new DatabaseException("Tài khoản không tồn tại!");
+    }
+
+    @Override
     public void deleteAccount(int id) throws DatabaseException {
         accountDAO.deleteAccount(id);
     }

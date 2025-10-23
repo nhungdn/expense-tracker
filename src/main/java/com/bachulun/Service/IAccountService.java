@@ -13,6 +13,8 @@ public interface IAccountService {
 
     void updateAccount(Account account) throws InvalidInputException, DatabaseException;
 
+    void updateAccountBalance(int accountId, double balance, String type) throws DatabaseException;
+
     void deleteAccount(int id) throws DatabaseException;
 
     List<Account> getAccountsByUserId(int userId) throws DatabaseException;

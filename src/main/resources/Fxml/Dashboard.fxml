@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
@@ -16,68 +17,84 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bachulun.Controllers.DashboardController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1200.0" stylesheets="@../Styles/style.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bachulun.Controllers.DashboardController">
    <children>
       <BorderPane fx:id="rootPane" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <left>
-            <VBox fx:id="menuBar" alignment="CENTER" prefHeight="585.0" prefWidth="134.0" spacing="15.0" style="-fx-background-color: GRAy;" BorderPane.alignment="CENTER">
+            <VBox fx:id="menuBar" alignment="CENTER" prefHeight="700.0" prefWidth="189.0" spacing="15.0" BorderPane.alignment="CENTER">
                <children>
-                  <Button fx:id="dashBoardButton" mnemonicParsing="false" prefHeight="26.0" prefWidth="134.0" text="Dashboard" />
-                  <Button fx:id="viewAllTransactionButton" mnemonicParsing="false" prefHeight="26.0" prefWidth="134.0" text="Giao dịch" />
-                  <Button fx:id="viewAllAccountsButton" mnemonicParsing="false" prefHeight="26.0" prefWidth="134.0" text="Tài khoản" />
-                  <Button fx:id="viewAllCategoriesButton" mnemonicParsing="false" prefHeight="26.0" prefWidth="134.0" text="Danh mục" />
-                  <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="162.0" text="Cá nhân" />
-                  <Button fx:id="logOutButton" mnemonicParsing="false" prefHeight="26.0" prefWidth="134.0" text="Đăng xuất" />
+                  <Button fx:id="dashBoardButton" mnemonicParsing="false" prefHeight="34.0" prefWidth="214.0" text="Dashboard" />
+                  <Button fx:id="viewAllTransactionButton" mnemonicParsing="false" prefHeight="34.0" prefWidth="211.0" text="Giao dịch" />
+                  <Button fx:id="viewAllAccountsButton" mnemonicParsing="false" prefHeight="34.0" prefWidth="235.0" text="Tài khoản" />
+                  <Button fx:id="viewAllCategoriesButton" mnemonicParsing="false" prefHeight="34.0" prefWidth="214.0" text="Danh mục" />
+                  <Button mnemonicParsing="false" prefHeight="34.0" prefWidth="225.0" text="Cá nhân" />
+                  <Button fx:id="logOutButton" mnemonicParsing="false" prefHeight="34.0" prefWidth="249.0" text="Đăng xuất" />
                </children></VBox>
          </left>
          <top>
-            <Pane prefHeight="50.0" prefWidth="832.0" style="-fx-background-color: GRAY;" BorderPane.alignment="CENTER">
+            <Pane prefHeight="62.0" prefWidth="1200.0" BorderPane.alignment="CENTER">
                <children>
-                  <Label fx:id="timeLabel" layoutX="733.0" layoutY="17.0" prefHeight="17.0" prefWidth="139.0" text="Label" />
-                  <Label fx:id="usernameLabel" layoutX="60.0" layoutY="12.0" prefHeight="27.0" prefWidth="340.0" text="Label">
+                  <Label fx:id="timeLabel" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="1021.0" layoutY="24.0" prefHeight="17.0" prefWidth="139.0" text="Label" textAlignment="RIGHT" />
+                  <Label fx:id="usernameLabel" layoutX="61.0" layoutY="19.0" prefHeight="27.0" prefWidth="340.0" text="Label">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <ToggleButton fx:id="showMenuButton" layoutX="16.0" layoutY="13.0" mnemonicParsing="false" rotate="-90.0" text="|||" textAlignment="CENTER" />
+                  <ToggleButton fx:id="showMenuButton" layoutX="22.0" layoutY="14.0" mnemonicParsing="false" rotate="-90.0" text="|||" textAlignment="CENTER" />
                </children>
             </Pane>
          </top>
          <center>
             <ScrollPane fx:id="centerPane">
               <content>
-                <AnchorPane>
+                <AnchorPane prefHeight="731.0" prefWidth="994.0">
                      <children>
-                        <AnchorPane layoutX="8.0" layoutY="110.0" style="-fx-border-color: GRAY;" AnchorPane.topAnchor="110.0">
+                        <AnchorPane layoutX="150.0" layoutY="176.0" prefHeight="347.0" prefWidth="637.0" styleClass="card" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="170.0">
                            <children>
-                              <BarChart fx:id="incomeExpenseChart" layoutX="29.0" layoutY="36.0" legendSide="TOP" prefHeight="239.0" prefWidth="451.0">
+                              <BarChart fx:id="incomeExpenseChart" layoutX="23.0" layoutY="61.0" legendSide="TOP" prefHeight="310.0" prefWidth="564.0">
                                 <xAxis>
                                   <CategoryAxis prefHeight="17.0" prefWidth="336.0" />
                                 </xAxis>
                                 <yAxis>
                                   <NumberAxis prefHeight="177.0" prefWidth="21.0" side="LEFT" />
                                 </yAxis>
+                                 <styleClass>
+                                    <String fx:value="chart-horizontal-grid-lines" />
+                                    <String fx:value="chart-legend" />
+                                    <String fx:value="chart-legend-item" />
+                                    <String fx:value="chart-legend-item-symbol" />
+                                    <String fx:value="chart-vertical-grid-lines" />
+                                    <String fx:value="default-color0" />
+                                    <String fx:value="default-color1" />
+                                    <String fx:value="axis" />
+                                    <String fx:value="axis-label" />
+                                 </styleClass>
                               </BarChart>
-                              <ComboBox fx:id="yearComboBox" layoutX="373.0" layoutY="14.0" prefHeight="26.0" prefWidth="94.0" visibleRowCount="5" />
-                           </children>
-                        </AnchorPane>
-                        <ScrollPane fx:id="accountListScrollPane" layoutX="8.0" layoutY="4.0" prefHeight="100.0" prefWidth="755.0">
-                           <content>
-                              <HBox fx:id="accountsBox" prefHeight="100.0" prefWidth="738.0" spacing="20.0">
+                              <ComboBox fx:id="yearComboBox" layoutX="478.0" layoutY="16.0" prefHeight="26.0" prefWidth="94.0" styleClass="year-selector" visibleRowCount="5" />
+                              <Label prefHeight="28.0" prefWidth="219.0" styleClass="card-title" text="Thống kê giao dịch">
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
                                  <padding>
                                     <Insets left="20.0" />
-                                 </padding></HBox>
+                                 </padding></Label>
+                           </children>
+                        </AnchorPane>
+                        <ScrollPane fx:id="accountListScrollPane" layoutX="8.0" layoutY="4.0" prefHeight="142.0" prefWidth="975.0" AnchorPane.leftAnchor="20.0">
+                           <content>
+                              <HBox fx:id="accountsBox" prefHeight="140.0" prefWidth="973.0">
+                                 <padding>
+                                    <Insets left="20.0" />
+                                 </padding>
+                              </HBox>
                            </content>
                         </ScrollPane>
-                        <AnchorPane layoutX="8.0" layoutY="395.0" prefHeight="220.0" prefWidth="250.0" style="-fx-border-color: GRAY;">
+                        <AnchorPane layoutX="103.0" layoutY="539.0" prefHeight="192.0" prefWidth="316.0">
                            <children>
-                              <VBox alignment="CENTER" layoutX="49.0" prefHeight="254.0" prefWidth="249.0">
+                              <VBox alignment="CENTER" layoutX="63.0" layoutY="18.0" prefHeight="153.0" prefWidth="250.0">
                                  <children>
-                                    <HBox alignment="CENTER" prefHeight="31.0" prefWidth="294.0">
-                                       <children>
-                                          <Label prefHeight="30.0" prefWidth="305.0" text="Giao dịch gần đây" />
-                                       </children>
-                                    </HBox>
+                                    <Label prefHeight="30.0" prefWidth="305.0" text="Giao dịch gần đây" />
+                                    <HBox alignment="CENTER" prefHeight="31.0" prefWidth="294.0" />
                                     <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="104.0" text="Xem tất cả" />
                                  </children>
                               </VBox>

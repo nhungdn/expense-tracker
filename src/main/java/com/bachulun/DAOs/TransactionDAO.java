@@ -11,14 +11,16 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import com.bachulun.Models.Transaction;
+import com.bachulun.Service.AccountService;
+import com.bachulun.Service.IAccountService;
 import com.bachulun.Utils.DatabaseConnection;
 import com.bachulun.Utils.DatabaseException;
-import com.bachulun.Utils.InvalidInputException;
-import com.bachulun.Utils.ValidationUtil;
 
 public class TransactionDAO implements ITransactionDAO {
+    private final IAccountService accountService = new AccountService();
+
     @Override
-    public void addTransaction(Transaction transaction) throws InvalidInputException, DatabaseException {
+    public void addTransaction(Transaction transaction) throws DatabaseException {
 
         String sql = "INSERT INTO TransactionTable (account_id, category_id, amount, type, description, transaction_date, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
@@ -35,10 +37,14 @@ public class TransactionDAO implements ITransactionDAO {
         } catch (SQLException e) {
             System.err.println("Error when addTransaction: " + e.getMessage());
         }
+
+        // Cap nhat lai tien trong tai khoan
+        accountService.updateAccountBalance(transaction.getAccountId(), transaction.getAmount(), transaction.getType());
+
     }
 
     @Override
-    public void updateTransaction(Transaction transaction) throws InvalidInputException, DatabaseException {
+    public void updateTransaction(Transaction transaction) throws DatabaseException {
 
         String sql = """
                 UPDATE TransactionTable
