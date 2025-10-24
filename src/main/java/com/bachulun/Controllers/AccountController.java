@@ -34,7 +34,7 @@ public class AccountController {
     @FXML
     private Button addAccount;
     @FXML
-    private TextField searchField, accountTextField, amountTextField;
+    private TextField searchField, accountTextField;
     @FXML
     Label errorLabel;
     @FXML
@@ -108,26 +108,10 @@ public class AccountController {
 
     private void handleAddAccount() {
         String name = accountTextField.getText();
-        String amountText = amountTextField.getText();
         Double amount = 0.0;
-
-        if (!amountText.trim().equals("")) {
-            try {
-                amount = Double.parseDouble(amountText);
-            } catch (NumberFormatException e) {
-                errorLabel.setText("Số tiền không hợp lệ!");
-                return;
-            }
-        } else {
-            errorLabel.setText("Số tiền không được trống!");
-            return;
-        }
-
-        errorLabel.setText("");
         try {
             accountService.addAccount(new Account(user.getId(), name, amount, LocalDateTime.now(), false));
             accountTextField.clear();
-            amountTextField.clear();
             loadAccountTable();
         } catch (Exception e) {
             System.err.println("Error when addAccount: " + e.getMessage());

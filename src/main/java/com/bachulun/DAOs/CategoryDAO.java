@@ -88,6 +88,23 @@ public class CategoryDAO implements ICategoryDAO {
         return cateList;
     }
 
+    @Override
+    public String getCategoryNameByCategoryId(int categoryId) throws DatabaseException {
+        String sql = "SELECT name FROM Categories WHERE id = ?";
+
+        try (Connection conn = DatabaseConnection.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, categoryId);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next())
+                return rs.getString("name");
+        } catch (SQLException e) {
+            System.err.println("Error when getCategoryNameByCategoryId: " + e);
+        }
+        return "Unknow";
+    }
+
+    @Override
     public Map<String, Integer> getAllCategoryIdAndNameByUserId(int userId) throws DatabaseException {
         String sql = "SELECT id, name FROM Categories WHERE user_id = ?";
         Map<String, Integer> categories = new LinkedHashMap<>();

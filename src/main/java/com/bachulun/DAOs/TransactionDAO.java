@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -148,6 +149,7 @@ public class TransactionDAO implements ITransactionDAO {
         return list;
     }
 
+    @Override
     public List<Transaction> getTransactionByAccountId(int accountId) throws DatabaseException {
         String sql = "SELECT * FROM TransactionTable WHERE account_id = ?";
 
@@ -176,6 +178,72 @@ public class TransactionDAO implements ITransactionDAO {
         return list;
     }
 
+    @Override
+    public List<Transaction> getLatestTransactions(int userId, int limit) throws DatabaseException {
+        List<Transaction> transactions = new ArrayList<>();
+        String sql = """
+                    SELECT t.*
+                    FROM TransactionTable t
+                    JOIN Accounts a ON t.account_id = a.id
+                    WHERE a.user_id = ?
+                    ORDER BY t.transaction_date DESC
+                    LIMIT ?
+                """;
+
+        try (Connection conn = DatabaseConnection.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, userId);
+            pstmt.setInt(2, limit);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                Transaction t = new Transaction(
+                        rs.getInt("id"),
+                        rs.getInt("account_id"),
+                        rs.getInt("category_id"),
+                        rs.getDouble("amount"),
+                        rs.getString("type"),
+                        rs.getString("description"),
+                        rs.getTimestamp("transaction_date").toLocalDateTime(),
+                        rs.getTimestamp("created_at").toLocalDateTime());
+                transactions.add(t);
+            }
+        } catch (SQLException e) {
+            System.err.println("Error when getLatestTransactions: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return transactions;
+    }
+
+    @Override
+    public Map<Integer, Double> getCategoryTotalsForMonth(int month, String type, int year) throws DatabaseException {
+        Map<Integer, Double> totals = new LinkedHashMap<>();
+        String sql = """
+                SELECT
+                    category_id,
+                    SUM(amount) as total
+                FROM TransactionTable
+                WHERE strftime('%m', datetime(transaction_date / 1000, 'unixepoch', '+7 hours')) = ? AND strftime('%Y', datetime(transaction_date / 1000, 'unixepoch', '+7 hours')) = ? AND type = ?
+                GROUP BY category_id;
+                """;
+        try (Connection conn = DatabaseConnection.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, String.format("%02d", month));
+            pstmt.setString(2, String.valueOf(year));
+            pstmt.setString(3, type);
+
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                totals.put(rs.getInt("category_id"), rs.getDouble("total"));
+            }
+        } catch (SQLException e) {
+            System.err.println("Error when getCategoryTotalsForMonth: " + e);
+        }
+
+        return totals;
+    }
+
+    @Override
     public Map<String, Double> getMonthlyTotalsByTypeAndYear(int userId, String type, int year)
             throws DatabaseException {
         String sql = """

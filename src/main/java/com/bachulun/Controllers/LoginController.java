@@ -46,6 +46,7 @@ public class LoginController {
             errorLabel.setText("Database error occurred");
         } catch (IOException e) {
             errorLabel.setText("Failed to load dashboard");
+            e.printStackTrace();
         }
     }
 

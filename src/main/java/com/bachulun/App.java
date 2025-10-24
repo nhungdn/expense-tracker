@@ -36,6 +36,7 @@ public class App extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("/Fxml/Login.fxml"));
         primaryStage.setTitle("Expense Tracker");
         primaryStage.setScene(new Scene(root));
+        primaryStage.setResizable(false);
         primaryStage.show();
     }
 

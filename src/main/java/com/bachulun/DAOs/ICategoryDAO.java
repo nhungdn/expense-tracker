@@ -16,5 +16,7 @@ public interface ICategoryDAO {
 
     List<Category> getCategoryByUserId(int userId) throws DatabaseException;
 
+    String getCategoryNameByCategoryId(int categoryId) throws DatabaseException;
+
     Map<String, Integer> getAllCategoryIdAndNameByUserId(int userId) throws DatabaseException;
 }

@@ -33,6 +33,12 @@ public class CategoryService implements ICategoryService {
     }
 
     @Override
+    public String getCategoryNameByCategoryId(int categoryId) throws DatabaseException {
+        String categoryName = cateDao.getCategoryNameByCategoryId(categoryId);
+        return categoryName;
+    }
+
+    @Override
     public List<Category> getCategoryByUserId(int userId) throws DatabaseException {
         List<Category> cateList = cateDao.getCategoryByUserId(userId);
         return cateList;

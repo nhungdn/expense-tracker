@@ -63,8 +63,6 @@
                      </font></Label>
                   <Label text="Tên tài khoản:" />
                   <TextField fx:id="accountTextField" prefHeight="26.0" prefWidth="234.0" />
-                  <Label text="Số tiền:" />
-                  <TextField fx:id="amountTextField" />
                   <Button fx:id="addAccount" alignment="CENTER" mnemonicParsing="false" prefHeight="26.0" prefWidth="136.0" text="Thêm tài khoản" />
                   <Label fx:id="errorLabel" prefHeight="18.0" prefWidth="270.0" />
                   <Label fx:id="errorLabel" prefHeight="18.0" prefWidth="266.0" textFill="RED" />

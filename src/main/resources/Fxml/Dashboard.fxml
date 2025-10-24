@@ -5,6 +5,7 @@
 <?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
@@ -34,7 +35,10 @@
          <top>
             <Pane prefHeight="62.0" prefWidth="1200.0" BorderPane.alignment="CENTER">
                <children>
-                  <Label fx:id="timeLabel" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="1021.0" layoutY="24.0" prefHeight="17.0" prefWidth="139.0" text="Label" textAlignment="RIGHT" />
+                  <Label fx:id="timeLabel" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="921.0" layoutY="17.0" prefHeight="29.0" prefWidth="243.0" text="Label" textAlignment="RIGHT">
+                     <font>
+                        <Font size="14.0" />
+                     </font></Label>
                   <Label fx:id="usernameLabel" layoutX="73.0" layoutY="19.0" prefHeight="27.0" prefWidth="340.0" text="Label">
                      <font>
                         <Font size="18.0" />
@@ -47,11 +51,30 @@
          <center>
             <ScrollPane fx:id="centerPane">
               <content>
-                <AnchorPane prefHeight="731.0" prefWidth="994.0">
+                <AnchorPane prefHeight="1005.0" prefWidth="1166.0">
                      <children>
-                        <AnchorPane layoutX="150.0" layoutY="176.0" prefHeight="347.0" prefWidth="637.0" styleClass="card" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="170.0">
+                        <HBox alignment="CENTER" layoutX="248.0" layoutY="14.4" prefHeight="132.0" prefWidth="928.0" AnchorPane.leftAnchor="248.0" AnchorPane.rightAnchor="-10.0" AnchorPane.topAnchor="14.0">
                            <children>
-                              <BarChart fx:id="incomeExpenseChart" layoutX="45.0" layoutY="61.0" legendSide="TOP" prefHeight="310.0" prefWidth="542.0">
+                              <Button fx:id="leftButton" mnemonicParsing="false" prefHeight="78.0" prefWidth="253.0" styleClass="scroll-arrow" text="◀">
+                                 <font>
+                                    <Font name="Jokerman" size="12.0" />
+                                 </font>
+                              </Button>
+                              <ScrollPane fx:id="accountListScrollPane" fitToHeight="false" fitToWidth="false" hbarPolicy="NEVER" prefHeight="132.0" prefWidth="849.0" vbarPolicy="NEVER">
+                  <content>
+                      <HBox fx:id="accountsBox" spacing="15" />
+                  </content>
+              </ScrollPane>
+                              <Button fx:id="rightButton" layoutX="10.0" layoutY="63.0" mnemonicParsing="false" styleClass="scroll-arrow" text="▶">
+                                 <font>
+                                    <Font name="Arial" size="12.0" />
+                                 </font>
+                              </Button>
+                           </children>
+                        </HBox>
+                        <AnchorPane layoutX="150.0" layoutY="176.0" prefHeight="398.0" prefWidth="568.0" styleClass="card" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="165.0">
+                           <children>
+                              <BarChart fx:id="incomeExpenseChart" layoutX="56.0" layoutY="61.0" legendSide="TOP" prefHeight="291.0" prefWidth="498.0">
                                 <xAxis>
                                   <CategoryAxis prefHeight="17.0" prefWidth="336.0" />
                                 </xAxis>
@@ -70,36 +93,58 @@
                                     <String fx:value="axis-label" />
                                  </styleClass>
                               </BarChart>
-                              <ComboBox fx:id="yearComboBox" layoutX="478.0" layoutY="16.0" prefHeight="26.0" prefWidth="94.0" styleClass="year-selector" visibleRowCount="5" />
-                              <Label layoutY="15.0" prefHeight="28.0" prefWidth="219.0" styleClass="card-title" text="Thống kê giao dịch">
+                              <ComboBox fx:id="yearComboBoxBC" layoutX="451.0" layoutY="17.0" prefHeight="26.0" prefWidth="94.0" styleClass="year-selector" visibleRowCount="5" />
+                              <Label layoutY="16.0" prefHeight="28.0" prefWidth="261.0" styleClass="card-title" text="Thu chi theo tháng">
                                  <opaqueInsets>
                                     <Insets />
                                  </opaqueInsets>
                                  <padding>
                                     <Insets left="20.0" />
-                                 </padding></Label>
+                                 </padding>
+                              </Label>
                            </children>
                         </AnchorPane>
-                        <ScrollPane fx:id="accountListScrollPane" layoutX="8.0" layoutY="4.0" prefHeight="142.0" prefWidth="975.0" AnchorPane.leftAnchor="20.0">
-                           <content>
-                              <HBox fx:id="accountsBox" prefHeight="140.0" prefWidth="973.0">
+                        <AnchorPane layoutX="20.0" layoutY="582.0" prefHeight="397.0" prefWidth="512.0" styleClass="cardpc" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="582.0">
+                           <children>
+                              <PieChart fx:id="categoryPieChart" layoutX="-1.6" layoutY="120.0" prefHeight="310.0" prefWidth="491.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="70.0" />
+                              <ComboBox fx:id="yearComboBoxPC" layoutX="393.0" layoutY="43.0" prefHeight="26.0" prefWidth="94.0" styleClass="year-selector" visibleRowCount="5" />
+                              <ComboBox fx:id="monthComboBoxPC" layoutX="286.0" layoutY="42.0" prefHeight="26.0" prefWidth="94.0" styleClass="year-selector" visibleRowCount="5" />
+                              <Label layoutY="14.0" prefHeight="28.0" prefWidth="321.0" styleClass="card-title" text="Chi tiêu theo danh mục">
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
                                  <padding>
                                     <Insets left="20.0" />
                                  </padding>
-                              </HBox>
-                           </content>
-                        </ScrollPane>
-                        <AnchorPane layoutX="103.0" layoutY="539.0" prefHeight="192.0" prefWidth="316.0">
-                           <children>
-                              <VBox alignment="CENTER" layoutX="63.0" layoutY="18.0" prefHeight="153.0" prefWidth="250.0">
-                                 <children>
-                                    <Label prefHeight="30.0" prefWidth="305.0" text="Giao dịch gần đây" />
-                                    <HBox alignment="CENTER" prefHeight="31.0" prefWidth="294.0" />
-                                    <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="104.0" text="Xem tất cả" />
-                                 </children>
-                              </VBox>
+                              </Label>
                            </children>
                         </AnchorPane>
+                        <VBox fx:id="transactionContainer" layoutX="552.0" layoutY="582.0" prefHeight="402.0" prefWidth="614.0" spacing="15.0" styleClass="card" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="552.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="582.0">
+                           <children>
+                              <HBox alignment="CENTER_LEFT" prefHeight="32.0" prefWidth="614.0" spacing="50.0">
+                                 <children>
+                                    <Label prefHeight="32.0" prefWidth="423.0" styleClass="card-title" text="Giao dịch gần đây" />
+                                    <Button fx:id="viewAllTransaction" mnemonicParsing="false" prefHeight="26.0" prefWidth="246.0" text="Xem tất cả giao dịch" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                        <AnchorPane layoutX="644.0" layoutY="165.0" prefHeight="398.0" prefWidth="506.0" styleClass="card" AnchorPane.topAnchor="165.0">
+                           <children>
+                              <PieChart fx:id="categoryPieChart1" layoutX="58.4" layoutY="130.4" prefHeight="253.0" prefWidth="478.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="90.0" />
+                              <ComboBox fx:id="yearComboBoxPC1" layoutX="366.0" layoutY="59.0" prefHeight="26.0" prefWidth="94.0" styleClass="year-selector" visibleRowCount="5" />
+                              <ComboBox fx:id="monthComboBoxPC1" layoutX="256.0" layoutY="59.0" prefHeight="26.0" prefWidth="94.0" styleClass="year-selector" visibleRowCount="5" />
+                              <Label layoutY="14.0" prefHeight="28.0" prefWidth="321.0" styleClass="card-title" text="Thu nhập theo danh mục">
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
+                                 <padding>
+                                    <Insets left="20.0" />
+                                 </padding>
+                              </Label>
+                           </children>
+                        </AnchorPane>
+                        <VBox fx:id="totalMoneyCard" layoutX="20.0" layoutY="14.0" prefHeight="126.0" prefWidth="228.0" />
                      </children>
                   </AnchorPane>
               </content>
