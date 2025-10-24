@@ -14,6 +14,8 @@ public interface ICategoryDAO {
 
     void deleteCategory(int categoryId) throws DatabaseException;
 
+    Category getDefaultCategoryByUserId(int userId) throws DatabaseException;
+
     List<Category> getCategoryByUserId(int userId) throws DatabaseException;
 
     String getCategoryNameByCategoryId(int categoryId) throws DatabaseException;

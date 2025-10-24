@@ -19,6 +19,8 @@ public interface ITransactionDAO {
 
     List<Transaction> getTransactionByAccountId(int accountId) throws DatabaseException;
 
+    List<Transaction> getTransactionByCategoryId(int categoryId) throws DatabaseException;
+
     List<Transaction> getLatestTransactions(int userId, int limit) throws DatabaseException;
 
     Map<Integer, Double> getCategoryTotalsForMonth(int month, String yype, int year) throws DatabaseException;

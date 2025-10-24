@@ -6,12 +6,16 @@ import java.util.Map;
 import com.bachulun.DAOs.CategoryDAO;
 import com.bachulun.DAOs.ICategoryDAO;
 import com.bachulun.Models.Category;
+import com.bachulun.Models.Transaction;
+import com.bachulun.Models.User;
 import com.bachulun.Utils.DatabaseException;
 import com.bachulun.Utils.InvalidInputException;
+import com.bachulun.Utils.SessionManager;
 import com.bachulun.Utils.ValidationUtil;
 
 public class CategoryService implements ICategoryService {
     private final ICategoryDAO cateDao = new CategoryDAO();
+    private final ITransactionService transactionService = new TransactionService();
 
     @Override
     public void addCategory(Category category) throws InvalidInputException, DatabaseException {
@@ -28,8 +32,23 @@ public class CategoryService implements ICategoryService {
     }
 
     @Override
-    public void deleteCategory(int categoryId) throws DatabaseException {
-        cateDao.deleteCategory(categoryId);
+    public void deleteCategory(int categoryId) throws DatabaseException, InvalidInputException {
+        User currentUser = SessionManager.getInstance().getLoggedInUser();
+        // Xem danh muc co duoc xoa khong
+        Category defaultCategory = cateDao.getDefaultCategoryByUserId(currentUser.getId());
+        if (defaultCategory.getId() == categoryId) {
+            throw new DatabaseException("Đây là danh mục mặc định bạn không thể xóa!");
+        } else {
+            // Chuyen cac giao dich ve danh muc mac dinh
+            List<Transaction> tranList = transactionService.getTransactionByCategoryId(categoryId);
+            for (Transaction t : tranList) {
+                t.setCategoryId(defaultCategory.getId());
+                transactionService.updateTransaction(t);
+            }
+
+            // Xoa
+            cateDao.deleteCategory(categoryId);
+        }
     }
 
     @Override

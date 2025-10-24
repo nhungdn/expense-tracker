@@ -64,17 +64,9 @@ public class AccountService implements IAccountService {
             Account defaultAccount = accountDAO.getDefaultAccountByUserId(user.getId());
             List<Transaction> tranList = transactionDAO.getTransactionByAccountId(id);
             for (Transaction tran : tranList) {
-                Transaction newTransaction = new Transaction(
-                        tran.getId(),
-                        defaultAccount.getId(),
-                        tran.getCategoryId(),
-                        tran.getAmount(),
-                        tran.getType(),
-                        tran.getDescription(),
-                        tran.getTransactionDate(),
-                        tran.getCreatedAt());
+                tran.setAccountId(defaultAccount.getId());
 
-                transactionDAO.updateTransaction(newTransaction);
+                transactionDAO.updateTransaction(tran);
             }
             // Xoa giao dich
             accountDAO.deleteAccount(id);

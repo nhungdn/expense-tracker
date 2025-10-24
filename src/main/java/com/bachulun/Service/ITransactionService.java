@@ -18,6 +18,8 @@ public interface ITransactionService {
 
     List<Transaction> getTransactionByAccountId(int accountId) throws DatabaseException;
 
+    List<Transaction> getTransactionByCategoryId(int categoryId) throws DatabaseException;
+
     List<Transaction> getLatestTransactions(int userId, int limit) throws DatabaseException;
 
     Map<Integer, Double> getCategoryTotalsForMonth(int month, String type, int year) throws DatabaseException;

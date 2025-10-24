@@ -179,6 +179,35 @@ public class TransactionDAO implements ITransactionDAO {
     }
 
     @Override
+    public List<Transaction> getTransactionByCategoryId(int categoryId) throws DatabaseException {
+        String sql = "SELECT * FROM TransactionTable WHERE category_id = ?";
+
+        List<Transaction> list = new ArrayList<>();
+
+        try (Connection conn = DatabaseConnection.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setLong(1, categoryId);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                list.add(new Transaction(
+                        rs.getInt("id"),
+                        rs.getInt("account_id"),
+                        rs.getInt("category_id"),
+                        rs.getInt("amount"),
+                        rs.getString("type"),
+                        rs.getString("description"),
+                        rs.getTimestamp("transaction_date").toLocalDateTime(),
+                        rs.getTimestamp("created_at").toLocalDateTime()));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    @Override
     public List<Transaction> getLatestTransactions(int userId, int limit) throws DatabaseException {
         List<Transaction> transactions = new ArrayList<>();
         String sql = """

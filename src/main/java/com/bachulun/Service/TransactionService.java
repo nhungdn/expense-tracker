@@ -69,6 +69,12 @@ public class TransactionService implements ITransactionService {
     }
 
     @Override
+    public List<Transaction> getTransactionByCategoryId(int categoryId) throws DatabaseException {
+        List<Transaction> tranList = tranDao.getTransactionByAccountId(categoryId);
+        return tranList;
+    }
+
+    @Override
     public Map<Integer, Double> getCategoryTotalsForMonth(int month, String type, int year) throws DatabaseException {
         Map<Integer, Double> tranList = tranDao.getCategoryTotalsForMonth(month, type, year);
         return tranList;

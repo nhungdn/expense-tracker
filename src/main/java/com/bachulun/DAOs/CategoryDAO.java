@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.LinkedHashMap;
 
+import com.bachulun.Models.Account;
 import com.bachulun.Models.Category;
 import com.bachulun.Utils.DatabaseConnection;
 import com.bachulun.Utils.DatabaseException;
@@ -56,9 +57,31 @@ public class CategoryDAO implements ICategoryDAO {
                 PreparedStatement pstmt = conn.prepareStatement(sql1)) {
             pstmt.setInt(1, categoryId);
             pstmt.executeUpdate();
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.err.println("Error when deleteCategory: " + e.getMessage());
         }
+    }
+
+    @Override
+    public Category getDefaultCategoryByUserId(int userId) throws DatabaseException {
+        String sql = "SELECT * FROM Categories WHERE user_id = ? AND delete_ban = ?";
+
+        try (Connection conn = DatabaseConnection.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, userId);
+            pstmt.setBoolean(2, true);
+
+            ResultSet rs = pstmt.executeQuery();
+            return new Category(
+                    rs.getInt("id"),
+                    rs.getInt("user_id"),
+                    rs.getString("name"),
+                    rs.getTimestamp("created_at").toLocalDateTime(),
+                    rs.getBoolean("delete_ban"));
+        } catch (SQLException e) {
+            System.err.println("Error when getDefaultAccountByUserId: " + e.getMessage());
+        }
+        return null;
     }
 
     @Override
@@ -82,7 +105,7 @@ public class CategoryDAO implements ICategoryDAO {
 
                 cateList.add(cate);
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.err.println("Error when getCategoryByUser: " + e.getMessage());
         }
         return cateList;

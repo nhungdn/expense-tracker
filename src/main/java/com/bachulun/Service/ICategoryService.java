@@ -12,7 +12,7 @@ public interface ICategoryService {
 
     void updateCategory(int categoryId, String newName) throws InvalidInputException, DatabaseException;
 
-    void deleteCategory(int categoryId) throws DatabaseException;
+    void deleteCategory(int categoryId) throws DatabaseException, InvalidInputException;
 
     List<Category> getCategoryByUserId(int userId) throws DatabaseException;
 
