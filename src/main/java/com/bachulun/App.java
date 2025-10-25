@@ -31,7 +31,7 @@ public class App extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         // Chua co DB thi bo note dong ben duoi
-        // DatabaseConnection.initDatabase();
+        DatabaseConnection.initDatabase();
 
         Parent root = FXMLLoader.load(getClass().getResource("/Fxml/Login.fxml"));
         primaryStage.setTitle("Expense Tracker");
