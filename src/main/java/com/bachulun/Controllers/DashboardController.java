@@ -96,6 +96,19 @@ public class DashboardController {
     @FXML
     private Button logOutButton;
 
+    @FXML
+    private VBox menuBarShort;
+    @FXML
+    private Button dashBoardIconButton;
+    @FXML
+    private Button viewAllTransactionIconButton;
+    @FXML
+    private Button viewAllAccountsIconButton;
+    @FXML
+    private Button viewAllCategoriesIconButton;
+    @FXML
+    private Button logOutIconButton;
+
     // Center
     @FXML
     private ScrollPane centerPane;
@@ -174,6 +187,12 @@ public class DashboardController {
         viewAllCategoriesButton.setOnAction(e -> viewAllCategories());
         dashBoardButton.setOnAction(e -> backToDashboard());
         logOutButton.setOnAction(e -> handleLogout());
+
+        viewAllTransactionIconButton.setOnAction(e -> viewAllTransaction());
+        viewAllAccountsIconButton.setOnAction(e -> viewAllAccounts());
+        viewAllCategoriesIconButton.setOnAction(e -> viewAllCategories());
+        dashBoardIconButton.setOnAction(e -> backToDashboard());
+        logOutIconButton.setOnAction(e -> handleLogout());
     }
 
     public void showMenu() {
@@ -183,30 +202,18 @@ public class DashboardController {
             slideOut.setFromX(0);
             slideOut.setToX(-menuBar.getWidth());
 
-            FadeTransition ft = new FadeTransition(Duration.millis(200), menuBar);
-            ft.setFromValue(1);
-            ft.setToValue(0);
-
-            slideOut.setOnFinished(e -> rootPane.setLeft(null));
             slideOut.play();
-            ft.play();
 
             isMenuHidden = true;
         } else {
-            rootPane.setLeft(menuBar); // Them lai menu vao layout
             menuBar.setTranslateX(-menuBar.getWidth());
-            menuBar.setOpacity(0);
 
             TranslateTransition slideIn = new TranslateTransition(Duration.millis(250), menuBar);
             slideIn.setFromX(-menuBar.getWidth());
             slideIn.setToX(0);
 
-            FadeTransition ft = new FadeTransition(Duration.millis(200), menuBar);
-            ft.setFromValue(0);
-            ft.setToValue(1);
-
             slideIn.play();
-            ft.play();
+
             isMenuHidden = false;
         }
     }

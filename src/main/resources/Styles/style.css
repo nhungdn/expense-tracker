@@ -34,6 +34,32 @@
   -fx-background-color: rgba(110, 184, 255, 0.32);
 }
 
+#menuBarShort {
+  -fx-background-color: linear-gradient(to top, #0b3d91, #6eb8ff);
+  -fx-padding: 0;
+  -fx-alignment: center;
+  -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 5, 0, 2, 2);
+}
+
+#menuBarShort Button {
+  -fx-background-color: transparent;
+  -fx-text-fill: #ffffff;
+  -fx-font-size: 14px;
+  -fx-font-weight: bold;
+  -fx-cursor: hand;
+  -fx-border-radius: 0;
+  -fx-background-radius: 0;
+  -fx-padding: 8 0;
+}
+
+#menuBarShort Button:hover {
+  -fx-background-color: rgba(110, 184, 255, 0.18);
+}
+
+#menuBarShort Button:focused {
+  -fx-background-color: rgba(110, 184, 255, 0.32);
+}
+
 /* ==== THANH TRÊN ==== */
 Pane {
   -fx-background-color: #0b3d91;
