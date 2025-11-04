@@ -77,6 +77,7 @@ public class SettingsController {
 
     private void userInforPane() {
         errorLabel.setText("");
+        setActiveButton(userInforButton);
 
         changePasswordPane.setVisible(false);
         userInforPane.setVisible(true);
@@ -124,6 +125,7 @@ public class SettingsController {
 
     private void changePasswordPane() {
         errorPasswordLabel.setText("");
+        setActiveButton(changePasswordButton);
 
         userInforPane.setVisible(false);
         changePasswordPane.setVisible(true);
@@ -170,6 +172,15 @@ public class SettingsController {
                 errorPasswordLabel.setText("Lỗi hệ thống. Vui lòng thử lại sau!");
             }
         });
+    }
+
+    private void setActiveButton(Button activeBtn) {
+        userInforButton.getStyleClass().remove("active");
+        changePasswordButton.getStyleClass().remove("active");
+
+        if (!activeBtn.getStyleClass().contains("active")) {
+            activeBtn.getStyleClass().add("active");
+        }
     }
 
     public void setMenuController(MenuController controller) {

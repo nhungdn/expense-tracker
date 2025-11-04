@@ -29,7 +29,7 @@
   -fx-background-color: rgba(110, 184, 255, 0.18);
 }
 
-#menuBar Button:focused {
+#menuBar Button.active {
   -fx-background-color: rgba(110, 184, 255, 0.32);
 }
 
@@ -55,7 +55,7 @@
   -fx-background-color: rgba(110, 184, 255, 0.18);
 }
 
-#menuBarShort Button:focused {
+#menuBarShort Button.active {
   -fx-background-color: rgba(110, 184, 255, 0.32);
 }
 

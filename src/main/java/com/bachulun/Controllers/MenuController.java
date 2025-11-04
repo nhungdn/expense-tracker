@@ -17,7 +17,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
@@ -145,22 +144,27 @@ public class MenuController {
 
     private void viewDashboard() {
         navigateTo("/FXML/Dashboard.fxml");
+        setActiveButton(dashBoardButton, dashBoardIconButton);
     }
 
     public void viewAllTransaction() {
         navigateTo("/FXML/Transaction.fxml");
+        setActiveButton(viewAllTransactionButton, viewAllTransactionIconButton);
     }
 
     private void viewAllAccounts() {
         navigateTo("/FXML/Account.fxml");
+        setActiveButton(viewAllAccountsButton, viewAllAccountsIconButton);
     }
 
     private void viewAllCategories() {
         navigateTo("/FXML/Category.fxml");
+        setActiveButton(viewAllCategoriesButton, viewAllCategoriesIconButton);
     }
 
     private void viewSettings() {
         navigateTo("/FXML/Settings.fxml");
+        setActiveButton(settingButton, settingIconButton);
     }
 
     private void navigateTo(String fxmlPath) {
@@ -171,12 +175,37 @@ public class MenuController {
             if (fxmlPath.contains("Settings.fxml")) {
                 SettingsController settingController = loader.getController();
                 settingController.setMenuController(this);
+            } else if (fxmlPath.contains("Dashboard.fxml")) {
+                DashboardController dashboardController = loader.getController();
+                dashboardController.setMenuController(this);
             }
 
             rootPane.setCenter(root);
         } catch (IOException e) {
             System.err.println("Error when navigate to " + fxmlPath);
             e.printStackTrace();
+        }
+    }
+
+    private void setActiveButton(Button activeBtn, Button activeIconBtn) {
+        dashBoardButton.getStyleClass().remove("active");
+        viewAllAccountsButton.getStyleClass().remove("active");
+        viewAllTransactionButton.getStyleClass().remove("active");
+        viewAllCategoriesButton.getStyleClass().remove("active");
+        settingButton.getStyleClass().remove("active");
+
+        dashBoardIconButton.getStyleClass().remove("active");
+        viewAllAccountsIconButton.getStyleClass().remove("active");
+        viewAllCategoriesIconButton.getStyleClass().remove("active");
+        viewAllTransactionIconButton.getStyleClass().remove("active");
+        settingIconButton.getStyleClass().remove("active");
+
+        if (!activeBtn.getStyleClass().contains("active")) {
+            activeBtn.getStyleClass().add("active");
+        }
+
+        if (!activeIconBtn.getStyleClass().contains("active")) {
+            activeIconBtn.getStyleClass().add("active");
         }
     }
 

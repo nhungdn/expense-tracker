@@ -36,7 +36,7 @@
   -fx-background-color: rgba(110, 184, 255, 0.18);
 }
 
-.button-primary:focus {
+.button-primary.active {
   -fx-background-color: rgba(110, 184, 255, 0.32);
 }
 
@@ -49,11 +49,6 @@
   -fx-border-radius: 6;
   -fx-background-radius: 6;
   -fx-padding: 5 0;
-}
-
-/*user infor*/
-#updateUserInforButton:hover {
-  -fx-background-color: #6498f0;
 }
 
 .label-title {

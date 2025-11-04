@@ -68,6 +68,7 @@ public class DashboardController {
     private final ITransactionService tranService = new TransactionService();
     private final IAccountService accountService = new AccountService();
     private final ICategoryService categoryService = new CategoryService();
+    private MenuController menuController;
     private User currentUser;
 
     // Bar Chart
@@ -124,7 +125,9 @@ public class DashboardController {
         rightButton.setOnAction(e -> scrollHorizontally(0.2));
 
         // Navigate
-        // viewAllTransaction.setOnAction(e -> viewAllTransaction());
+        viewAllTransaction.setOnAction(e -> {
+            menuController.viewAllTransaction();
+        });
     }
 
     // AccountList
@@ -594,6 +597,10 @@ public class DashboardController {
 
             transactionContainer.getChildren().add(card);
         }
+    }
+
+    public void setMenuController(MenuController controller) {
+        this.menuController = controller;
     }
 
 }

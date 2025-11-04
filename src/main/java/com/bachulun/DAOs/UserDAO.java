@@ -11,7 +11,6 @@ import com.bachulun.Utils.DatabaseConnection;
 import com.bachulun.Utils.DatabaseException;
 import com.bachulun.Utils.InvalidInputException;
 import com.bachulun.Utils.PasswordUtil;
-import com.bachulun.Utils.ValidationUtil;
 
 /*
     UserDAO tao User tu cac truy van o database va truyen sang controllers hoac SessionManager.
