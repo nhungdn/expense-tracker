@@ -1,6 +1,18 @@
 package com.bachulun.Utils;
 
 public class ValidationUtil {
+    public static void validateFirstName(String firstName) throws InvalidInputException {
+        if (firstName == null || firstName.trim().isEmpty()) {
+            throw new InvalidInputException("Tên không được bỏ trống!");
+        }
+    }
+
+    public static void validateLastName(String lastName) throws InvalidInputException {
+        if (lastName == null || lastName.trim().isEmpty()) {
+            throw new InvalidInputException("Họ không được bỏ trống!");
+        }
+    }
+
     public static void validateUsername(String username) throws InvalidInputException {
         if (username == null || username.trim().isEmpty()) {
             throw new InvalidInputException("Tên đăng nhập không được bỏ trống!");

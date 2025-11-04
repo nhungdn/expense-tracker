@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bachulun.Controllers.RegisterController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bachulun.Controllers.RegisterController">
    <center>
       <VBox alignment="CENTER" maxWidth="327.0" prefHeight="400.0" prefWidth="327.0" spacing="15.0" BorderPane.alignment="CENTER">
          <children>
@@ -18,6 +18,8 @@
                   <Font name="System Bold" size="19.0" />
                </font>
             </Label>
+            <TextField fx:id="firstNameField" promptText="Tên" />
+            <TextField fx:id="lastNameField" promptText="Họ" />
             <TextField fx:id="emailField" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" nodeOrientation="LEFT_TO_RIGHT" prefHeight="25.0" prefWidth="187.0" promptText="email" />
             <TextField fx:id="usernameField" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="username" />
             <PasswordField fx:id="passwordField" promptText="Password" />

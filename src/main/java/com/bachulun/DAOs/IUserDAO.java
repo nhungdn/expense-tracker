@@ -11,5 +11,7 @@ public interface IUserDAO {
 
     User getUserById(int id) throws DatabaseException;
 
-    public void updateUser(User user) throws InvalidInputException, DatabaseException;
+    void updateUserInfor(User user) throws InvalidInputException, DatabaseException;
+
+    void updateUserPassword(User user) throws InvalidInputException, DatabaseException;
 }

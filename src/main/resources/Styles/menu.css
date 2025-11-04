@@ -1,0 +1,84 @@
+.root,
+.anchor-pane,
+.border-pane,
+.scroll-pane {
+  -fx-background-color: #eef5f7;
+  -fx-font-family: "Segoe UI", sans-serif;
+}
+
+/* left bar */
+#menuBar {
+  -fx-background-color: linear-gradient(to top, #0b3d91, #6eb8ff);
+  -fx-padding: 0;
+  -fx-alignment: center;
+  -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 5, 0, 2, 2);
+}
+
+#menuBar Button {
+  -fx-background-color: transparent;
+  -fx-text-fill: #ffffff;
+  -fx-font-size: 14px;
+  -fx-font-weight: bold;
+  -fx-cursor: hand;
+  -fx-border-radius: 0;
+  -fx-background-radius: 0;
+  -fx-padding: 8 0;
+}
+
+#menuBar Button:hover {
+  -fx-background-color: rgba(110, 184, 255, 0.18);
+}
+
+#menuBar Button:focused {
+  -fx-background-color: rgba(110, 184, 255, 0.32);
+}
+
+#menuBarShort {
+  -fx-background-color: linear-gradient(to top, #0b3d91, #6eb8ff);
+  -fx-padding: 0;
+  -fx-alignment: center;
+  -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 5, 0, 2, 2);
+}
+
+#menuBarShort Button {
+  -fx-background-color: transparent;
+  -fx-text-fill: #ffffff;
+  -fx-font-size: 14px;
+  -fx-font-weight: bold;
+  -fx-cursor: hand;
+  -fx-border-radius: 0;
+  -fx-background-radius: 0;
+  -fx-padding: 8 0;
+}
+
+#menuBarShort Button:hover {
+  -fx-background-color: rgba(110, 184, 255, 0.18);
+}
+
+#menuBarShort Button:focused {
+  -fx-background-color: rgba(110, 184, 255, 0.32);
+}
+
+/* top bar */
+Pane {
+  -fx-background-color: #0b3d91;
+}
+
+#welcomeLabel {
+  -fx-text-fill: #ffffff;
+  -fx-font-weight: bold;
+}
+
+#timeLabel {
+  -fx-text-fill: #ffffff;
+}
+
+#showMenuButton {
+  -fx-background-color: transparent;
+  -fx-text-fill: #ffffff;
+  -fx-font-size: 20px;
+  -fx-cursor: hand;
+}
+#showMenuButton:hover {
+  -fx-text-fill: #6eb8ff;
+}

@@ -15,5 +15,8 @@ public interface IUserService {
 
     User getUserById(int id) throws DatabaseException;
 
-    void updateUser(User user) throws InvalidInputException, DatabaseException;
+    void updateUserInfor(User user) throws InvalidInputException, DatabaseException;
+
+    void updateUserPassword(User user, String currentPassword, String newPassword)
+            throws InvalidInputException, DatabaseException;
 }

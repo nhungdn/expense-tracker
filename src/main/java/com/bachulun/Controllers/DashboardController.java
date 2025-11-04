@@ -61,8 +61,6 @@ import java.util.List;
 
 public class DashboardController {
 
-    private boolean isMenuHidden = false;
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
     private List<String> monthNames = Arrays.asList(
             "Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4",
             "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8",
@@ -71,47 +69,6 @@ public class DashboardController {
     private final IAccountService accountService = new AccountService();
     private final ICategoryService categoryService = new CategoryService();
     private User currentUser;
-
-    @FXML
-    BorderPane rootPane;
-    // Top
-    @FXML
-    private Label usernameLabel;
-    @FXML
-    Label timeLabel;
-    @FXML
-    ToggleButton showMenuButton;
-
-    // Left - Menu bar
-    @FXML
-    private VBox menuBar;
-    @FXML
-    private Button dashBoardButton;
-    @FXML
-    private Button viewAllTransactionButton;
-    @FXML
-    private Button viewAllAccountsButton;
-    @FXML
-    private Button viewAllCategoriesButton;
-    @FXML
-    private Button logOutButton;
-
-    @FXML
-    private VBox menuBarShort;
-    @FXML
-    private Button dashBoardIconButton;
-    @FXML
-    private Button viewAllTransactionIconButton;
-    @FXML
-    private Button viewAllAccountsIconButton;
-    @FXML
-    private Button viewAllCategoriesIconButton;
-    @FXML
-    private Button logOutIconButton;
-
-    // Center
-    @FXML
-    private ScrollPane centerPane;
 
     // Bar Chart
     @FXML
@@ -155,17 +112,6 @@ public class DashboardController {
     private void initialize() {
         currentUser = SessionManager.getInstance().getLoggedInUser();
 
-        // Some settings
-        centerPane.setFitToWidth(true);
-        centerPane.setFitToHeight(true);
-        usernameLabel.setText("Welcome, " + currentUser.getUsername() + "!");
-
-        Timeline clock = new Timeline(
-                new KeyFrame(Duration.ZERO, e -> timeLabel.setText(LocalDateTime.now().format(formatter))),
-                new KeyFrame(Duration.seconds(1)));
-        clock.setCycleCount(Animation.INDEFINITE);
-        clock.play();
-
         // Cac bang trong Dashboard
         AccountList();
         BarChart();
@@ -177,50 +123,12 @@ public class DashboardController {
         leftButton.setOnAction(e -> scrollHorizontally(-0.2));
         rightButton.setOnAction(e -> scrollHorizontally(0.2));
 
-        // Show or hide menu
-        showMenuButton.setOnAction(e -> showMenu());
-
         // Navigate
-        viewAllTransaction.setOnAction(e -> viewAllTransaction());
-        viewAllTransactionButton.setOnAction(e -> viewAllTransaction());
-        viewAllAccountsButton.setOnAction(e -> viewAllAccounts());
-        viewAllCategoriesButton.setOnAction(e -> viewAllCategories());
-        dashBoardButton.setOnAction(e -> backToDashboard());
-        logOutButton.setOnAction(e -> handleLogout());
-
-        viewAllTransactionIconButton.setOnAction(e -> viewAllTransaction());
-        viewAllAccountsIconButton.setOnAction(e -> viewAllAccounts());
-        viewAllCategoriesIconButton.setOnAction(e -> viewAllCategories());
-        dashBoardIconButton.setOnAction(e -> backToDashboard());
-        logOutIconButton.setOnAction(e -> handleLogout());
-    }
-
-    public void showMenu() {
-        if (!isMenuHidden) {
-            // An menu
-            TranslateTransition slideOut = new TranslateTransition(Duration.millis(200), menuBar);
-            slideOut.setFromX(0);
-            slideOut.setToX(-menuBar.getWidth());
-
-            slideOut.play();
-
-            isMenuHidden = true;
-        } else {
-            menuBar.setTranslateX(-menuBar.getWidth());
-
-            TranslateTransition slideIn = new TranslateTransition(Duration.millis(250), menuBar);
-            slideIn.setFromX(-menuBar.getWidth());
-            slideIn.setToX(0);
-
-            slideIn.play();
-
-            isMenuHidden = false;
-        }
+        // viewAllTransaction.setOnAction(e -> viewAllTransaction());
     }
 
     // AccountList
     // ----------------------------------------------------------------------------------------------------------------
-
     public void AccountList() {
         // Danh sach cac tai khoan
         List<Account> accountList = new ArrayList<>();
@@ -328,7 +236,6 @@ public class DashboardController {
 
     // Bar Chart
     // -----------------------------------------------------------------------------------------------------
-
     public void BarChart() {
         // Chon nam
         int currentYear = LocalDate.now().getYear();
@@ -458,7 +365,6 @@ public class DashboardController {
 
     // Pie Chart
     // ---------------------------------------------------------------------------------------------------------------------------------
-
     public void PieChartExpense() {
         categoryPieChart.setLegendSide(javafx.geometry.Side.RIGHT);
         // Chon nam
@@ -687,58 +593,6 @@ public class DashboardController {
             card.getChildren().addAll(left, space, amount);
 
             transactionContainer.getChildren().add(card);
-        }
-    }
-
-    // Navigate
-    // ----------------------------------------------------------------------------------------
-
-    public void backToDashboard() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/Dashboard.fxml"));
-            Scene scene = new Scene(loader.load());
-            Stage stage = (Stage) rootPane.getScene().getWindow();
-            stage.setScene(scene);
-            stage.setTitle("Expense Tracker");
-            stage.show();
-        } catch (IOException e) {
-            System.err.println("Failed to load dashboard: " + e);
-        }
-    }
-
-    public void handleLogout() {
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("/Fxml/Login.fxml"));
-            SessionManager.getInstance().logout();
-            Stage stage = (Stage) rootPane.getScene().getWindow();
-            stage.setTitle("Expense Tracker");
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
-            System.err.println("Error when log out: " + e.getMessage());
-        }
-
-    }
-
-    public void viewAllTransaction() {
-        navigateTo("/FXML/Transaction.fxml");
-    }
-
-    private void viewAllAccounts() {
-        navigateTo("/FXML/Account.fxml");
-    }
-
-    private void viewAllCategories() {
-        navigateTo("/FXML/Category.fxml");
-    }
-
-    private void navigateTo(String fxmlPath) {
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource(fxmlPath));
-            rootPane.setCenter(root);
-        } catch (IOException e) {
-            System.err.println("Error when navigate to " + fxmlPath);
-            e.printStackTrace();
         }
     }
 

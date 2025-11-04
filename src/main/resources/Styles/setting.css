@@ -1,0 +1,77 @@
+.pane {
+  -fx-background-color: #eef5f7;
+  -fx-font-family: "Segoe UI", sans-serif;
+}
+
+.borderPane {
+  -fx-border-radius: 10;
+  -fx-background-radius: 10;
+  -fx-background-color: #ffffff;
+  -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 8, 0, 0, 3);
+}
+
+.childPane {
+  -fx-background-color: transparent;
+}
+
+.headLabel {
+  -fx-font-size: 22px;
+  -fx-font-weight: bold;
+  -fx-text-fill: #0b3d91;
+}
+
+/*Thanh menu setting*/
+.button-primary {
+  -fx-background-color: transparent;
+  -fx-text-fill: #0b3d91;
+  -fx-font-size: 14px;
+  -fx-font-weight: bold;
+  -fx-cursor: hand;
+  -fx-border-radius: 0;
+  -fx-background-radius: 0;
+  -fx-padding: 10 0;
+}
+
+.button-primary:hover {
+  -fx-background-color: rgba(110, 184, 255, 0.18);
+}
+
+.button-primary:focus {
+  -fx-background-color: rgba(110, 184, 255, 0.32);
+}
+
+.updateButton {
+  -fx-background-color: #0b3d91;
+  -fx-text-fill: #ffffff;
+  -fx-font-size: 13px;
+  -fx-font-weight: bold;
+  -fx-cursor: hand;
+  -fx-border-radius: 6;
+  -fx-background-radius: 6;
+  -fx-padding: 5 0;
+}
+
+/*user infor*/
+#updateUserInforButton:hover {
+  -fx-background-color: #6498f0;
+}
+
+.label-title {
+  -fx-font-size: 13px;
+  -fx-font-weight: bold;
+  -fx-text-fill: #333;
+}
+
+.errorLabel {
+  -fx-font-size: 13px;
+  -fx-text-fill: #e02c2c;
+}
+
+.text-field {
+  -fx-background-color: #e8f0fe;
+  -fx-background-radius: 6;
+  -fx-border-radius: 6;
+  -fx-padding: 6 10;
+  -fx-font-size: 13px;
+  -fx-text-fill: #0d47a1;
+}

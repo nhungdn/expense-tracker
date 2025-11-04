@@ -57,20 +57,39 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public void updateUser(User user) throws InvalidInputException, DatabaseException {
+    public void updateUserInfor(User user) throws InvalidInputException, DatabaseException {
+        String firstName = user.getFirstName().trim();
+        String lastName = user.getLastName().trim();
         String username = user.getUsername().trim();
-        String password = user.getPassword();
         String email = user.getEmail();
 
+        ValidationUtil.validateFirstName(firstName);
+        ValidationUtil.validateLastName(lastName);
         ValidationUtil.validateUsername(username);
-        ValidationUtil.validatePassword(password);
         ValidationUtil.validateEmail(email);
 
-        String hashedPassword = PasswordUtil.hashPassword(password);
+        try {
+            userDAO.updateUserInfor(user);
+        } catch (DatabaseException e) {
+            throw e;
+        }
+    }
+
+    @Override
+    public void updateUserPassword(User user, String currentPassword, String newPassword)
+            throws InvalidInputException, DatabaseException {
+        String password = user.getPassword();
+
+        if (!PasswordUtil.verifyPassword(currentPassword, password))
+            throw new InvalidInputException("Sai mật khẩu hiện tại!");
+
+        ValidationUtil.validatePassword(newPassword);
+
+        String hashedPassword = PasswordUtil.hashPassword(newPassword);
         user.setPassword(hashedPassword);
 
         try {
-            userDAO.updateUser(user);
+            userDAO.updateUserPassword(user);
         } catch (DatabaseException e) {
             throw e;
         }

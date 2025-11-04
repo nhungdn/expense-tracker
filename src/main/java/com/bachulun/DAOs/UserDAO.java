@@ -23,14 +23,16 @@ public class UserDAO implements IUserDAO {
     // Tao user moi
     @Override
     public void registerUser(User user) throws InvalidInputException, DatabaseException {
-        String sql = "INSERT INTO Users (username, password, email, created_at) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO Users (first_name, last_name, username, password, email, created_at) VALUES (?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = DatabaseConnection.getConnection();
                 PreparedStatement stat = conn.prepareStatement(sql)) {
-            stat.setString(1, user.getUsername());
-            stat.setString(2, user.getPassword());
-            stat.setString(3, user.getEmail());
-            stat.setTimestamp(4, Timestamp.valueOf(user.getCreatedAt()));
+            stat.setString(1, user.getFirstName());
+            stat.setString(2, user.getLastName());
+            stat.setString(3, user.getUsername());
+            stat.setString(4, user.getPassword());
+            stat.setString(5, user.getEmail());
+            stat.setTimestamp(6, Timestamp.valueOf(user.getCreatedAt()));
             stat.executeUpdate();
         } catch (SQLException e) {
             if (e.getSQLState().equals("23000")) {
@@ -63,6 +65,8 @@ public class UserDAO implements IUserDAO {
                     // mat khau dung thi tao doi tuong User
                     return new User(
                             rs.getInt("id"),
+                            rs.getString("first_name"),
+                            rs.getString("last_name"),
                             rs.getString("username"),
                             hashedPassword,
                             rs.getString("email"),
@@ -91,6 +95,8 @@ public class UserDAO implements IUserDAO {
             if (rs.next()) {
                 return new User(
                         rs.getInt("id"),
+                        rs.getString("first_name"),
+                        rs.getString("last_name"),
                         rs.getString("username"),
                         rs.getString("password"),
                         rs.getString("email"),
@@ -103,17 +109,18 @@ public class UserDAO implements IUserDAO {
     }
 
     @Override
-    public void updateUser(User user) throws InvalidInputException, DatabaseException {
+    public void updateUserInfor(User user) throws InvalidInputException, DatabaseException {
 
-        String sql = "UPDATE users SET username = ?, password = ?, email = ? WHERE id = ?";
+        String sql = "UPDATE users SET first_name = ?, last_name = ?, username = ?, email = ? WHERE id = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setString(1, user.getUsername());
-            stmt.setString(2, user.getPassword());
-            stmt.setString(3, user.getEmail());
-            stmt.setInt(4, user.getId());
+            stmt.setString(1, user.getFirstName());
+            stmt.setString(2, user.getLastName());
+            stmt.setString(3, user.getUsername());
+            stmt.setString(4, user.getEmail());
+            stmt.setInt(5, user.getId());
 
             int rowsAffected = stmt.executeUpdate();
 
@@ -131,6 +138,28 @@ public class UserDAO implements IUserDAO {
                 }
             }
             throw new DatabaseException("Failed to update user profile", e);
+        }
+    }
+
+    @Override
+    public void updateUserPassword(User user) throws InvalidInputException, DatabaseException {
+
+        String sql = "UPDATE users SET password = ? WHERE id = ?";
+
+        try (Connection conn = DatabaseConnection.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, user.getPassword());
+            stmt.setInt(2, user.getId());
+
+            int rowsAffected = stmt.executeUpdate();
+
+            if (rowsAffected == 0) {
+                throw new DatabaseException("No user found to update");
+            }
+
+        } catch (SQLException e) {
+            throw new DatabaseException("Failed to update user password:", e);
         }
     }
 }

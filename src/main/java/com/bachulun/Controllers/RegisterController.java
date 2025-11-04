@@ -20,6 +20,10 @@ import java.time.LocalDateTime;
 
 public class RegisterController {
     @FXML
+    private TextField firstNameField;
+    @FXML
+    private TextField lastNameField;
+    @FXML
     private TextField emailField;
     @FXML
     private TextField usernameField;
@@ -34,6 +38,8 @@ public class RegisterController {
 
     @FXML
     private void handleRegister() {
+        String firstName = firstNameField.getText().trim();
+        String lastName = lastNameField.getText().trim();
         String email = emailField.getText().trim();
         String username = usernameField.getText();
         String password = passwordField.getText();
@@ -44,7 +50,7 @@ public class RegisterController {
             return;
         }
 
-        User user = new User(username, password, email, LocalDateTime.now());
+        User user = new User(firstName, lastName, username, password, email, LocalDateTime.now());
         try {
             userService.registerUser(user);
             errorLabel.setText("Registration successful!");
