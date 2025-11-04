@@ -4,37 +4,66 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="750.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bachulun.Controllers.LoginController">
-
-   <center>
-      <VBox alignment="CENTER" fillWidth="false" prefHeight="400.0" prefWidth="580.0" spacing="10.0" BorderPane.alignment="CENTER">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bachulun.Controllers.LoginController">
+   <left>
+      <AnchorPane prefHeight="400.0" prefWidth="260.0" style="-fx-background-color: #3586b581;" BorderPane.alignment="CENTER">
          <children>
-            <Label prefHeight="51.0" prefWidth="68.0" text="LOG IN" textAlignment="CENTER" textFill="#3e90bc">
+            <Label alignment="CENTER" layoutX="72.0" layoutY="39.0" prefHeight="29.0" prefWidth="134.0" textAlignment="CENTER" textFill="#355db5">
                <font>
-                  <Font name="System Bold" size="20.0" />
+                  <Font name="System Bold" size="33.0" />
                </font>
             </Label>
-            <HBox alignment="CENTER_LEFT" prefHeight="18.0" prefWidth="250.0" spacing="10.0">
-               <children>
-                  <Label text="Tên đăng nhập" />
-               </children>
-            </HBox>
-            <TextField fx:id="usernameField" prefHeight="30.0" prefWidth="250.0" promptText="Username" />
-            <HBox alignment="CENTER_LEFT" prefHeight="19.0" prefWidth="250.0" spacing="10.0">
-               <children>
-                  <Label text="Mật khẩu" />
-               </children>
-            </HBox>
-            <PasswordField fx:id="passwordField" prefHeight="30.0" prefWidth="250.0" promptText="Password" />
-            <Label fx:id="errorLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="18.0" prefWidth="493.0" textAlignment="CENTER" />
-            <Button fx:id="btnLogin" mnemonicParsing="false" onAction="#handleLogin" prefWidth="250.0" text="Login" />
-            <Button fx:id="registerButton" alignment="CENTER" mnemonicParsing="false" onAction="#openRegister" prefHeight="26.0" prefWidth="250.0" text="Register" textAlignment="CENTER" />
+            <Label layoutX="45.0" layoutY="131.0" textFill="#942525" />
+            <Label layoutX="45.0" layoutY="172.0" textFill="#942525" />
+            <ImageView fitHeight="316.0" fitWidth="271.0" layoutX="16.0" layoutY="39.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@/images/logo.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="16.0" layoutY="335.0" prefHeight="18.0" prefWidth="232.0" style="-fx-text-fill: #345db7;" text="Tài chính rõ ràng, cuộc sống nhẹ nhàng" textFill="#355db5" />
+            <Label layoutX="15.0" layoutY="309.0" prefHeight="18.0" prefWidth="247.0" style="-fx-text-fill: #345db7;" text="Theo dõi từng đồng – tiết kiệm từng ngày" textFill="#355db5" />
+            <Label layoutX="15.0" layoutY="283.0" prefHeight="18.0" prefWidth="247.0" style="-fx-text-fill: #345db7;" text="Quản lý chi tiêu dễ dàng mỗi ngày" textFill="#355db5" AnchorPane.bottomAnchor="98.60000000000002" AnchorPane.leftAnchor="15.0" />
          </children>
-      </VBox>
+      </AnchorPane>
+   </left>
+   <center>
+      <AnchorPane prefHeight="400.0" prefWidth="325.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label layoutX="23.0" layoutY="139.0" text="Username">
+               <font>
+                  <Font size="11.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="44.0" fitWidth="59.0" layoutX="140.0" layoutY="53.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../../Khóa.png" />
+               </image>
+            </ImageView>
+            <TextField fx:id="usernameField" layoutX="82.0" layoutY="134.0" prefHeight="26.0" prefWidth="173.0" promptText="Username" style="-fx-border-color: #9da0a6;" AnchorPane.rightAnchor="57.20000000000002" />
+            <Label layoutX="25.0" layoutY="206.0" text="Password">
+               <font>
+                  <Font size="11.0" />
+               </font>
+            </Label>
+            <PasswordField fx:id="passwordField" layoutX="81.0" layoutY="201.0" prefHeight="26.0" prefWidth="173.0" promptText="Password" />
+            <Label fx:id="errorLabel" layoutX="97.0" layoutY="240.0" textFill="#942525" text=""/>
+            <Button fx:id="btnLogin" layoutX="81.0" layoutY="272.0" mnemonicParsing="false" onAction="#handleLogin" prefHeight="30.0" prefWidth="173.0" style="-fx-background-color: #3586b581; -fx-text-fill: #345db7; -fx-font-weight: bold;" text="Login" textAlignment="CENTER" textFill="#345db7">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <Button fx:id="registerButton" layoutX="81.0" layoutY="328.0" mnemonicParsing="false" onAction="#openRegister" prefHeight="30.0" prefWidth="173.0" style="-fx-background-color: #3586b581; -fx-font-weight: bold; -fx-text-fill: #345db7;" text="Register" textAlignment="CENTER" textFill="#345db7">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+         </children>
+      </AnchorPane>
    </center>
 </BorderPane>

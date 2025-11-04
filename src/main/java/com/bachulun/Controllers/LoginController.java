@@ -34,7 +34,7 @@ public class LoginController {
         try {
             User user = userService.loginUser(username, password);
             errorLabel.setText("Login successful!");
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/Menu.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Fxml/Menu.fxml"));
             Scene scene = new Scene(loader.load());
             Stage stage = (Stage) usernameField.getScene().getWindow();
             stage.setScene(scene);
