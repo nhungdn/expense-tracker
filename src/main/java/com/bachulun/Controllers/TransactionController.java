@@ -19,6 +19,7 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -104,17 +105,20 @@ public class TransactionController {
         });
     }
 
-    private void loadTableView() {
-        int pageCount = (int) Math.ceil((double) masterList.size() / ROWS_PER_PAGE);
-        pagination.setPageCount(pageCount == 0 ? 1 : pageCount);
+private void loadTableView() {
+    // Cập nhật số trang
+    int pageCount = (int) Math.ceil((double) masterList.size() / ROWS_PER_PAGE);
+    pagination.setPageCount(pageCount == 0 ? 1 : pageCount);
 
-        dateCol.setCellValueFactory(new PropertyValueFactory<>("transactionDateDisplay"));
-        typeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
-        categoryCol.setCellValueFactory(new PropertyValueFactory<>("categoryName"));
-        amountCol.setCellValueFactory(new PropertyValueFactory<>("amountDisplay"));
-        accountCol.setCellValueFactory(new PropertyValueFactory<>("accountName"));
-        descriptionCol.setCellValueFactory(new PropertyValueFactory<>("description"));
+    // Gán dữ liệu cho từng cột
+    dateCol.setCellValueFactory(new PropertyValueFactory<>("transactionDateDisplay"));
+    typeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
+    categoryCol.setCellValueFactory(new PropertyValueFactory<>("categoryName"));
+    amountCol.setCellValueFactory(new PropertyValueFactory<>("amountDisplay"));
+    accountCol.setCellValueFactory(new PropertyValueFactory<>("accountName"));
+    descriptionCol.setCellValueFactory(new PropertyValueFactory<>("description"));
 
+<<<<<<< HEAD
         // ✅ Gắn highlight renderer
         addHighlightToColumn(descriptionCol);
         addHighlightToColumn(categoryCol);
@@ -124,6 +128,21 @@ public class TransactionController {
 
         addActionButtonsToTable();
     }
+=======
+    // Chỉnh cột Thao tác
+    actionCol.setText("Thao tác");
+    actionCol.setPrefWidth(180);   // vừa đủ cho 2 button
+    actionCol.setMinWidth(180);
+
+    addActionButtonsToTable();
+
+    // ✅ Bỏ thanh cuộn ngang bằng cách để TableView tự co các cột
+    transactionTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
+    // Đặt dữ liệu FilteredList
+    transactionTable.setItems(filteredList);
+}
+>>>>>>> 63dbdc1f1d7962ac7f3b3f88c9b90eac88fd6c17
 
     // ✅ Hàm tạo cell highlight
     private void addHighlightToColumn(TableColumn<Transaction, String> column) {
@@ -169,6 +188,7 @@ public class TransactionController {
         historyTable.setItems(editHistoryList);
     }
 
+<<<<<<< HEAD
     /** ✅ Thêm cột Thao tác: Chi tiết + Chỉnh sửa */
     private void addActionButtonsToTable() {
         actionCol.setCellFactory(param -> new TableCell<>() {
@@ -184,11 +204,36 @@ public class TransactionController {
                     Transaction t = (Transaction) getTableRow().getItem();
                     if (t == null) return;
 
+=======
+/** Thêm 2 nút Chi tiết + Chỉnh sửa vào cột Thao tác */
+private void addActionButtonsToTable() {
+    actionCol.setCellFactory(param -> new TableCell<>() {
+        private final Button detailBtn = new Button("Chi tiết");
+        private final Button editBtn = new Button("Chỉnh sửa");
+        private final HBox box = new HBox(8, detailBtn, editBtn);
+
+        {
+            // Style cho button
+            detailBtn.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 12px;");
+            editBtn.setStyle("-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-size: 12px;");
+
+            // Giữ button không bị cắt
+            detailBtn.setMaxWidth(Double.MAX_VALUE);
+            editBtn.setMaxWidth(Double.MAX_VALUE);
+
+            box.setAlignment(Pos.CENTER);
+
+            // Sự kiện Chi tiết
+            detailBtn.setOnAction(e -> {
+                Transaction t = getTableRow().getItem();
+                if (t != null) {
+>>>>>>> 63dbdc1f1d7962ac7f3b3f88c9b90eac88fd6c17
                     String info = String.format(
                             "Ngày: %s\nLoại: %s\nDanh mục: %s\nSố tiền: %s\nTài khoản: %s\nMô tả: %s",
                             t.getTransactionDateDisplay(), t.getType(), t.getCategoryName(),
                             t.getAmountDisplay(), t.getAccountName(), t.getDescription());
                     showAlert("Chi tiết giao dịch", info, Alert.AlertType.INFORMATION);
+<<<<<<< HEAD
                 });
 
                 editBtn.setOnAction(e -> {
@@ -196,6 +241,25 @@ public class TransactionController {
                     if (t == null) return;
                     showEditDialog(t);
                 });
+=======
+                }
+            });
+
+            // Sự kiện Chỉnh sửa
+            editBtn.setOnAction(e -> {
+                Transaction t = getTableRow().getItem();
+                if (t != null) showEditDialog(t);
+            });
+        }
+
+        @Override
+        protected void updateItem(Void item, boolean empty) {
+            super.updateItem(item, empty);
+            if (empty) {
+                setGraphic(null);
+            } else {
+                setGraphic(box);
+>>>>>>> 63dbdc1f1d7962ac7f3b3f88c9b90eac88fd6c17
             }
 
             @Override

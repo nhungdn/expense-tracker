@@ -82,7 +82,13 @@
   - Số tiền: 5000000.00 → 7000000.00
   - Mô tả: "plane" → "train"
 
+<<<<<<< HEAD
 [06/11/2025 01:15:39] Dat đã chỉnh sửa giao dịch #7:
   - Số tiền: 7000000.00 → 600000.00
   - Mô tả: "train" → "bus"
+=======
+[05/11/2025 21:50:14] nhungdn đã chỉnh sửa giao dịch #1:
+  - Số tiền: 2000000.00 → 2000000.00
+  - Mô tả: "Tiền trọ" → "Tiền nhà"
+>>>>>>> 63dbdc1f1d7962ac7f3b3f88c9b90eac88fd6c17
 

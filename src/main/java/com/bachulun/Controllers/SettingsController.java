@@ -73,6 +73,8 @@ public class SettingsController {
         // navigate
         userInforButton.setOnAction(e -> userInforPane());
         changePasswordButton.setOnAction(e -> changePasswordPane());
+        //Hiện bảng thông tín cá nhân ngay khi ấn vô mục cá nhân
+        userInforPane();
     }
 
     private void userInforPane() {

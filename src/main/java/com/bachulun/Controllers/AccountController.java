@@ -36,42 +36,31 @@ public class AccountController {
     private final IAccountService accountService = new AccountService();
     private static final int ROWS_PER_PAGE = 10;
 
-    @FXML
-    private Button addAccount;
-    @FXML
-    private TextField searchField, accountTextField;
-    @FXML
-    private javafx.scene.control.Label errorLabel;
-    @FXML
-    private TableView<Account> accounTableView;
-    @FXML
-    private TableColumn<Account, Number> numCol;
-    @FXML
-    private TableColumn<Account, String> accountNameCol, amountCol;
-    @FXML
-    private TableColumn<Account, Void> actionCol;
-    @FXML
-    private Pagination pagination;
+    @FXML private Button addAccount;
+    @FXML private TextField searchField, accountTextField;
+    @FXML private javafx.scene.control.Label errorLabel;
+    @FXML private TableView<Account> accounTableView;
+    @FXML private TableColumn<Account, Number> numCol;
+    @FXML private TableColumn<Account, String> accountNameCol, amountCol;
+    @FXML private TableColumn<Account, Void> actionCol;
+    @FXML private Pagination pagination;
 
     @FXML
     private void initialize() {
         user = SessionManager.getInstance().getLoggedInUser();
 
-        // STT
+        accounTableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        actionCol.setPrefWidth(150);
+
         numCol.setCellValueFactory(column -> {
             Account acc = column.getValue();
-            if (acc != null) {
-                int idx = accounTableView.getItems().indexOf(acc);
-                return new SimpleIntegerProperty(idx + 1);
-            }
-            return null;
+            return new SimpleIntegerProperty(accounTableView.getItems().indexOf(acc) + 1);
         });
 
         accountNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         amountCol.setCellValueFactory(new PropertyValueFactory<>("balance"));
 
         loadAccountTable();
-
         addAccount.setOnAction(e -> handleAddAccount());
 
         // === Thêm listener cho tìm kiếm ===
@@ -80,53 +69,58 @@ public class AccountController {
         });
     }
 
-    /** Nạp dữ liệu tài khoản vào bảng */
     private void loadAccountTable() {
         try {
             accountList.clear();
             accountList.addAll(accountService.getAccountsByUserId(user.getId()));
 
             int pageCount = (int) Math.ceil((double) accountList.size() / ROWS_PER_PAGE);
-            pagination.setPageCount(pageCount == 0 ? 1 : pageCount);
+            pagination.setPageCount(Math.max(pageCount, 1));
 
             accounTableView.setItems(accountList);
-
             addButtonToTable();
         } catch (Exception e) {
             System.err.println("Error when loadAccountTable: " + e.getMessage());
         }
     }
 
-    /** Thêm nút thao tác: Chi tiết & Chỉnh sửa (chỉ sửa tên) */
     private void addButtonToTable() {
         actionCol.setCellFactory(param -> new TableCell<>() {
 
             private final Button detailBtn = new Button("Chi tiết");
-            private final Button editBtn = new Button("Chỉnh sửa");
-            private final HBox actionBox = new HBox(8, detailBtn, editBtn);
+            private final Button editBtn = new Button("Chỉnh Sửa");
+            private final HBox actionBox = new HBox(5, detailBtn, editBtn);
 
             {
-                detailBtn.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 12px;");
-                editBtn.setStyle("-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-size: 12px;");
+                actionBox.setStyle("-fx-alignment: center;");
 
-                // === Nút "Chi tiết" ===
+                detailBtn.setMinWidth(65);
+                editBtn.setMinWidth(65);
+
+                detailBtn.setStyle("-fx-background-color: #28a745; -fx-text-fill: white;");
+                editBtn.setStyle("-fx-background-color: #007bff; -fx-text-fill: white;");
+
                 detailBtn.setOnAction(event -> {
                     Account account = getTableView().getItems().get(getIndex());
+<<<<<<< HEAD
                     String info = "Tên tài khoản: " + account.getName()
                             + "\nSố dư (hệ thống): " + account.getBalance()
                             + "\nNgày tạo: " + account.getCreatedAt();
+=======
+                    String info =
+                        "Tên tài khoản: " + account.getName() +
+                        "\nSố dư: " + account.getBalance() +
+                        "\nNgày tạo: " + account.getCreatedAt();
+>>>>>>> 63dbdc1f1d7962ac7f3b3f88c9b90eac88fd6c17
 
                     showAlert("Chi tiết tài khoản", info, Alert.AlertType.INFORMATION);
                 });
 
-                // === Nút "Chỉnh sửa" (chỉ cho phép sửa tên) ===
                 editBtn.setOnAction(event -> {
                     Account account = getTableView().getItems().get(getIndex());
-
                     TextInputDialog dialog = new TextInputDialog(account.getName());
                     dialog.setTitle("Chỉnh sửa tài khoản");
-                    dialog.setHeaderText(null);
-                    dialog.setContentText("Nhập tên mới cho tài khoản:");
+                    dialog.setContentText("Tên mới:");
 
                     Optional<String> result = dialog.showAndWait();
                     result.ifPresent(newName -> {
@@ -139,22 +133,20 @@ public class AccountController {
                         try {
                             account.setName(newName);
 
-                            // Gọi service cập nhật tên tài khoản
                             try {
                                 accountService.getClass()
-                                        .getMethod("updateAccount", Account.class)
-                                        .invoke(accountService, account);
+                                    .getMethod("updateAccount", Account.class)
+                                    .invoke(accountService, account);
                             } catch (NoSuchMethodException nsme) {
                                 accountService.getClass()
-                                        .getMethod("updateAccountName", int.class, String.class)
-                                        .invoke(accountService, account.getId(), newName);
+                                    .getMethod("updateAccountName", int.class, String.class)
+                                    .invoke(accountService, account.getId(), newName);
                             }
 
                             loadAccountTable();
                             showAlert("Thành công", "Đã cập nhật tên tài khoản!", Alert.AlertType.INFORMATION);
                         } catch (Exception ex) {
-                            ex.printStackTrace();
-                            showAlert("Lỗi", "Không thể cập nhật: " + ex.getMessage(), Alert.AlertType.ERROR);
+                            showAlert("Lỗi", ex.getMessage(), Alert.AlertType.ERROR);
                         }
                     });
                 });
@@ -163,15 +155,12 @@ public class AccountController {
             @Override
             protected void updateItem(Void item, boolean empty) {
                 super.updateItem(item, empty);
-                if (empty) {
-                    setGraphic(null);
-                } else {
-                    setGraphic(actionBox);
-                }
+                setGraphic(empty ? null : actionBox);
             }
         });
     }
 
+<<<<<<< HEAD
    /** Thêm tài khoản mới */
 private void handleAddAccount() {
     String name = accountTextField.getText().trim();
@@ -221,6 +210,22 @@ private void handleAddAccount() {
             if (normalizedName.contains(lowerKeyword) || balanceStr.contains(lowerKeyword)) {
                 filtered.add(acc);
             }
+=======
+    private void handleAddAccount() {
+        String name = accountTextField.getText().trim();
+        if (name.isEmpty()) {
+            errorLabel.setText("Tên tài khoản không được bỏ trống!");
+            return;
+        }
+
+        try {
+            accountService.addAccount(new Account(user.getId(), name, 0.0, LocalDateTime.now(), false));
+            accountTextField.clear();
+            errorLabel.setText("");
+            loadAccountTable();
+        } catch (Exception e) {
+            System.err.println("Error when addAccount: " + e.getMessage());
+>>>>>>> 63dbdc1f1d7962ac7f3b3f88c9b90eac88fd6c17
         }
 
         accounTableView.setItems(filtered);
@@ -269,7 +274,6 @@ private void handleAddAccount() {
         return pattern.matcher(temp).replaceAll("").replaceAll("đ", "d").replaceAll("Đ", "D");
     }
 
-    /** Hiển thị thông báo */
     private void showAlert(String title, String message, Alert.AlertType type) {
         Alert alert = new Alert(type, message, ButtonType.OK);
         alert.setTitle(title);

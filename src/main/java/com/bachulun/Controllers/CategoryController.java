@@ -35,22 +35,14 @@ public class CategoryController {
     private ObservableList<Category> categoryList = FXCollections.observableArrayList();
     private final ICategoryService cateService = new CategoryService();
 
-    @FXML
-    private Button addCategory;
-    @FXML
-    private TextField searchField, categoryTextField;
-    @FXML
-    Label errorLabel;
-    @FXML
-    private TableView<Category> categoryTable;
-    @FXML
-    private TableColumn<Category, Number> numCol;
-    @FXML
-    private TableColumn<Category, String> categoryNameCol;
-    @FXML
-    private TableColumn<Category, Void> actionCol;
-    @FXML
-    private Pagination pagination;
+    @FXML private Button addCategory;
+    @FXML private TextField categoryTextField;
+    @FXML Label errorLabel;
+    @FXML private TableView<Category> categoryTable;
+    @FXML private TableColumn<Category, Number> numCol;
+    @FXML private TableColumn<Category, String> categoryNameCol;
+    @FXML private TableColumn<Category, Void> actionCol;
+    @FXML private Pagination pagination;
 
     @FXML
     private void initialize() {
@@ -58,11 +50,7 @@ public class CategoryController {
 
         numCol.setCellValueFactory(column -> {
             Category cat = column.getValue();
-            if (cat != null) {
-                int idx = categoryTable.getItems().indexOf(cat);
-                return new SimpleIntegerProperty(idx + 1);
-            }
-            return null;
+            return new SimpleIntegerProperty(categoryTable.getItems().indexOf(cat) + 1);
         });
 
         categoryNameCol.setCellValueFactory(new javafx.scene.control.cell.PropertyValueFactory<>("name"));
@@ -71,6 +59,7 @@ public class CategoryController {
         categoryNameCol.setCellFactory(col -> new TableCell<Category, String>() {
             private final TextFlow textFlow = new TextFlow();
 
+<<<<<<< HEAD
             {
                 textFlow.setLineSpacing(0);
                 textFlow.setPadding(Insets.EMPTY);
@@ -138,6 +127,11 @@ public class CategoryController {
         });
 
         loadCategoryTable();
+=======
+        categoryTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        actionCol.setPrefWidth(150); // vừa 2 nút
+
+>>>>>>> 63dbdc1f1d7962ac7f3b3f88c9b90eac88fd6c17
         addCategory.setOnAction(e -> handleAddCategory());
 
         // ✅ Tìm kiếm realtime
@@ -179,42 +173,50 @@ public class CategoryController {
     private void addButtonToTable() {
         actionCol.setCellFactory(param -> new TableCell<>() {
             private final Button detailBtn = new Button("Chi tiết");
-            private final Button editBtn = new Button("Chỉnh sửa");
-            private final HBox actionBox = new HBox(8, detailBtn, editBtn);
+            private final Button editBtn = new Button("Chỉnh Sửa");
+
+            private final HBox actionBox = new HBox(5, detailBtn, editBtn);
 
             {
-                detailBtn.setStyle("-fx-background-color: #28a745; -fx-text-fill: white; -fx-font-size: 12px;");
-                editBtn.setStyle("-fx-background-color: #007bff; -fx-text-fill: white; -fx-font-size: 12px;");
+                actionBox.setStyle("-fx-alignment: center;");
+
+                detailBtn.setMinWidth(65);
+                editBtn.setMinWidth(65);
+
+                detailBtn.setStyle("-fx-background-color: #28a745; -fx-text-fill: white;");
+                editBtn.setStyle("-fx-background-color: #007bff; -fx-text-fill: white;");
 
                 detailBtn.setOnAction(event -> {
                     Category category = getTableView().getItems().get(getIndex());
-                    String detailMsg = String.format(
-                            "📂 Tên danh mục: %s\n🕒 Ngày tạo: %s\n🔗 Mã danh mục: %d",
-                            category.getName(),
-                            category.getCreatedAt(),
-                            category.getId()
+                    showAlert(
+                            "📂 " + category.getName() +
+                            "\n🕒 " + category.getCreatedAt()+
+                            "\nID: " + category.getId(),
+                            Alert.AlertType.INFORMATION
                     );
+<<<<<<< HEAD
                     showAlert(detailMsg, Alert.AlertType.INFORMATION);
+=======
+>>>>>>> 63dbdc1f1d7962ac7f3b3f88c9b90eac88fd6c17
                 });
 
                 editBtn.setOnAction(event -> {
                     Category category = getTableView().getItems().get(getIndex());
                     TextInputDialog dialog = new TextInputDialog(category.getName());
                     dialog.setTitle("Chỉnh sửa danh mục");
-                    dialog.setHeaderText(null);
-                    dialog.setContentText("Nhập tên danh mục mới:");
+                    dialog.setContentText("Tên mới:");
 
                     dialog.showAndWait().ifPresent(newName -> {
                         if (!newName.trim().isEmpty()) {
                             try {
                                 cateService.updateCategory(category.getId(), newName.trim());
-                                showAlert("Cập nhật danh mục thành công!", Alert.AlertType.INFORMATION);
+                                showAlert("Cập nhật thành công!", Alert.AlertType.INFORMATION);
                                 loadCategoryTable();
                             } catch (Exception ex) {
-                                showAlert("Lỗi khi cập nhật: " + ex.getMessage(), Alert.AlertType.ERROR);
+                                showAlert("Lỗi: " + ex.getMessage(), Alert.AlertType.ERROR);
                             }
                         } else {
-                            showAlert("Tên danh mục không được để trống!", Alert.AlertType.WARNING);
+                            showAlert("Không được để trống!", Alert.AlertType.WARNING);
                         }
                     });
                 });
@@ -238,11 +240,15 @@ public class CategoryController {
     // ✅ Hàm thêm danh mục có kiểm tra trùng tên
     private void handleAddCategory() {
         String name = categoryTextField.getText().trim();
+<<<<<<< HEAD
 
+=======
+>>>>>>> 63dbdc1f1d7962ac7f3b3f88c9b90eac88fd6c17
         if (name.isEmpty()) {
             errorLabel.setText("Danh mục không được bỏ trống!");
             return;
         }
+<<<<<<< HEAD
 
         try {
             boolean isDuplicate = cateService.getCategoryByUserId(user.getId()).stream()
@@ -256,6 +262,12 @@ public class CategoryController {
             errorLabel.setText("");
             CategoryDAO cateDao = new CategoryDAO();
             cateDao.addCategory(new Category(user.getId(), name, LocalDateTime.now(), false));
+=======
+        errorLabel.setText("");
+
+        try {
+            new CategoryDAO().addCategory(new Category(user.getId(), name, LocalDateTime.now(), false));
+>>>>>>> 63dbdc1f1d7962ac7f3b3f88c9b90eac88fd6c17
             categoryTextField.clear();
             loadCategoryTable();
             showAlert("Thêm danh mục thành công!", Alert.AlertType.INFORMATION);
