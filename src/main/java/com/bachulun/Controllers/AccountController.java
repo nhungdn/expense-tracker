@@ -1,7 +1,9 @@
 package com.bachulun.Controllers;
 
+import java.text.Normalizer;
 import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 import com.bachulun.Models.Account;
 import com.bachulun.Models.User;
@@ -24,6 +26,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 
 public class AccountController {
 
@@ -69,6 +73,11 @@ public class AccountController {
         loadAccountTable();
 
         addAccount.setOnAction(e -> handleAddAccount());
+
+        // === Thêm listener cho tìm kiếm ===
+        searchField.textProperty().addListener((obs, oldValue, newValue) -> {
+            filterAccountList(newValue);
+        });
     }
 
     /** Nạp dữ liệu tài khoản vào bảng */
@@ -104,8 +113,8 @@ public class AccountController {
                 detailBtn.setOnAction(event -> {
                     Account account = getTableView().getItems().get(getIndex());
                     String info = "Tên tài khoản: " + account.getName()
-                                + "\nSố dư (hệ thống): " + account.getBalance()
-                                + "\nNgày tạo: " + account.getCreatedAt();
+                            + "\nSố dư (hệ thống): " + account.getBalance()
+                            + "\nNgày tạo: " + account.getCreatedAt();
 
                     showAlert("Chi tiết tài khoản", info, Alert.AlertType.INFORMATION);
                 });
@@ -136,7 +145,6 @@ public class AccountController {
                                         .getMethod("updateAccount", Account.class)
                                         .invoke(accountService, account);
                             } catch (NoSuchMethodException nsme) {
-                                // fallback nếu chỉ có updateAccountName
                                 accountService.getClass()
                                         .getMethod("updateAccountName", int.class, String.class)
                                         .invoke(accountService, account.getId(), newName);
@@ -164,23 +172,101 @@ public class AccountController {
         });
     }
 
-    /** Thêm tài khoản mới */
-    private void handleAddAccount() {
-        String name = accountTextField.getText();
-        Double amount = 0.0;
-        if (name.trim().isEmpty()) {
-            errorLabel.setText("Tên tài khoản không được bỏ trống!");
+   /** Thêm tài khoản mới */
+private void handleAddAccount() {
+    String name = accountTextField.getText().trim();
+    Double amount = 0.0;
+
+    if (name.isEmpty()) {
+        errorLabel.setText("Tên tài khoản không được bỏ trống!");
+        return;
+    }
+
+    // Kiểm tra trùng tên
+    boolean exists = accountList.stream()
+            .anyMatch(acc -> normalize(acc.getName()).equalsIgnoreCase(normalize(name)));
+
+    if (exists) {
+        errorLabel.setText("Tài khoản bị trùng, vui lòng tạo tên khác!");
+        return;
+    }
+
+    try {
+        accountService.addAccount(new Account(user.getId(), name, amount, LocalDateTime.now(), false));
+        accountTextField.clear();
+        errorLabel.setText("");
+        loadAccountTable(); // reload bảng
+    } catch (Exception e) {
+        System.err.println("Error when addAccount: " + e.getMessage());
+        errorLabel.setText("Thêm tài khoản thất bại: " + e.getMessage());
+    }
+}
+
+
+    /** === Lọc danh sách tài khoản theo tên hoặc số dư === */
+    private void filterAccountList(String keyword) {
+        if (keyword == null || keyword.trim().isEmpty()) {
+            accounTableView.setItems(accountList);
+            addHighlightToColumn(null);
             return;
         }
 
-        try {
-            accountService.addAccount(new Account(user.getId(), name, amount, LocalDateTime.now(), false));
-            accountTextField.clear();
-            errorLabel.setText("");
-            loadAccountTable();
-        } catch (Exception e) {
-            System.err.println("Error when addAccount: " + e.getMessage());
+        String lowerKeyword = normalize(keyword.toLowerCase());
+
+        ObservableList<Account> filtered = FXCollections.observableArrayList();
+        for (Account acc : accountList) {
+            String normalizedName = normalize(acc.getName().toLowerCase());
+            String balanceStr = String.valueOf(acc.getBalance());
+
+            if (normalizedName.contains(lowerKeyword) || balanceStr.contains(lowerKeyword)) {
+                filtered.add(acc);
+            }
         }
+
+        accounTableView.setItems(filtered);
+        addHighlightToColumn(lowerKeyword);
+    }
+
+    /** === Highlight phần khớp trong tên tài khoản === */
+    private void addHighlightToColumn(String keyword) {
+        accountNameCol.setCellFactory(col -> new TableCell<>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                    setGraphic(null);
+                } else if (keyword != null && !keyword.isEmpty()) {
+                    String normalizedItem = normalize(item.toLowerCase());
+                    int start = normalizedItem.indexOf(keyword);
+
+                    if (start >= 0) {
+                        int end = Math.min(item.length(), start + keyword.length());
+                        Text before = new Text(item.substring(0, start));
+                        Text match = new Text(item.substring(start, end));
+                        Text after = new Text(item.substring(end));
+                        match.setStyle("-fx-fill: black; -fx-font-weight: bold; -fx-background-color: yellow;");
+                        TextFlow flow = new TextFlow(before, match, after);
+                        setGraphic(flow);
+                        setText(null);
+                    } else {
+                        setText(item);
+                        setGraphic(null);
+                    }
+                } else {
+                    setText(item);
+                    setGraphic(null);
+                }
+            }
+        });
+    }
+
+    /** === Chuẩn hóa chuỗi để bỏ dấu tiếng Việt === */
+    private String normalize(String input) {
+        if (input == null) return "";
+        String temp = Normalizer.normalize(input, Normalizer.Form.NFD);
+        Pattern pattern = Pattern.compile("\\p{M}");
+        return pattern.matcher(temp).replaceAll("").replaceAll("đ", "d").replaceAll("Đ", "D");
     }
 
     /** Hiển thị thông báo */

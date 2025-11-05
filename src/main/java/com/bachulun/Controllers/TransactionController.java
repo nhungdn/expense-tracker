@@ -24,26 +24,28 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
 public class TransactionController {
 
-@FXML
-private TableView<EditHistory> historyTable;
-@FXML
-private TableColumn<EditHistory, String> timeCol, oldDescCol, newDescCol;
-@FXML
-private TableColumn<EditHistory, Number> transactionIdCol, oldAmountCol, newAmountCol;
+    @FXML
+    private TableView<EditHistory> historyTable;
+    @FXML
+    private TableColumn<EditHistory, String> timeCol, oldDescCol, newDescCol;
+    @FXML
+    private TableColumn<EditHistory, Number> transactionIdCol, oldAmountCol, newAmountCol;
 
-private final ObservableList<EditHistory> editHistoryList = FXCollections.observableArrayList();
-
+    private final ObservableList<EditHistory> editHistoryList = FXCollections.observableArrayList();
 
     private User currentUser;
     private Map<String, Integer> accountMap = new LinkedHashMap<>();
     private Map<String, Integer> categoryMap = new LinkedHashMap<>();
     private final ObservableList<Transaction> masterList = FXCollections.observableArrayList();
-    private final ObservableList<String> editLogList = FXCollections.observableArrayList(); // ✅ Lưu lịch sử chỉnh sửa
+    private final ObservableList<String> editLogList = FXCollections.observableArrayList();
     private FilteredList<Transaction> filteredList;
     private final ITransactionService tranService = new TransactionService();
     private final IAccountService accountService = new AccountService();
@@ -94,6 +96,12 @@ private final ObservableList<EditHistory> editHistoryList = FXCollections.observ
         loadAccountList();
         loadCategoryList();
         loadTypeList();
+
+        // ✅ Tìm kiếm realtime + highlight
+        searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+            updateFilter();
+            transactionTable.refresh(); // làm mới để highlight
+        });
     }
 
     private void loadTableView() {
@@ -107,161 +115,184 @@ private final ObservableList<EditHistory> editHistoryList = FXCollections.observ
         accountCol.setCellValueFactory(new PropertyValueFactory<>("accountName"));
         descriptionCol.setCellValueFactory(new PropertyValueFactory<>("description"));
 
+        // ✅ Gắn highlight renderer
+        addHighlightToColumn(descriptionCol);
+        addHighlightToColumn(categoryCol);
+        addHighlightToColumn(accountCol);
+        addHighlightToColumn(typeCol);
+        addHighlightToColumn(amountCol);
+
         addActionButtonsToTable();
     }
 
+    // ✅ Hàm tạo cell highlight
+    private void addHighlightToColumn(TableColumn<Transaction, String> column) {
+        column.setCellFactory(col -> new TableCell<>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setGraphic(null);
+                    setText(null);
+                } else {
+                    String keyword = searchField.getText() != null ? searchField.getText().toLowerCase().trim() : "";
+                    if (!keyword.isEmpty() && item.toLowerCase().contains(keyword)) {
+                        int start = item.toLowerCase().indexOf(keyword);
+                        int end = start + keyword.length();
+
+                        Text before = new Text(item.substring(0, start));
+                        Text match = new Text(item.substring(start, end));
+                        match.setFill(Color.GOLD);
+                        match.setStyle("-fx-font-weight: bold;");
+                        Text after = new Text(item.substring(end));
+
+                        TextFlow flow = new TextFlow(before, match, after);
+                        setGraphic(flow);
+                        setText(null);
+                    } else {
+                        setText(item);
+                        setGraphic(null);
+                    }
+                }
+            }
+        });
+    }
+
     private void loadHistoryTable() {
-    timeCol.setCellValueFactory(new PropertyValueFactory<>("time"));
-    transactionIdCol.setCellValueFactory(new PropertyValueFactory<>("transactionId"));
-    oldAmountCol.setCellValueFactory(new PropertyValueFactory<>("oldAmount"));
-    newAmountCol.setCellValueFactory(new PropertyValueFactory<>("newAmount"));
-    oldDescCol.setCellValueFactory(new PropertyValueFactory<>("oldDesc"));
-    newDescCol.setCellValueFactory(new PropertyValueFactory<>("newDesc"));
+        timeCol.setCellValueFactory(new PropertyValueFactory<>("time"));
+        transactionIdCol.setCellValueFactory(new PropertyValueFactory<>("transactionId"));
+        oldAmountCol.setCellValueFactory(new PropertyValueFactory<>("oldAmount"));
+        newAmountCol.setCellValueFactory(new PropertyValueFactory<>("newAmount"));
+        oldDescCol.setCellValueFactory(new PropertyValueFactory<>("oldDesc"));
+        newDescCol.setCellValueFactory(new PropertyValueFactory<>("newDesc"));
 
-    historyTable.setItems(editHistoryList);
-}
-
+        historyTable.setItems(editHistoryList);
+    }
 
     /** ✅ Thêm cột Thao tác: Chi tiết + Chỉnh sửa */
     private void addActionButtonsToTable() {
-    actionCol.setCellFactory(param -> new TableCell<>() {
-        private final Button detailBtn = new Button("Chi tiết");
-        private final Button editBtn = new Button("Chỉnh sửa");
-        private final HBox box = new HBox(8, detailBtn, editBtn);
+        actionCol.setCellFactory(param -> new TableCell<>() {
+            private final Button detailBtn = new Button("Chi tiết");
+            private final Button editBtn = new Button("Chỉnh sửa");
+            private final HBox box = new HBox(8, detailBtn, editBtn);
 
-        {
-            detailBtn.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 12px;");
-            editBtn.setStyle("-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-size: 12px;");
+            {
+                detailBtn.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 12px;");
+                editBtn.setStyle("-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-size: 12px;");
 
-            // ✅ Bắt sự kiện cho từng nút
-            detailBtn.setOnAction(e -> {
-                Transaction t = (Transaction) getTableRow().getItem();
-                if (t == null) return;
+                detailBtn.setOnAction(e -> {
+                    Transaction t = (Transaction) getTableRow().getItem();
+                    if (t == null) return;
 
-                String info = String.format(
-                        "Ngày: %s\nLoại: %s\nDanh mục: %s\nSố tiền: %s\nTài khoản: %s\nMô tả: %s",
-                        t.getTransactionDateDisplay(), t.getType(), t.getCategoryName(),
-                        t.getAmountDisplay(), t.getAccountName(), t.getDescription());
-                showAlert("Chi tiết giao dịch", info, Alert.AlertType.INFORMATION);
-            });
+                    String info = String.format(
+                            "Ngày: %s\nLoại: %s\nDanh mục: %s\nSố tiền: %s\nTài khoản: %s\nMô tả: %s",
+                            t.getTransactionDateDisplay(), t.getType(), t.getCategoryName(),
+                            t.getAmountDisplay(), t.getAccountName(), t.getDescription());
+                    showAlert("Chi tiết giao dịch", info, Alert.AlertType.INFORMATION);
+                });
 
-            editBtn.setOnAction(e -> {
-                Transaction t = (Transaction) getTableRow().getItem();
-                if (t == null) return;
-                showEditDialog(t);
-            });
-        }
-
-        @Override
-        protected void updateItem(Void item, boolean empty) {
-            super.updateItem(item, empty);
-            if (empty) {
-                setGraphic(null);
-            } else {
-                setGraphic(box);
+                editBtn.setOnAction(e -> {
+                    Transaction t = (Transaction) getTableRow().getItem();
+                    if (t == null) return;
+                    showEditDialog(t);
+                });
             }
-        }
-    });
-}
 
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                setGraphic(empty ? null : box);
+            }
+        });
+    }
 
-    /** ✅ Dialog chỉnh sửa số tiền + mô tả + ghi log */
     private void showEditDialog(Transaction t) {
-    Dialog<Pair<String, String>> dialog = new Dialog<>();
-    dialog.setTitle("Chỉnh sửa giao dịch");
-    dialog.setHeaderText(null);
-    dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+        Dialog<Pair<String, String>> dialog = new Dialog<>();
+        dialog.setTitle("Chỉnh sửa giao dịch");
+        dialog.setHeaderText(null);
+        dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
 
-    GridPane grid = new GridPane();
-    grid.setHgap(10);
-    grid.setVgap(10);
+        GridPane grid = new GridPane();
+        grid.setHgap(10);
+        grid.setVgap(10);
 
-    TextField amountField = new TextField(String.valueOf(t.getAmount()));
-    TextField descField = new TextField(t.getDescription());
+        TextField amountField = new TextField(String.valueOf(t.getAmount()));
+        TextField descField = new TextField(t.getDescription());
 
-    grid.add(new Label("Số tiền:"), 0, 0);
-    grid.add(amountField, 1, 0);
-    grid.add(new Label("Mô tả:"), 0, 1);
-    grid.add(descField, 1, 1);
+        grid.add(new Label("Số tiền:"), 0, 0);
+        grid.add(amountField, 1, 0);
+        grid.add(new Label("Mô tả:"), 0, 1);
+        grid.add(descField, 1, 1);
 
-    dialog.getDialogPane().setContent(grid);
+        dialog.getDialogPane().setContent(grid);
 
-    dialog.setResultConverter(button -> {
-        if (button == ButtonType.OK) {
-            return new Pair<>(amountField.getText(), descField.getText());
-        }
-        return null;
-    });
+        dialog.setResultConverter(button -> {
+            if (button == ButtonType.OK) {
+                return new Pair<>(amountField.getText(), descField.getText());
+            }
+            return null;
+        });
 
-    Optional<Pair<String, String>> result = dialog.showAndWait();
-    result.ifPresent(pair -> {
-        String amountText = pair.getKey().trim();
-        String newDesc = pair.getValue().trim();
-        double newAmount;
+        Optional<Pair<String, String>> result = dialog.showAndWait();
+        result.ifPresent(pair -> {
+            String amountText = pair.getKey().trim();
+            String newDesc = pair.getValue().trim();
+            double newAmount;
 
-        try {
-            newAmount = Double.parseDouble(amountText);
-        } catch (NumberFormatException ex) {
-            showAlert("Lỗi", "Số tiền phải là số hợp lệ!", Alert.AlertType.WARNING);
-            return;
-        }
-
-        double oldAmount = t.getAmount();
-        String oldDesc = t.getDescription();
-
-        try {
-            // ✅ Cập nhật trong DB
-            t.setAmount(newAmount);
-            t.setDescription(newDesc);
-            tranService.updateTransaction(t);
-
-            // ✅ Cập nhật lại trong danh sách đang hiển thị (không load lại toàn bảng)
-            for (int i = 0; i < masterList.size(); i++) {
-                if (masterList.get(i).getId() == t.getId()) {
-                    masterList.set(i, t);
-                    break;
-                }
+            try {
+                newAmount = Double.parseDouble(amountText);
+            } catch (NumberFormatException ex) {
+                showAlert("Lỗi", "Số tiền phải là số hợp lệ!", Alert.AlertType.WARNING);
+                return;
             }
 
-            // ✅ Ghi log chỉnh sửa
-            logEditAction(t, oldAmount, newAmount, oldDesc, newDesc);
+            double oldAmount = t.getAmount();
+            String oldDesc = t.getDescription();
 
-            transactionTable.refresh();
-            showAlert("Thành công", "Đã cập nhật giao dịch!", Alert.AlertType.INFORMATION);
+            try {
+                t.setAmount(newAmount);
+                t.setDescription(newDesc);
+                tranService.updateTransaction(t);
 
-        } catch (Exception ex) {
-            showAlert("Lỗi", "Không thể cập nhật: " + ex.getMessage(), Alert.AlertType.ERROR);
-        }
-    });
-}
+                for (int i = 0; i < masterList.size(); i++) {
+                    if (masterList.get(i).getId() == t.getId()) {
+                        masterList.set(i, t);
+                        break;
+                    }
+                }
 
-    /** ✅ Hàm ghi log chỉnh sửa */
+                logEditAction(t, oldAmount, newAmount, oldDesc, newDesc);
+                transactionTable.refresh();
+                showAlert("Thành công", "Đã cập nhật giao dịch!", Alert.AlertType.INFORMATION);
+            } catch (Exception ex) {
+                showAlert("Lỗi", "Không thể cập nhật: " + ex.getMessage(), Alert.AlertType.ERROR);
+            }
+        });
+    }
+
     private void logEditAction(Transaction t, double oldAmount, double newAmount, String oldDesc, String newDesc) {
         String time = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"));
         String logEntry = String.format("[%s] %s đã chỉnh sửa giao dịch #%d:\n  - Số tiền: %.2f → %.2f\n  - Mô tả: \"%s\" → \"%s\"\n",
                 time, currentUser.getUsername(), t.getId(), oldAmount, newAmount, oldDesc, newDesc);
 
         editLogList.add(logEntry);
-
-        // Ghi ra file
         try (FileWriter fw = new FileWriter("transaction_edit_log.txt", true)) {
             fw.write(logEntry + "\n");
         } catch (IOException e) {
             System.err.println("Không thể ghi file log: " + e.getMessage());
         }
         editHistoryList.add(new EditHistory(time, t.getId(), oldAmount, newAmount, oldDesc, newDesc));
-
     }
 
     private void loadAccountList() {
-        List<String> accounts = accountMap.keySet().stream().collect(Collectors.toList());
+        List<String> accounts = new ArrayList<>(accountMap.keySet());
         accounts.add(0, "Tất cả");
         accountComboBox.setItems(FXCollections.observableArrayList(accounts));
         accountComboBox.getSelectionModel().selectFirst();
     }
 
     private void loadCategoryList() {
-        List<String> categories = categoryMap.keySet().stream().collect(Collectors.toList());
+        List<String> categories = new ArrayList<>(categoryMap.keySet());
         categories.add(0, "Tất cả");
         categoryComboBox.setItems(FXCollections.observableArrayList(categories));
         categoryComboBox.getSelectionModel().selectFirst();
@@ -286,6 +317,7 @@ private final ObservableList<EditHistory> editHistoryList = FXCollections.observ
         LocalDate to = toDatePicker.getValue();
         String type = typeComboBox.getValue();
         String category = categoryComboBox.getValue();
+        String keyword = searchField.getText() != null ? searchField.getText().toLowerCase().trim() : "";
 
         Predicate<Transaction> predicate = t -> {
             if (from != null && t.getTransactionDate().toLocalDate().isBefore(from))
@@ -301,6 +333,14 @@ private final ObservableList<EditHistory> editHistoryList = FXCollections.observ
             if (category != null && !category.equals("Tất cả")) {
                 if (t.getCategoryName() == null || !t.getCategoryName().equalsIgnoreCase(category))
                     return false;
+            }
+
+            if (!keyword.isEmpty()) {
+                return (t.getDescription() != null && t.getDescription().toLowerCase().contains(keyword))
+                        || (t.getCategoryName() != null && t.getCategoryName().toLowerCase().contains(keyword))
+                        || (t.getAccountName() != null && t.getAccountName().toLowerCase().contains(keyword))
+                        || (t.getType() != null && t.getType().toLowerCase().contains(keyword))
+                        || String.valueOf(t.getAmount()).contains(keyword);
             }
 
             return true;

@@ -24,7 +24,7 @@
                <children>
                   <HBox prefHeight="26.0" prefWidth="615.0">
                      <children>
-                        <TextField prefHeight="26.0" prefWidth="168.0" promptText="Tìm kiếm danh mục" />
+                        <TextField fx:id="searchField" prefHeight="26.0" prefWidth="168.0" promptText="Tìm kiếm danh mục" />
                      </children>
                   </HBox>
                </children>
