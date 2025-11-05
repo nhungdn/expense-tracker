@@ -43,11 +43,7 @@
                   <PasswordField fx:id="passwordField" promptText="Mật khẩu" />
                   <Label layoutX="10.0" layoutY="287.0" styleClass="label-title" text="Xác nhận lại mật khẩu:" />
                   <PasswordField fx:id="confirmPasswordField" promptText="Xác nhận lại mật khẩu" />
-                  <Label fx:id="errorLabel" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="23.0" prefWidth="354.0" textAlignment="CENTER" textFill="RED" wrapText="true">
-                     <font>
-                        <Font size="1.0" />
-                     </font>
-                  </Label>
+                  <Label fx:id="errorLabel" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="23.0" prefWidth="354.0" textAlignment="CENTER" textFill="RED" wrapText="true" />
                   <Button fx:id="btnRegister" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleRegister" styleClass="button-primary" text="Đăng kí" textFill="#345db7">
                      <font>
                         <Font name="System Bold" size="12.0" />
