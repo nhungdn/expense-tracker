@@ -37,32 +37,32 @@ public class TransactionDAO implements ITransactionDAO {
     }
 
     @Override
-    public void updateTransaction(Transaction transaction) throws DatabaseException {
+public void updateTransaction(Transaction transaction) throws DatabaseException {
+    String sql = """
+            UPDATE TransactionTable
+            SET
+                account_id = ?,
+                category_id = ?,
+                amount = ?,
+                type = ?,
+                description = ?
+            WHERE id = ?
+            """;
 
-        String sql = """
-                UPDATE TransactionTable
-                SET
-                    account_id = ?,
-                    category_id = ?,
-                    amount = ?,
-                    type = ?,
-                    description = ?
-                WHERE id = ?
-                """;
-
-        try (Connection conn = DatabaseConnection.getConnection();
-                PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, transaction.getAccountId());
-            pstmt.setInt(2, transaction.getCategoryId());
-            pstmt.setDouble(3, transaction.getAmount());
-            pstmt.setString(4, transaction.getType());
-            pstmt.setString(5, transaction.getDescription());
-            pstmt.setInt(6, transaction.getAccountId());
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            System.err.println("Error when updateCategory: " + e.getMessage());
-        }
+    try (Connection conn = DatabaseConnection.getConnection();
+         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        pstmt.setInt(1, transaction.getAccountId());
+        pstmt.setInt(2, transaction.getCategoryId());
+        pstmt.setDouble(3, transaction.getAmount());
+        pstmt.setString(4, transaction.getType());
+        pstmt.setString(5, transaction.getDescription());
+        pstmt.setInt(6, transaction.getId()); // ✅ Sửa lại ở đây
+        pstmt.executeUpdate();
+    } catch (SQLException e) {
+        System.err.println("Error when updateTransaction: " + e.getMessage());
     }
+}
+
 
     @Override
     public void deleteTransaction(int transactionId) throws DatabaseException {
