@@ -1,0 +1,45 @@
+.pane {
+  -fx-background-color: linear-gradient(to top, #0b3d91, #6eb8ff);
+  -fx-font-family: "Segoe UI", sans-serif;
+}
+
+.button-primary {
+  -fx-background-color: #0b3d91;
+  -fx-text-fill: #ffffff;
+  -fx-font-size: 13px;
+  -fx-font-weight: bold;
+  -fx-cursor: hand;
+  -fx-border-radius: 6;
+  -fx-background-radius: 6;
+  -fx-padding: 5 0;
+}
+
+.button-primary:hover {
+  -fx-background-color: rgb(110, 185, 255);
+}
+
+.headLabel {
+  -fx-font-size: 22px;
+  -fx-font-weight: bold;
+  -fx-text-fill: #0b3d91;
+}
+
+.label-title {
+  -fx-font-size: 13px;
+  -fx-font-weight: bold;
+  -fx-text-fill: #333;
+}
+
+.errorLabel {
+  -fx-font-size: 13px;
+  -fx-text-fill: #e02c2c;
+}
+
+.text-field {
+  -fx-background-color: #cddfff;
+  -fx-background-radius: 6;
+  -fx-border-radius: 6;
+  -fx-padding: 6 10;
+  -fx-font-size: 13px;
+  -fx-text-fill: #0d47a1;
+}

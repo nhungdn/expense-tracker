@@ -95,7 +95,7 @@
                               </AnchorPane>
                               <VBox fx:id="transactionContainer" layoutX="601.0" layoutY="582.4" prefHeight="403.0" prefWidth="571.0" spacing="10.0" styleClass="card" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="601.0" AnchorPane.topAnchor="582.0">
                                  <children>
-                                    <HBox alignment="CENTER_LEFT" prefHeight="62.0" prefWidth="531.0" spacing="50.0">
+                                    <HBox alignment="CENTER_LEFT" prefHeight="78.0" prefWidth="531.0" spacing="50.0">
                                        <children>
                                           <Label prefHeight="32.0" prefWidth="309.0" styleClass="card-title" text="Giao dịch gần đây" />
                                           <Button fx:id="viewAllTransaction" mnemonicParsing="false" prefHeight="26.0" prefWidth="246.0" text="Xem tất cả giao dịch" />
