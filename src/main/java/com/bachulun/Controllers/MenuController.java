@@ -187,7 +187,7 @@ public class MenuController {
     }
 
     private void viewAllCategories() {
-        navigateTo("/FXML/Category.fxml");
+        navigateTo("/Fxml/Category.fxml");
         setActiveButton(viewAllCategoriesButton, viewAllCategoriesIconButton);
     }
 

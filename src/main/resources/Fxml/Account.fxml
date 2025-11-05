@@ -37,44 +37,50 @@
       </VBox>
    </top>
    <center>
-      <HBox BorderPane.alignment="CENTER">
-         <children>
-            <VBox prefHeight="460.0" prefWidth="508.0">
-               <children>
-                  <TableView fx:id="accounTableView" prefHeight="507.0" prefWidth="597.0">
-                     <columns>
-                        <TableColumn fx:id="numCol" prefWidth="45.60000550746918" text="STT" />
-                        <TableColumn fx:id="accountNameCol" prefWidth="212.79997634887695" resizable="false" text="Tài khoản" />
-                        <TableColumn fx:id="amountCol" prefWidth="116.800048828125" text="Số dư" />
-                        <TableColumn fx:id="actionCol" minWidth="0.0" prefWidth="101.5999816894531" text="Thao tác" />
-                     </columns>
-                  </TableView>
-                  <Pagination fx:id="pagination" prefHeight="41.0" prefWidth="766.0" />
-               </children>
-               <padding>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </padding>
+    <HBox BorderPane.alignment="CENTER" spacing="10">
+        <children>
+
+            <!-- Bảng danh sách -->
+            <VBox prefHeight="460.0" VBox.vgrow="ALWAYS" HBox.hgrow="ALWAYS">
+                <children>
+                    <TableView fx:id="accounTableView" prefHeight="507.0" VBox.vgrow="ALWAYS">
+                        <columns>
+                            <TableColumn fx:id="numCol" prefWidth="50" text="STT" />
+                            <TableColumn fx:id="accountNameCol" prefWidth="220" text="Tài khoản" />
+                            <TableColumn fx:id="amountCol" prefWidth="120" text="Số dư" />
+                            
+                            <!-- Cột thao tác -->
+                            <TableColumn fx:id="actionCol" minWidth="150" prefWidth="150" text="Thao tác" />
+                        </columns>
+                    </TableView>
+
+                    <Pagination fx:id="pagination" prefHeight="41.0" />
+                </children>
+                <padding>
+                    <Insets bottom="10" left="10" right="10" top="10" />
+                </padding>
             </VBox>
-            <VBox prefHeight="460.0" prefWidth="275.0" spacing="10.0">
-               <children>
-                  <Label text="Thêm tài khoản mới">
-                     <font>
-                        <Font name="System Bold" size="12.0" />
-                     </font></Label>
-                  <Label text="Tên tài khoản:" />
-                  <TextField fx:id="accountTextField" prefHeight="26.0" prefWidth="234.0" />
-                  <Button fx:id="addAccount" alignment="CENTER" mnemonicParsing="false" prefHeight="26.0" prefWidth="136.0" text="Thêm tài khoản" />
-                  <Label fx:id="errorLabel" prefHeight="18.0" prefWidth="270.0" />
-                  <Label fx:id="errorLabel" prefHeight="18.0" prefWidth="266.0" textFill="RED" />
-               </children>
-               <HBox.margin>
-                  <Insets />
-               </HBox.margin>
-               <padding>
-                  <Insets bottom="10.0" right="10.0" top="10.0" />
-               </padding>
+
+            <!-- Form thêm tài khoản -->
+            <VBox prefHeight="460.0" prefWidth="260" spacing="10">
+                <children>
+                    <Label text="Thêm tài khoản mới">
+                        <font><Font name="System Bold" size="12" /></font>
+                    </Label>
+
+                    <Label text="Tên tài khoản:" />
+                    <TextField fx:id="accountTextField" prefHeight="26" />
+
+                    <Button fx:id="addAccount" alignment="CENTER"
+                            prefHeight="26" prefWidth="160" text="Thêm tài khoản"/>
+
+                    <!-- Fix: chỉ 1 errorLabel -->
+                    <Label fx:id="errorLabel" prefHeight="18" prefWidth="250" textFill="RED" />
+                </children>
+                <padding><Insets bottom="10" right="10" top="10" /></padding>
             </VBox>
-         </children>
-      </HBox>
+
+        </children>
+    </HBox>
    </center>
 </BorderPane>

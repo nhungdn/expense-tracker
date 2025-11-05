@@ -59,7 +59,7 @@
                                     <TableColumn fx:id="amountCol" prefWidth="120.8" text="Số tiền" />
                                     <TableColumn fx:id="accountCol" prefWidth="135.2" text="Tài khoản" />
                                     <TableColumn fx:id="descriptionCol" prefWidth="126.4" text="Mô tả" />
-                                    <TableColumn fx:id="actionCol" prefWidth="112.8" text="Thao tác" />
+                                    <TableColumn fx:id="actionCol" prefWidth="150.0" text="Thao tác" />
                                 </columns>
                             </TableView>
                             <Pagination fx:id="pagination" prefHeight="59.0" prefWidth="745.0" />

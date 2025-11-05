@@ -10,6 +10,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="765.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bachulun.Controllers.CategoryController">
    <top>
@@ -17,7 +18,10 @@
          <children>
             <HBox alignment="CENTER" prefHeight="55.0" prefWidth="766.0">
                <children>
-                  <Label prefHeight="30.0" prefWidth="746.0" text="Quản lí danh mục" />
+                  <Label prefHeight="30.0" prefWidth="746.0" text="QUẢN LÍ DANH MỤC" textFill="#0b3d91">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font></Label>
                </children>
             </HBox>
             <HBox prefHeight="34.0" prefWidth="766.0">
@@ -36,42 +40,37 @@
       </VBox>
    </top>
    <center>
-      <HBox BorderPane.alignment="CENTER">
-         <children>
-            <VBox prefHeight="460.0" prefWidth="508.0">
-               <children>
-                  <TableView fx:id="categoryTable" prefHeight="507.0" prefWidth="597.0">
-                     <columns>
-                        <TableColumn fx:id="numCol" prefWidth="45.60000550746918" text="STT" />
-                        <TableColumn fx:id="categoryNameCol" prefWidth="338.4000129699707" resizable="false" text="Danh mục" />
-                        <TableColumn fx:id="actionCol" minWidth="0.0" prefWidth="89.60000610351562" text="Thao tác" />
-                     </columns>
-                  </TableView>
-                  <HBox prefHeight="54.0" prefWidth="766.0">
-                     <children>
-                        <Pagination fx:id="pagination" prefHeight="41.0" prefWidth="766.0" />
-                     </children>
-                  </HBox>
-               </children>
-               <padding>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </padding>
-            </VBox>
-            <VBox prefHeight="460.0" prefWidth="275.0" spacing="10.0">
-               <children>
-                  <Label text="Thêm danh mục mới" />
-                  <TextField fx:id="categoryTextField" prefHeight="26.0" prefWidth="234.0" />
-                  <Button fx:id="addCategory" alignment="CENTER" mnemonicParsing="false" prefHeight="26.0" prefWidth="136.0" text="Thêm danh mục" />
-                  <Label fx:id="errorLabel" prefHeight="18.0" prefWidth="266.0" textFill="RED" />
-               </children>
-               <HBox.margin>
-                  <Insets />
-               </HBox.margin>
-               <padding>
-                  <Insets bottom="10.0" right="10.0" top="10.0" />
-               </padding>
-            </VBox>
-         </children>
-      </HBox>
+    <HBox spacing="10" BorderPane.alignment="CENTER">
+        <!-- Cột Table bên trái -->
+        <VBox HBox.hgrow="ALWAYS">
+            <children>
+                <TableView fx:id="categoryTable" prefHeight="507.0" prefWidth="568.0">
+                    <columns>
+                        <TableColumn fx:id="numCol" prefWidth="45" text="STT" />
+                        <TableColumn fx:id="categoryNameCol" prefWidth="350" text="Danh mục" />
+                        <TableColumn fx:id="actionCol" minWidth="80" prefWidth="100.0" text="Thao tác" />
+                    </columns>
+                </TableView>
+
+                <Pagination fx:id="pagination" prefHeight="41.0" />
+            </children>
+            <padding>
+                <Insets bottom="10" left="10" right="10" top="10" />
+            </padding>
+        </VBox>
+
+        <!-- Form thêm danh mục bên phải -->
+        <VBox prefWidth="250" spacing="10.0">
+            <children>
+                <Label text="Thêm danh mục mới" />
+                <TextField fx:id="categoryTextField" prefHeight="26.0" />
+                <Button fx:id="addCategory" prefHeight="26.0" text="Thêm danh mục" />
+                <Label fx:id="errorLabel" textFill="RED" />
+            </children>
+            <padding>
+                <Insets bottom="10" right="10" top="10" />
+            </padding>
+        </VBox>
+    </HBox>
    </center>
 </BorderPane>
