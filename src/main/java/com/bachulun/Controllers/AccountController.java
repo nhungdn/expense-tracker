@@ -63,10 +63,7 @@ public class AccountController {
         loadAccountTable();
         addAccount.setOnAction(e -> handleAddAccount());
 
-        // === Thêm listener cho tìm kiếm ===
-        searchField.textProperty().addListener((obs, oldValue, newValue) -> {
-            filterAccountList(newValue);
-        });
+        searchField.textProperty().addListener((obs, oldValue, newValue) -> filterAccountList(newValue));
     }
 
     private void loadAccountTable() {
@@ -86,7 +83,6 @@ public class AccountController {
 
     private void addButtonToTable() {
         actionCol.setCellFactory(param -> new TableCell<>() {
-
             private final Button detailBtn = new Button("Chi tiết");
             private final Button editBtn = new Button("Chỉnh Sửa");
             private final HBox actionBox = new HBox(5, detailBtn, editBtn);
@@ -102,17 +98,9 @@ public class AccountController {
 
                 detailBtn.setOnAction(event -> {
                     Account account = getTableView().getItems().get(getIndex());
-<<<<<<< HEAD
-                    String info = "Tên tài khoản: " + account.getName()
-                            + "\nSố dư (hệ thống): " + account.getBalance()
-                            + "\nNgày tạo: " + account.getCreatedAt();
-=======
-                    String info =
-                        "Tên tài khoản: " + account.getName() +
-                        "\nSố dư: " + account.getBalance() +
-                        "\nNgày tạo: " + account.getCreatedAt();
->>>>>>> 63dbdc1f1d7962ac7f3b3f88c9b90eac88fd6c17
-
+                    String info = "Tên tài khoản: " + account.getName() +
+                                  "\nSố dư: " + account.getBalance() +
+                                  "\nNgày tạo: " + account.getCreatedAt();
                     showAlert("Chi tiết tài khoản", info, Alert.AlertType.INFORMATION);
                 });
 
@@ -135,12 +123,12 @@ public class AccountController {
 
                             try {
                                 accountService.getClass()
-                                    .getMethod("updateAccount", Account.class)
-                                    .invoke(accountService, account);
+                                              .getMethod("updateAccount", Account.class)
+                                              .invoke(accountService, account);
                             } catch (NoSuchMethodException nsme) {
                                 accountService.getClass()
-                                    .getMethod("updateAccountName", int.class, String.class)
-                                    .invoke(accountService, account.getId(), newName);
+                                              .getMethod("updateAccountName", int.class, String.class)
+                                              .invoke(accountService, account.getId(), newName);
                             }
 
                             loadAccountTable();
@@ -160,61 +148,19 @@ public class AccountController {
         });
     }
 
-<<<<<<< HEAD
-   /** Thêm tài khoản mới */
-private void handleAddAccount() {
-    String name = accountTextField.getText().trim();
-    Double amount = 0.0;
-
-    if (name.isEmpty()) {
-        errorLabel.setText("Tên tài khoản không được bỏ trống!");
-        return;
-    }
-
-    // Kiểm tra trùng tên
-    boolean exists = accountList.stream()
-            .anyMatch(acc -> normalize(acc.getName()).equalsIgnoreCase(normalize(name)));
-
-    if (exists) {
-        errorLabel.setText("Tài khoản bị trùng, vui lòng tạo tên khác!");
-        return;
-    }
-
-    try {
-        accountService.addAccount(new Account(user.getId(), name, amount, LocalDateTime.now(), false));
-        accountTextField.clear();
-        errorLabel.setText("");
-        loadAccountTable(); // reload bảng
-    } catch (Exception e) {
-        System.err.println("Error when addAccount: " + e.getMessage());
-        errorLabel.setText("Thêm tài khoản thất bại: " + e.getMessage());
-    }
-}
-
-
-    /** === Lọc danh sách tài khoản theo tên hoặc số dư === */
-    private void filterAccountList(String keyword) {
-        if (keyword == null || keyword.trim().isEmpty()) {
-            accounTableView.setItems(accountList);
-            addHighlightToColumn(null);
-            return;
-        }
-
-        String lowerKeyword = normalize(keyword.toLowerCase());
-
-        ObservableList<Account> filtered = FXCollections.observableArrayList();
-        for (Account acc : accountList) {
-            String normalizedName = normalize(acc.getName().toLowerCase());
-            String balanceStr = String.valueOf(acc.getBalance());
-
-            if (normalizedName.contains(lowerKeyword) || balanceStr.contains(lowerKeyword)) {
-                filtered.add(acc);
-            }
-=======
+    /** Thêm tài khoản mới */
     private void handleAddAccount() {
         String name = accountTextField.getText().trim();
         if (name.isEmpty()) {
             errorLabel.setText("Tên tài khoản không được bỏ trống!");
+            return;
+        }
+
+        boolean exists = accountList.stream()
+                                    .anyMatch(acc -> normalize(acc.getName()).equalsIgnoreCase(normalize(name)));
+
+        if (exists) {
+            errorLabel.setText("Tài khoản bị trùng, vui lòng tạo tên khác!");
             return;
         }
 
@@ -225,14 +171,34 @@ private void handleAddAccount() {
             loadAccountTable();
         } catch (Exception e) {
             System.err.println("Error when addAccount: " + e.getMessage());
->>>>>>> 63dbdc1f1d7962ac7f3b3f88c9b90eac88fd6c17
+            errorLabel.setText("Thêm tài khoản thất bại: " + e.getMessage());
+        }
+    }
+
+    /** Lọc danh sách tài khoản theo tên hoặc số dư */
+    private void filterAccountList(String keyword) {
+        if (keyword == null || keyword.trim().isEmpty()) {
+            accounTableView.setItems(accountList);
+            addHighlightToColumn(null);
+            return;
+        }
+
+        String lowerKeyword = normalize(keyword.toLowerCase());
+        ObservableList<Account> filtered = FXCollections.observableArrayList();
+
+        for (Account acc : accountList) {
+            String normalizedName = normalize(acc.getName().toLowerCase());
+            String balanceStr = String.valueOf(acc.getBalance());
+            if (normalizedName.contains(lowerKeyword) || balanceStr.contains(lowerKeyword)) {
+                filtered.add(acc);
+            }
         }
 
         accounTableView.setItems(filtered);
         addHighlightToColumn(lowerKeyword);
     }
 
-    /** === Highlight phần khớp trong tên tài khoản === */
+    /** Highlight phần khớp trong tên tài khoản */
     private void addHighlightToColumn(String keyword) {
         accountNameCol.setCellFactory(col -> new TableCell<>() {
             @Override
@@ -266,7 +232,7 @@ private void handleAddAccount() {
         });
     }
 
-    /** === Chuẩn hóa chuỗi để bỏ dấu tiếng Việt === */
+    /** Chuẩn hóa chuỗi để bỏ dấu tiếng Việt */
     private String normalize(String input) {
         if (input == null) return "";
         String temp = Normalizer.normalize(input, Normalizer.Form.NFD);

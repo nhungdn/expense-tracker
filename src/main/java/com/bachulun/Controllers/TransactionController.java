@@ -105,20 +105,19 @@ public class TransactionController {
         });
     }
 
-private void loadTableView() {
-    // Cập nhật số trang
-    int pageCount = (int) Math.ceil((double) masterList.size() / ROWS_PER_PAGE);
-    pagination.setPageCount(pageCount == 0 ? 1 : pageCount);
+    private void loadTableView() {
+        // Cập nhật số trang
+        int pageCount = (int) Math.ceil((double) masterList.size() / ROWS_PER_PAGE);
+        pagination.setPageCount(pageCount == 0 ? 1 : pageCount);
 
-    // Gán dữ liệu cho từng cột
-    dateCol.setCellValueFactory(new PropertyValueFactory<>("transactionDateDisplay"));
-    typeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
-    categoryCol.setCellValueFactory(new PropertyValueFactory<>("categoryName"));
-    amountCol.setCellValueFactory(new PropertyValueFactory<>("amountDisplay"));
-    accountCol.setCellValueFactory(new PropertyValueFactory<>("accountName"));
-    descriptionCol.setCellValueFactory(new PropertyValueFactory<>("description"));
+        // Gán dữ liệu cho từng cột
+        dateCol.setCellValueFactory(new PropertyValueFactory<>("transactionDateDisplay"));
+        typeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
+        categoryCol.setCellValueFactory(new PropertyValueFactory<>("categoryName"));
+        amountCol.setCellValueFactory(new PropertyValueFactory<>("amountDisplay"));
+        accountCol.setCellValueFactory(new PropertyValueFactory<>("accountName"));
+        descriptionCol.setCellValueFactory(new PropertyValueFactory<>("description"));
 
-<<<<<<< HEAD
         // ✅ Gắn highlight renderer
         addHighlightToColumn(descriptionCol);
         addHighlightToColumn(categoryCol);
@@ -126,23 +125,19 @@ private void loadTableView() {
         addHighlightToColumn(typeCol);
         addHighlightToColumn(amountCol);
 
+        // Chỉnh cột Thao tác
+        actionCol.setText("Thao tác");
+        actionCol.setPrefWidth(180);
+        actionCol.setMinWidth(180);
+
         addActionButtonsToTable();
+
+        // ✅ Bỏ thanh cuộn ngang
+        transactionTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
+        // Đặt dữ liệu FilteredList
+        transactionTable.setItems(filteredList);
     }
-=======
-    // Chỉnh cột Thao tác
-    actionCol.setText("Thao tác");
-    actionCol.setPrefWidth(180);   // vừa đủ cho 2 button
-    actionCol.setMinWidth(180);
-
-    addActionButtonsToTable();
-
-    // ✅ Bỏ thanh cuộn ngang bằng cách để TableView tự co các cột
-    transactionTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-
-    // Đặt dữ liệu FilteredList
-    transactionTable.setItems(filteredList);
-}
->>>>>>> 63dbdc1f1d7962ac7f3b3f88c9b90eac88fd6c17
 
     // ✅ Hàm tạo cell highlight
     private void addHighlightToColumn(TableColumn<Transaction, String> column) {
@@ -188,8 +183,6 @@ private void loadTableView() {
         historyTable.setItems(editHistoryList);
     }
 
-<<<<<<< HEAD
-    /** ✅ Thêm cột Thao tác: Chi tiết + Chỉnh sửa */
     private void addActionButtonsToTable() {
         actionCol.setCellFactory(param -> new TableCell<>() {
             private final Button detailBtn = new Button("Chi tiết");
@@ -200,78 +193,38 @@ private void loadTableView() {
                 detailBtn.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 12px;");
                 editBtn.setStyle("-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-size: 12px;");
 
+                detailBtn.setMaxWidth(Double.MAX_VALUE);
+                editBtn.setMaxWidth(Double.MAX_VALUE);
+                box.setAlignment(Pos.CENTER);
+
                 detailBtn.setOnAction(e -> {
-                    Transaction t = (Transaction) getTableRow().getItem();
-                    if (t == null) return;
-
-=======
-/** Thêm 2 nút Chi tiết + Chỉnh sửa vào cột Thao tác */
-private void addActionButtonsToTable() {
-    actionCol.setCellFactory(param -> new TableCell<>() {
-        private final Button detailBtn = new Button("Chi tiết");
-        private final Button editBtn = new Button("Chỉnh sửa");
-        private final HBox box = new HBox(8, detailBtn, editBtn);
-
-        {
-            // Style cho button
-            detailBtn.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 12px;");
-            editBtn.setStyle("-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-size: 12px;");
-
-            // Giữ button không bị cắt
-            detailBtn.setMaxWidth(Double.MAX_VALUE);
-            editBtn.setMaxWidth(Double.MAX_VALUE);
-
-            box.setAlignment(Pos.CENTER);
-
-            // Sự kiện Chi tiết
-            detailBtn.setOnAction(e -> {
-                Transaction t = getTableRow().getItem();
-                if (t != null) {
->>>>>>> 63dbdc1f1d7962ac7f3b3f88c9b90eac88fd6c17
-                    String info = String.format(
+                    Transaction t = getTableRow().getItem();
+                    if (t != null) {
+                        String info = String.format(
                             "Ngày: %s\nLoại: %s\nDanh mục: %s\nSố tiền: %s\nTài khoản: %s\nMô tả: %s",
                             t.getTransactionDateDisplay(), t.getType(), t.getCategoryName(),
-                            t.getAmountDisplay(), t.getAccountName(), t.getDescription());
-                    showAlert("Chi tiết giao dịch", info, Alert.AlertType.INFORMATION);
-<<<<<<< HEAD
+                            t.getAmountDisplay(), t.getAccountName(), t.getDescription()
+                        );
+                        showAlert("Chi tiết giao dịch", info, Alert.AlertType.INFORMATION);
+                    }
                 });
 
                 editBtn.setOnAction(e -> {
-                    Transaction t = (Transaction) getTableRow().getItem();
-                    if (t == null) return;
-                    showEditDialog(t);
+                    Transaction t = getTableRow().getItem();
+                    if (t != null) showEditDialog(t);
                 });
-=======
-                }
-            });
-
-            // Sự kiện Chỉnh sửa
-            editBtn.setOnAction(e -> {
-                Transaction t = getTableRow().getItem();
-                if (t != null) showEditDialog(t);
-            });
-        }
-
-        @Override
-        protected void updateItem(Void item, boolean empty) {
-            super.updateItem(item, empty);
-            if (empty) {
-                setGraphic(null);
-            } else {
-                setGraphic(box);
->>>>>>> 63dbdc1f1d7962ac7f3b3f88c9b90eac88fd6c17
             }
 
             @Override
             protected void updateItem(Void item, boolean empty) {
                 super.updateItem(item, empty);
                 setGraphic(empty ? null : box);
-            }
+             }
         });
     }
 
     private void showEditDialog(Transaction t) {
-        Dialog<Pair<String, String>> dialog = new Dialog<>();
+        Dialog<Transaction> dialog = new Dialog<>();
         dialog.setTitle("Chỉnh sửa giao dịch");
         dialog.setHeaderText(null);
         dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
@@ -283,39 +236,57 @@ private void addActionButtonsToTable() {
         TextField amountField = new TextField(String.valueOf(t.getAmount()));
         TextField descField = new TextField(t.getDescription());
 
+        // Loại giao dịch
+        ComboBox<String> typeBox = new ComboBox<>(FXCollections.observableArrayList("Thu", "Chi"));
+        typeBox.getSelectionModel().select(t.getType());
+
+        // Tài khoản
+        ComboBox<String> accountBox = new ComboBox<>(FXCollections.observableArrayList(accountMap.keySet()));
+        accountBox.getSelectionModel().select(t.getAccountName());
+
+        // Danh mục
+        ComboBox<String> categoryBox = new ComboBox<>(FXCollections.observableArrayList(categoryMap.keySet()));
+        categoryBox.getSelectionModel().select(t.getCategoryName());
+
         grid.add(new Label("Số tiền:"), 0, 0);
         grid.add(amountField, 1, 0);
         grid.add(new Label("Mô tả:"), 0, 1);
         grid.add(descField, 1, 1);
+        grid.add(new Label("Loại:"), 0, 2);
+        grid.add(typeBox, 1, 2);
+        grid.add(new Label("Tài khoản:"), 0, 3);
+        grid.add(accountBox, 1, 3);
+        grid.add(new Label("Danh mục:"), 0, 4);
+        grid.add(categoryBox, 1, 4);
 
         dialog.getDialogPane().setContent(grid);
 
-        dialog.setResultConverter(button -> {
-            if (button == ButtonType.OK) {
-                return new Pair<>(amountField.getText(), descField.getText());
-            }
-            return null;
-        });
+        dialog.setResultConverter(button -> button == ButtonType.OK ? t : null);
 
-        Optional<Pair<String, String>> result = dialog.showAndWait();
-        result.ifPresent(pair -> {
-            String amountText = pair.getKey().trim();
-            String newDesc = pair.getValue().trim();
-            double newAmount;
-
-            try {
-                newAmount = Double.parseDouble(amountText);
-            } catch (NumberFormatException ex) {
-                showAlert("Lỗi", "Số tiền phải là số hợp lệ!", Alert.AlertType.WARNING);
-                return;
-            }
-
+        Optional<Transaction> result = dialog.showAndWait();
+        result.ifPresent(tran -> {
             double oldAmount = t.getAmount();
             String oldDesc = t.getDescription();
+            String oldType = t.getType();
+            String oldAccountName = t.getAccountName();
+            String oldCategoryName = t.getCategoryName();
 
             try {
+                double newAmount = Double.parseDouble(amountField.getText().trim());
+                String newDesc = descField.getText().trim();
+                String newType = typeBox.getValue();
+                int newAccountId = accountMap.get(accountBox.getValue());
+                int newCategoryId = categoryMap.get(categoryBox.getValue());
+
+                // Cập nhật Transaction
                 t.setAmount(newAmount);
                 t.setDescription(newDesc);
+                t.setType(newType);
+                t.setAccountId(newAccountId);
+                t.setAccountName(accountBox.getValue());
+                t.setCategoryId(newCategoryId);
+                t.setCategoryName(categoryBox.getValue());
+
                 tranService.updateTransaction(t);
 
                 for (int i = 0; i < masterList.size(); i++) {
@@ -325,9 +296,12 @@ private void addActionButtonsToTable() {
                     }
                 }
 
-                logEditAction(t, oldAmount, newAmount, oldDesc, newDesc);
+                logEditAction(t, oldAmount, newAmount, oldDesc, newDesc); // Thêm vào log
                 transactionTable.refresh();
                 showAlert("Thành công", "Đã cập nhật giao dịch!", Alert.AlertType.INFORMATION);
+
+            } catch (NumberFormatException ex) {
+                showAlert("Lỗi", "Số tiền phải là số hợp lệ!", Alert.AlertType.WARNING);
             } catch (Exception ex) {
                 showAlert("Lỗi", "Không thể cập nhật: " + ex.getMessage(), Alert.AlertType.ERROR);
             }
@@ -336,15 +310,19 @@ private void addActionButtonsToTable() {
 
     private void logEditAction(Transaction t, double oldAmount, double newAmount, String oldDesc, String newDesc) {
         String time = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"));
-        String logEntry = String.format("[%s] %s đã chỉnh sửa giao dịch #%d:\n  - Số tiền: %.2f → %.2f\n  - Mô tả: \"%s\" → \"%s\"\n",
-                time, currentUser.getUsername(), t.getId(), oldAmount, newAmount, oldDesc, newDesc);
+        String logEntry = String.format("[%s] %s đã chỉnh sửa giao dịch #%d:\n  - Số tiền: %.2f → %.2f\n  - Mô tả: \"%s\" → \"%s\"\n" +
+                "  - Loại giao dịch: %s → %s\n  - Tài khoản: %s → %s\n  - Danh mục: %s → %s\n",
+                time, currentUser.getUsername(), t.getId(), oldAmount, newAmount, oldDesc, newDesc,
+                oldType, newType, oldAccountName, t.getAccountName(), oldCategoryName, t.getCategoryName());
 
         editLogList.add(logEntry);
+
         try (FileWriter fw = new FileWriter("transaction_edit_log.txt", true)) {
             fw.write(logEntry + "\n");
         } catch (IOException e) {
             System.err.println("Không thể ghi file log: " + e.getMessage());
         }
+
         editHistoryList.add(new EditHistory(time, t.getId(), oldAmount, newAmount, oldDesc, newDesc));
     }
 

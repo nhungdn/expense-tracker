@@ -43,6 +43,7 @@ public class CategoryController {
     @FXML private TableColumn<Category, String> categoryNameCol;
     @FXML private TableColumn<Category, Void> actionCol;
     @FXML private Pagination pagination;
+    @FXML private TextField searchField;
 
     @FXML
     private void initialize() {
@@ -59,7 +60,6 @@ public class CategoryController {
         categoryNameCol.setCellFactory(col -> new TableCell<Category, String>() {
             private final TextFlow textFlow = new TextFlow();
 
-<<<<<<< HEAD
             {
                 textFlow.setLineSpacing(0);
                 textFlow.setPadding(Insets.EMPTY);
@@ -126,18 +126,17 @@ public class CategoryController {
             }
         });
 
-        loadCategoryTable();
-=======
         categoryTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         actionCol.setPrefWidth(150); // vừa 2 nút
 
->>>>>>> 63dbdc1f1d7962ac7f3b3f88c9b90eac88fd6c17
         addCategory.setOnAction(e -> handleAddCategory());
 
         // ✅ Tìm kiếm realtime
         if (searchField != null) {
             searchField.textProperty().addListener((obs, oldVal, newVal) -> handleSearch(newVal));
         }
+
+        loadCategoryTable();
     }
 
     private void handleSearch(String keyword) {
@@ -188,16 +187,10 @@ public class CategoryController {
 
                 detailBtn.setOnAction(event -> {
                     Category category = getTableView().getItems().get(getIndex());
-                    showAlert(
-                            "📂 " + category.getName() +
-                            "\n🕒 " + category.getCreatedAt()+
-                            "\nID: " + category.getId(),
-                            Alert.AlertType.INFORMATION
-                    );
-<<<<<<< HEAD
+                    String detailMsg = "📂 " + category.getName() +
+                            "\n🕒 " + category.getCreatedAt() +
+                            "\nID: " + category.getId();
                     showAlert(detailMsg, Alert.AlertType.INFORMATION);
-=======
->>>>>>> 63dbdc1f1d7962ac7f3b3f88c9b90eac88fd6c17
                 });
 
                 editBtn.setOnAction(event -> {
@@ -240,15 +233,10 @@ public class CategoryController {
     // ✅ Hàm thêm danh mục có kiểm tra trùng tên
     private void handleAddCategory() {
         String name = categoryTextField.getText().trim();
-<<<<<<< HEAD
-
-=======
->>>>>>> 63dbdc1f1d7962ac7f3b3f88c9b90eac88fd6c17
         if (name.isEmpty()) {
             errorLabel.setText("Danh mục không được bỏ trống!");
             return;
         }
-<<<<<<< HEAD
 
         try {
             boolean isDuplicate = cateService.getCategoryByUserId(user.getId()).stream()
@@ -260,14 +248,7 @@ public class CategoryController {
             }
 
             errorLabel.setText("");
-            CategoryDAO cateDao = new CategoryDAO();
-            cateDao.addCategory(new Category(user.getId(), name, LocalDateTime.now(), false));
-=======
-        errorLabel.setText("");
-
-        try {
             new CategoryDAO().addCategory(new Category(user.getId(), name, LocalDateTime.now(), false));
->>>>>>> 63dbdc1f1d7962ac7f3b3f88c9b90eac88fd6c17
             categoryTextField.clear();
             loadCategoryTable();
             showAlert("Thêm danh mục thành công!", Alert.AlertType.INFORMATION);

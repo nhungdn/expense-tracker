@@ -92,3 +92,14 @@
   - Mô tả: "Tiền trọ" → "Tiền nhà"
 >>>>>>> 63dbdc1f1d7962ac7f3b3f88c9b90eac88fd6c17
 
+[06/11/2025 05:06:10] Dat đã chỉnh sửa giao dịch #7:
+  - Số tiền: 600000.00 → 50000.00
+  - Mô tả: "bus" → "grab"
+
+[06/11/2025 05:29:17] Dat đã chỉnh sửa giao dịch #7:
+  - Số tiền: 60000.00 → 90000.00
+  - Mô tả: "bus" → "grab"
+  - Loại giao dịch: Chi → Chi
+  - Tài khoản: DAT → DAT
+  - Danh mục: giai tri → Đi lại
+

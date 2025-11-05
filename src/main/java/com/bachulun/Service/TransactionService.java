@@ -21,7 +21,7 @@ public class TransactionService implements ITransactionService {
 
         tranDao.addTransaction(transaction);
 
-        // Cap nhat lai tien trong tai khoan
+        // Cập nhật lại tiền trong tài khoản
         accountService.updateAccountBalance(transaction.getAccountId(), transaction.getAmount(), transaction.getType());
     }
 
@@ -30,18 +30,19 @@ public class TransactionService implements ITransactionService {
         ValidationUtil.validateAmount(transaction.getAmount());
         ValidationUtil.validateDescription(transaction.getDescription());
 
-        // Lay thong tin giao dich truoc khi update:
+        // Lấy thông tin giao dịch trước khi update
         Transaction oldTran = tranDao.getTransactionById(transaction.getId());
-        // Rut giao dich ra khoi tai khoan de update moi:
+
+        // Rút giao dịch ra khỏi tài khoản để update mới
         if (oldTran.getType().equals("Thu"))
             accountService.updateAccountBalance(oldTran.getAccountId(), oldTran.getAmount(), "Chi");
         else
             accountService.updateAccountBalance(oldTran.getAccountId(), oldTran.getAmount(), "Thu");
 
-        // Cap nhat lai giao dich
+        // Cập nhật lại giao dịch
         tranDao.updateTransaction(transaction);
 
-        // Cap nhat lai tien trong tai khoan
+        // Cập nhật lại tiền trong tài khoản
         accountService.updateAccountBalance(transaction.getAccountId(), transaction.getAmount(), transaction.getType());
     }
 
@@ -70,7 +71,8 @@ public class TransactionService implements ITransactionService {
 
     @Override
     public List<Transaction> getTransactionByCategoryId(int categoryId) throws DatabaseException {
-        List<Transaction> tranList = tranDao.getTransactionByAccountId(categoryId);
+        // Sửa lỗi ở đây: trước đó bạn gọi nhầm getTransactionByAccountId
+        List<Transaction> tranList = tranDao.getTransactionByCategoryId(categoryId);
         return tranList;
     }
 
@@ -86,5 +88,4 @@ public class TransactionService implements ITransactionService {
         Map<String, Double> tranList = tranDao.getMonthlyTotalsByTypeAndYear(userId, type, year);
         return tranList;
     }
-
 }

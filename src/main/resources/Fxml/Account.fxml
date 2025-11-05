@@ -12,16 +12,12 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<<<<<<< HEAD
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-            prefHeight="550.0" prefWidth="765.0"
+            prefHeight="660.0" prefWidth="1200.0"
             xmlns="http://javafx.com/javafx/25"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.bachulun.Controllers.AccountController">
 
-=======
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="660.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bachulun.Controllers.AccountController">
->>>>>>> 63dbdc1f1d7962ac7f3b3f88c9b90eac88fd6c17
    <top>
       <VBox alignment="CENTER" prefHeight="90.0" prefWidth="766.0" BorderPane.alignment="CENTER">
          <children>
@@ -30,7 +26,8 @@
                   <Label prefHeight="35.0" prefWidth="1177.0" text="QUẢN LÍ TÀI KHOẢN" textFill="#0b3d91">
                      <font>
                         <Font name="System Bold" size="24.0" />
-                     </font></Label>
+                     </font>
+                  </Label>
                </children>
             </HBox>
             <HBox prefHeight="34.0" prefWidth="766.0">
@@ -50,93 +47,50 @@
    </top>
 
    <center>
-<<<<<<< HEAD
-      <HBox BorderPane.alignment="CENTER">
+      <HBox spacing="10" BorderPane.alignment="CENTER">
          <children>
-            <VBox prefHeight="460.0" prefWidth="508.0">
-               <children>
-                  <TableView fx:id="accounTableView" prefHeight="507.0" prefWidth="597.0">
-                     <columns>
-                        <TableColumn fx:id="numCol" prefWidth="45.6" text="STT" />
-                        <TableColumn fx:id="accountNameCol" prefWidth="212.8" resizable="false" text="Tài khoản" />
-                        <TableColumn fx:id="amountCol" prefWidth="116.8" text="Số dư" />
-                        <TableColumn fx:id="actionCol" prefWidth="101.6" text="Thao tác" />
-                     </columns>
-                  </TableView>
-                  <Pagination fx:id="pagination" prefHeight="41.0" prefWidth="766.0" />
-               </children>
-               <padding>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </padding>
-            </VBox>
-
-            <VBox prefHeight="460.0" prefWidth="275.0" spacing="10.0">
-               <children>
-                  <Label text="Thêm tài khoản mới">
-                     <font>
-                        <Font name="System Bold" size="12.0" />
-                     </font>
-                  </Label>
-                  <Label text="Tên tài khoản:" />
-                  <TextField fx:id="accountTextField" prefHeight="26.0" prefWidth="234.0" />
-                  <Button fx:id="addAccount" alignment="CENTER" mnemonicParsing="false"
-                          prefHeight="26.0" prefWidth="136.0" text="Thêm tài khoản" />
-                  <Label fx:id="errorLabel" prefHeight="18.0" prefWidth="270.0" textFill="RED" />
-               </children>
-               <HBox.margin>
-                  <Insets />
-               </HBox.margin>
-               <padding>
-                  <Insets bottom="10.0" right="10.0" top="10.0" />
-               </padding>
-=======
-    <HBox spacing="10" BorderPane.alignment="CENTER">
-        <children>
 
             <!-- Bảng danh sách -->
             <VBox prefHeight="460.0" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
-                <children>
-                    <TableView fx:id="accounTableView" prefHeight="507.0" VBox.vgrow="ALWAYS">
-                        <columns>
-                            <TableColumn fx:id="numCol" prefWidth="50" text="STT" />
-                            <TableColumn fx:id="accountNameCol" prefWidth="364.8000373840332" text="Tài khoản" />
-                            <TableColumn fx:id="amountCol" prefWidth="300.7999572753906" text="Số dư" />
-                            
-                            <!-- Cột thao tác -->
-                            <TableColumn fx:id="actionCol" minWidth="119.2000732421875" prefWidth="192.0" text="Thao tác" />
-                        </columns>
-                    </TableView>
+               <children>
+                  <TableView fx:id="accounTableView" prefHeight="507.0" VBox.vgrow="ALWAYS">
+                     <columns>
+                        <TableColumn fx:id="numCol" prefWidth="50" text="STT" />
+                        <TableColumn fx:id="accountNameCol" prefWidth="364.8" text="Tài khoản" />
+                        <TableColumn fx:id="amountCol" prefWidth="300.8" text="Số dư" />
+                        <TableColumn fx:id="actionCol" minWidth="119.2" prefWidth="192.0" text="Thao tác" />
+                     </columns>
+                  </TableView>
 
-                    <Pagination fx:id="pagination" prefHeight="41.0" />
-                </children>
-                <padding>
-                    <Insets bottom="10" left="10" right="10" top="10" />
-                </padding>
+                  <Pagination fx:id="pagination" prefHeight="41.0" />
+               </children>
+               <padding>
+                  <Insets bottom="10" left="10" right="10" top="10" />
+               </padding>
             </VBox>
 
             <!-- Form thêm tài khoản -->
             <VBox prefHeight="460.0" prefWidth="260" spacing="10">
-                <children>
-                    <Label text="Thêm tài khoản mới" textFill="#0b3d91">
-                        <font><Font name="System Bold" size="12" /></font>
-                    </Label>
+               <children>
+                  <Label text="Thêm tài khoản mới" textFill="#0b3d91">
+                     <font><Font name="System Bold" size="12" /></font>
+                  </Label>
 
-                    <Label text="Tên tài khoản:" textFill="#152963" />
-                    <TextField fx:id="accountTextField" prefHeight="26" />
+                  <Label text="Tên tài khoản:" textFill="#152963" />
+                  <TextField fx:id="accountTextField" prefHeight="26" />
 
-                    <Button fx:id="addAccount" alignment="CENTER" prefHeight="26" prefWidth="160" style="-fx-background-color: #2b64ea;" text="Thêm tài khoản" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold" size="12.0" />
-                     </font></Button>
+                  <Button fx:id="addAccount" alignment="CENTER" prefHeight="26" prefWidth="160" style="-fx-background-color: #2b64ea;" text="Thêm tài khoản" textFill="WHITE">
+                     <font><Font name="System Bold" size="12.0" /></font>
+                  </Button>
 
-                    <!-- Fix: chỉ 1 errorLabel -->
-                    <Label fx:id="errorLabel" prefHeight="18" prefWidth="250" textFill="RED" />
-                </children>
-                <padding><Insets bottom="10" right="10" top="10" /></padding>
->>>>>>> 63dbdc1f1d7962ac7f3b3f88c9b90eac88fd6c17
+                  <Label fx:id="errorLabel" prefHeight="18" prefWidth="250" textFill="RED" />
+               </children>
+               <padding>
+                  <Insets bottom="10" right="10" top="10" />
+               </padding>
             </VBox>
 
-        </children>
-    </HBox>
+         </children>
+      </HBox>
    </center>
 </BorderPane>
