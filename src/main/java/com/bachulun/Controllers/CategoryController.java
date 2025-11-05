@@ -1,8 +1,6 @@
 package com.bachulun.Controllers;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 import com.bachulun.DAOs.CategoryDAO;
 import com.bachulun.Models.Category;
@@ -21,12 +19,11 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.control.ButtonType;
 
 public class CategoryController {
 
@@ -64,7 +61,7 @@ public class CategoryController {
             return null;
         });
 
-        categoryNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+        categoryNameCol.setCellValueFactory(new javafx.scene.control.cell.PropertyValueFactory<>("name"));
 
         loadCategoryTable();
 
@@ -83,52 +80,77 @@ public class CategoryController {
         }
     }
 
+    /**
+     * Thêm 2 nút "Chi tiết" và "Chỉnh sửa" vào cột thao tác
+     */
     private void addButtonToTable() {
         actionCol.setCellFactory(param -> new TableCell<>() {
+            private final Button detailBtn = new Button("Chi tiết");
+            private final Button editBtn = new Button("Chỉnh sửa");
+            private final HBox actionBox = new HBox(8, detailBtn, editBtn);
 
-            private final Button editBtn = new Button("Chi tiết");
-            private final HBox actionBox = new HBox(5, editBtn);
             {
-                editBtn.setStyle("-fx-background-color: #4c63afff; -fx-text-fill: white; -fx-font-size: 12px;");
+                detailBtn.setStyle("-fx-background-color: #28a745; -fx-text-fill: white; -fx-font-size: 12px;");
+                editBtn.setStyle("-fx-background-color: #007bff; -fx-text-fill: white; -fx-font-size: 12px;");
 
-                // editBtn.setOnAction(event -> {
-                // Category category = getTableView().getItems().get(getIndex());
-                // TextInputDialog dialog = new TextInputDialog(category.getName());
-                // dialog.setTitle("Chỉnh sửa danh mục");
-                // dialog.setHeaderText(null);
-                // dialog.setContentText("Nhập tên danh mục mới:");
+                // --- Nút Xem chi tiết ---
+                detailBtn.setOnAction(event -> {
+                    Category category = getTableView().getItems().get(getIndex());
+                    String detailMsg = String.format(
+                            "📂 Tên danh mục: %s\n🕒 Ngày tạo: %s\n🔗 Mã danh mục: %d",
+                            category.getName(),
+                            category.getCreatedAt(),
+                            category.getId()
+                    );
 
-                // dialog.showAndWait().ifPresent(newName -> {
-                // if (!newName.trim().isEmpty()) {
-                // cateService.updateCategory(category.getId(), newName.trim());
-                // } else {
-                // CategoryController.this.showAlert("Tên danh mục không được để trống!",
-                // Alert.AlertType.WARNING);
-                // }
-                // });
+                    showAlert(detailMsg, Alert.AlertType.INFORMATION);
+                });
+
+                // --- Nút Chỉnh sửa ---
+                editBtn.setOnAction(event -> {
+                    Category category = getTableView().getItems().get(getIndex());
+                    TextInputDialog dialog = new TextInputDialog(category.getName());
+                    dialog.setTitle("Chỉnh sửa danh mục");
+                    dialog.setHeaderText(null);
+                    dialog.setContentText("Nhập tên danh mục mới:");
+
+                    dialog.showAndWait().ifPresent(newName -> {
+                        if (!newName.trim().isEmpty()) {
+                            try {
+                                cateService.updateCategory(category.getId(), newName.trim());
+                                showAlert("Cập nhật danh mục thành công!", Alert.AlertType.INFORMATION);
+                                loadCategoryTable();
+                            } catch (Exception ex) {
+                                showAlert("Lỗi khi cập nhật: " + ex.getMessage(), Alert.AlertType.ERROR);
+                            }
+                        } else {
+                            showAlert("Tên danh mục không được để trống!", Alert.AlertType.WARNING);
+                        }
+                    });
+                });
+            }
+
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    setGraphic(actionBox);
+                }
             }
         });
-
-        // }
-
-        // @Override
-        // protected void updateItem(Void item, boolean empty) {
-        // super.updateItem(item, empty);
-        // if (empty) {
-        // setGraphic(null);
-        // } else {
-        // setGraphic(actionBox);
-        // }
-        // }
-        // });
     }
 
-    // private void showAlert(String message, Alert.AlertType type) {
-    // Alert alert = new Alert(type);
-    // alert.setHeaderText(null);
-    // alert.setContentText(message);
-    // alert.showAndWait();
-    // }
+    /**
+     * Hiển thị thông báo tiện dụng
+     */
+    private void showAlert(String message, Alert.AlertType type) {
+        Alert alert = new Alert(type);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
 
     private void handleAddCategory() {
         String name = categoryTextField.getText();
@@ -147,5 +169,4 @@ public class CategoryController {
             System.err.println("Error when addCategory: " + e.getMessage());
         }
     }
-
 }

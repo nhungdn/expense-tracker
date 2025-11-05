@@ -180,3 +180,8 @@
   -fx-scale-y: 1.5;
   -fx-effect: dropshadow(three-pass-box, rgba(30, 58, 138, 0.3), 10, 0, 0, 3);
 }
+
+.table-view {
+    -fx-font-size: 13px;
+}
+

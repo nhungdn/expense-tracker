@@ -1,0 +1,72 @@
+[05/11/2025 14:38:22] Dat đã chỉnh sửa giao dịch #2:
+  - Số tiền: 50000.00 → 200000.00
+  - Mô tả: "xe" → "ôttt"
+
+[05/11/2025 15:37:11] Dat đã chỉnh sửa giao dịch #4:
+  - Số tiền: 3000.00 → 50000.00
+  - Mô tả: "adasdasd" → "bon ăn"
+
+[05/11/2025 15:37:21] Dat đã chỉnh sửa giao dịch #4:
+  - Số tiền: 3000.00 → 3000000.00
+  - Mô tả: "adasdasd" → "adasdasd"
+
+[05/11/2025 15:37:41] Dat đã chỉnh sửa giao dịch #2:
+  - Số tiền: 3000000.00 → 90000.00
+  - Mô tả: "adasdasd" → "cơm tối"
+
+[05/11/2025 15:59:41] Dat đã chỉnh sửa giao dịch #4:
+  - Số tiền: 3000.00 → 3000.00
+  - Mô tả: "adasdasd" → "pro"
+
+[05/11/2025 16:08:33] Dat đã chỉnh sửa giao dịch #4:
+  - Số tiền: 3000.00 → 3000.00
+  - Mô tả: "adasdasd" → "đi chơi với bon"
+
+[05/11/2025 16:08:59] Dat đã chỉnh sửa giao dịch #4:
+  - Số tiền: 3000.00 → 700000.00
+  - Mô tả: "adasdasd" → "ptit"
+
+[05/11/2025 16:15:13] Dat đã chỉnh sửa giao dịch #4:
+  - Số tiền: 3000.00 → 500000.00
+  - Mô tả: "adasdasd" → "chơi pick"
+
+[05/11/2025 16:23:00] Dat đã chỉnh sửa giao dịch #4:
+  - Số tiền: 3000.00 → 75000.00
+  - Mô tả: "adasdasd" → "ức gà"
+
+[05/11/2025 16:23:33] Dat đã chỉnh sửa giao dịch #4:
+  - Số tiền: 3000.00 → 250000.00
+  - Mô tả: "adasdasd" → "Linh"
+
+[05/11/2025 16:23:51] Dat đã chỉnh sửa giao dịch #1:
+  - Số tiền: 200000.00 → 270000.00
+  - Mô tả: "ôttt" → "mua  đồ"
+
+[05/11/2025 16:24:03] Dat đã chỉnh sửa giao dịch #2:
+  - Số tiền: 250000.00 → 2400000.00
+  - Mô tả: "Linh" → "Dũng"
+
+[05/11/2025 16:33:06] Dat đã chỉnh sửa giao dịch #7:
+  - Số tiền: 4040404.00 → 1234545.00
+  - Mô tả: "paly" → "haha"
+
+[05/11/2025 16:33:48] Dat đã chỉnh sửa giao dịch #7:
+  - Số tiền: 4040404.00 → 20000.00
+  - Mô tả: "paly" → "ladu"
+
+[05/11/2025 17:04:37] Dat đã chỉnh sửa giao dịch #7:
+  - Số tiền: 4040404.00 → 50000.00
+  - Mô tả: "paly" → "ức gà"
+
+[05/11/2025 17:20:12] Dat đã chỉnh sửa giao dịch #7:
+  - Số tiền: 4040404.00 → 20000.00
+  - Mô tả: "paly" → "lalalalalala"
+
+[05/11/2025 17:20:39] Dat đã chỉnh sửa giao dịch #7:
+  - Số tiền: 20000.00 → 60000.00
+  - Mô tả: "lalalalalala" → "máy bay"
+
+[05/11/2025 17:22:03] Dat đã chỉnh sửa giao dịch #7:
+  - Số tiền: 4040404.00 → 8000000.00
+  - Mô tả: "paly" → "máy bay"
+
