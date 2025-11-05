@@ -17,21 +17,21 @@
       <VBox alignment="CENTER" maxWidth="327.0" prefHeight="400.0" prefWidth="327.0" spacing="15.0" BorderPane.alignment="CENTER">
          <children>
             <HBox prefHeight="12.0" prefWidth="287.0" />
-            <TextField fx:id="firstNameField" promptText="First Name" />
-            <TextField fx:id="lastNameField" promptText="Last Name" />
+            <TextField fx:id="firstNameField" promptText="Tên" />
+            <TextField fx:id="lastNameField" promptText="Họ" />
             <TextField fx:id="emailField" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" nodeOrientation="LEFT_TO_RIGHT" prefHeight="25.0" prefWidth="187.0" promptText="Email" />
-            <TextField fx:id="usernameField" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Username" />
-            <PasswordField fx:id="passwordField" promptText="Password" />
-            <PasswordField fx:id="confirmPasswordField" promptText="Confirmed pasword" />
+            <TextField fx:id="usernameField" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Tên đăng nhập" />
+            <PasswordField fx:id="passwordField" promptText="Mật khẩu" />
+            <PasswordField fx:id="confirmPasswordField" promptText="Xác nhận lại mật khẩu" />
             <Label fx:id="errorLabel" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="0.0" prefWidth="287.0" textAlignment="CENTER" wrapText="true">
                <font>
                   <Font size="1.0" />
                </font></Label>
-            <Button fx:id="btnRegister" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleRegister" style="-fx-background-color: #3586b581;" text="Register" textFill="#345db7">
+            <Button fx:id="btnRegister" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleRegister" style="-fx-background-color: #3586b581;" text="Đăng kí" textFill="#345db7">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font></Button>
-            <Button fx:id="loginButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#backToLogin" style="-fx-background-color: #3586b581;" text="Login" textFill="#345db7">
+            <Button fx:id="loginButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#backToLogin" style="-fx-background-color: #3586b581;" text="Đăng nhập" textFill="#345db7">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font></Button>
@@ -49,7 +49,7 @@
                   <Image url="@../../../../../../Khiên.png" />
                </image>
             </ImageView>
-            <Label alignment="CENTER" text="USER REGISTER" textAlignment="CENTER" textFill="#345db7">
+            <Label alignment="CENTER" text="ĐĂNG KÍ" textAlignment="CENTER" textFill="#345db7">
                <font>
                   <Font name="System Bold" size="19.0" />
                </font>

@@ -35,30 +35,30 @@
    <center>
       <AnchorPane prefHeight="400.0" prefWidth="325.0" BorderPane.alignment="CENTER">
          <children>
-            <Label layoutX="23.0" layoutY="139.0" text="Username">
+            <Label layoutX="69.0" layoutY="152.0" text="Tên đăng nhập">
                <font>
                   <Font size="11.0" />
                </font>
             </Label>
             <ImageView fitHeight="44.0" fitWidth="59.0" layoutX="140.0" layoutY="53.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../../../Khóa.png" />
+                  <Image url="@/images/Khoa.png" />
                </image>
             </ImageView>
-            <TextField fx:id="usernameField" layoutX="82.0" layoutY="134.0" prefHeight="26.0" prefWidth="173.0" promptText="Username" style="-fx-border-color: #9da0a6;" AnchorPane.rightAnchor="57.20000000000002" />
-            <Label layoutX="25.0" layoutY="206.0" text="Password">
+            <TextField fx:id="usernameField" layoutX="69.0" layoutY="168.0" prefHeight="26.0" prefWidth="173.0" promptText="Tên đăng nhập" style="-fx-border-color: #9da0a6;" AnchorPane.rightAnchor="70.20000000000002" />
+            <Label layoutX="69.0" layoutY="200.0" text="Mật khẩu">
                <font>
                   <Font size="11.0" />
                </font>
             </Label>
-            <PasswordField fx:id="passwordField" layoutX="81.0" layoutY="201.0" prefHeight="26.0" prefWidth="173.0" promptText="Password" />
-            <Label fx:id="errorLabel" layoutX="97.0" layoutY="240.0" textFill="#942525" text=""/>
-            <Button fx:id="btnLogin" layoutX="81.0" layoutY="272.0" mnemonicParsing="false" onAction="#handleLogin" prefHeight="30.0" prefWidth="173.0" style="-fx-background-color: #3586b581; -fx-text-fill: #345db7; -fx-font-weight: bold;" text="Login" textAlignment="CENTER" textFill="#345db7">
+            <PasswordField fx:id="passwordField" layoutX="69.0" layoutY="220.0" prefHeight="26.0" prefWidth="173.0" promptText="Mật khẩu" />
+            <Label fx:id="errorLabel" layoutX="69" layoutY="250" textFill="#942525" />
+            <Button fx:id="btnLogin" layoutX="69.0" layoutY="271.0" mnemonicParsing="false" onAction="#handleLogin" prefHeight="30.0" prefWidth="173.0" style="-fx-background-color: #3586b581; -fx-text-fill: #345db7; -fx-font-weight: bold;" text="Đăng nhập" textAlignment="CENTER" textFill="#345db7">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button fx:id="registerButton" layoutX="81.0" layoutY="328.0" mnemonicParsing="false" onAction="#openRegister" prefHeight="30.0" prefWidth="173.0" style="-fx-background-color: #3586b581; -fx-font-weight: bold; -fx-text-fill: #345db7;" text="Register" textAlignment="CENTER" textFill="#345db7">
+            <Button fx:id="registerButton" layoutX="69.0" layoutY="326.0" mnemonicParsing="false" onAction="#openRegister" prefHeight="30.0" prefWidth="173.0" style="-fx-background-color: #3586b581; -fx-font-weight: bold; -fx-text-fill: #345db7;" text="Đăng kí" textAlignment="CENTER" textFill="#345db7">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
