@@ -39,7 +39,7 @@
       </StackPane>
       <VBox fx:id="menuBarShort" alignment="CENTER" layoutX="10.0" layoutY="72.0" prefHeight="688.0" prefWidth="54.0" spacing="15.0" stylesheets="@../Styles/menu.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="62.0">
          <children>
-            <Button fx:id="dashBoardIconButton" mnemonicParsing="false" prefHeight="34.0" prefWidth="214.0" text="🏠" />
+            <Button fx:id="dashBoardIconButton" mnemonicParsing="false" prefHeight="34.0" prefWidth="214.0" text="📈" />
             <Button fx:id="viewAllTransactionIconButton" mnemonicParsing="false" prefHeight="34.0" prefWidth="211.0" text="💸" />
             <Button fx:id="viewAllAccountsIconButton" mnemonicParsing="false" prefHeight="34.0" prefWidth="235.0" text="💳" />
             <Button fx:id="viewAllCategoriesIconButton" mnemonicParsing="false" prefHeight="34.0" prefWidth="214.0" text="📂" />
@@ -54,7 +54,7 @@
                   <Image url="@../images/user.png" />
                </image>
             </ImageView>
-            <Button fx:id="dashBoardButton" mnemonicParsing="false" prefHeight="34.0" prefWidth="214.0" text="🏠 Dashboard" />
+            <Button fx:id="dashBoardButton" mnemonicParsing="false" prefHeight="34.0" prefWidth="214.0" text="📈 Dashboard" />
             <Button fx:id="viewAllTransactionButton" mnemonicParsing="false" prefHeight="34.0" prefWidth="211.0" text="💸 Giao dịch" />
             <Button fx:id="viewAllAccountsButton" mnemonicParsing="false" prefHeight="34.0" prefWidth="235.0" text="💳 Tài khoản" />
             <Button fx:id="viewAllCategoriesButton" mnemonicParsing="false" prefHeight="34.0" prefWidth="214.0" text="📂 Danh mục" />

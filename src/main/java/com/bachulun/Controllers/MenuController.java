@@ -3,6 +3,7 @@ package com.bachulun.Controllers;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 import com.bachulun.Models.User;
 import com.bachulun.Utils.SessionManager;
@@ -18,6 +19,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -99,6 +101,34 @@ public class MenuController {
         dashBoardIconButton.setOnAction(e -> viewDashboard());
         settingIconButton.setOnAction(e -> viewSettings());
         logOutIconButton.setOnAction(e -> handleLogout());
+
+        // Bo sung giao dien
+        ArrayList<Tooltip> tooltip = new ArrayList<>();
+        tooltip.add(new Tooltip("Menu"));
+        tooltip.add(new Tooltip("Giao dịch"));
+        tooltip.add(new Tooltip("Tài khoản"));
+        tooltip.add(new Tooltip("Danh mục"));
+        tooltip.add(new Tooltip("Dashboard"));
+        tooltip.add(new Tooltip("Cài đặt"));
+        tooltip.add(new Tooltip("Đăng xuất"));
+
+        for (Tooltip t : tooltip) {
+            t.setStyle(
+                    "-fx-background-color: #0b3d91; " +
+                            "-fx-text-fill: white; " +
+                            "-fx-font-size: 13px; " +
+                            "-fx-padding: 6px 10px; " +
+                            "-fx-background-radius: 8px;");
+            t.setShowDelay(Duration.seconds(0.7));
+        }
+
+        showMenuButton.setTooltip(tooltip.get(0));
+        viewAllTransactionIconButton.setTooltip(tooltip.get(1));
+        viewAllAccountsIconButton.setTooltip(tooltip.get(2));
+        viewAllCategoriesIconButton.setTooltip(tooltip.get(3));
+        dashBoardIconButton.setTooltip(tooltip.get(4));
+        settingIconButton.setTooltip(tooltip.get(5));
+        logOutIconButton.setTooltip(tooltip.get(6));
 
     }
 
