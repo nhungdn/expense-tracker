@@ -36,6 +36,10 @@ public class LoginController {
             errorLabel.setText("Login successful!");
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Fxml/Menu.fxml"));
             Scene scene = new Scene(loader.load());
+            //Lấy controller của menu
+            MenuController menuController = loader.getController();
+            // Gọi Dashboard ngay khi vào
+            menuController.viewDashboard();
             Stage stage = (Stage) usernameField.getScene().getWindow();
             stage.setScene(scene);
             stage.setTitle("Expense Tracker");

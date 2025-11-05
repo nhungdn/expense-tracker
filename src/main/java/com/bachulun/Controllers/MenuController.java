@@ -171,7 +171,7 @@ public class MenuController {
 
     }
 
-    private void viewDashboard() {
+    public void viewDashboard() {
         navigateTo("/FXML/Dashboard.fxml");
         setActiveButton(dashBoardButton, dashBoardIconButton);
     }
