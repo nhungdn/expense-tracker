@@ -113,7 +113,6 @@ public class MenuController {
 
             isMenuHidden = true;
         } else {
-            menuBar.setVisible(true);
             menuBar.setTranslateX(-menuBar.getWidth());
 
             TranslateTransition slideIn = new TranslateTransition(Duration.millis(250), menuBar);
