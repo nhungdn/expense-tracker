@@ -17,10 +17,10 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bachulun.Controllers.TransactionController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="660.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bachulun.Controllers.TransactionController">
 
     <top>
-        <VBox alignment="CENTER" prefHeight="74.0" prefWidth="766.0" BorderPane.alignment="CENTER">
+        <VBox alignment="CENTER" prefHeight="74.0" prefWidth="1106.0" BorderPane.alignment="CENTER">
             <children>
                 <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                     <children>
@@ -28,28 +28,28 @@
                      <font>
                         <Font name="System Bold" size="24.0" />
                      </font></Label>
-                        <Button fx:id="addTransaction" mnemonicParsing="false" prefHeight="26.0" prefWidth="135.0" style="-fx-background-color: #2b64ea;" text="Thêm giao dịch" textFill="WHITE">
+                        <Button fx:id="addTransaction" mnemonicParsing="false" prefHeight="26.0" prefWidth="246.0" style="-fx-background-color: #2b64ea;" text="Thêm giao dịch" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font></Button>
                     </children>
                 </HBox>
-                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+                <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                     <children>
-                        <TextField fx:id="searchField" prefHeight="26.0" prefWidth="120.0" promptText="Tìm kiếm giao dịch" style="-fx-text-fill: #152963;" />
-                        <Label text="Từ ngày:">
+                        <TextField fx:id="searchField" prefHeight="26.0" prefWidth="257.0" promptText="Tìm kiếm giao dịch" style="-fx-text-fill: #152963;" />
+                        <Label nodeOrientation="RIGHT_TO_LEFT" text="Từ ngày:">
                             <graphic>
-                                <DatePicker fx:id="fromDatePicker" prefHeight="26.0" prefWidth="120.0" />
+                                <DatePicker fx:id="fromDatePicker" nodeOrientation="LEFT_TO_RIGHT" prefHeight="26.0" prefWidth="135.0" />
                             </graphic>
                         </Label>
-                        <Label text="Đến ngày:">
+                        <Label nodeOrientation="RIGHT_TO_LEFT" text="Đến ngày:">
                             <graphic>
-                                <DatePicker fx:id="toDatePicker" prefHeight="26.0" prefWidth="120.0" />
+                                <DatePicker fx:id="toDatePicker" nodeOrientation="LEFT_TO_RIGHT" prefHeight="26.0" prefWidth="139.0" />
                             </graphic>
                         </Label>
-                        <ComboBox fx:id="typeComboBox" prefHeight="26.0" prefWidth="88.0" promptText="Loại" />
-                        <ComboBox fx:id="categoryComboBox" prefHeight="26.0" prefWidth="100.0" promptText="Danh mục" />
-                        <ComboBox fx:id="accountComboBox" prefHeight="26.0" prefWidth="112.0" promptText="Tài khoản" />
+                        <ComboBox fx:id="typeComboBox" prefHeight="26.0" prefWidth="112.0" promptText="Loại" />
+                        <ComboBox fx:id="categoryComboBox" prefHeight="26.0" prefWidth="132.0" promptText="Danh mục" />
+                        <ComboBox fx:id="accountComboBox" prefHeight="26.0" prefWidth="145.0" promptText="Tài khoản" />
                     </children>
                 </HBox>
             </children>
@@ -58,24 +58,24 @@
 
     <center>
         <!-- Thay vì chỉ có bảng, ta dùng TabPane chứa 2 tab -->
-        <TabPane fx:id="tabPane" prefHeight="456.0" prefWidth="766.0" BorderPane.alignment="CENTER">
+        <TabPane fx:id="tabPane" prefHeight="548.0" prefWidth="1106.0" BorderPane.alignment="CENTER">
             <tabs>
                 <!-- Tab 1: Danh sách giao dịch -->
                 <Tab closable="false" text="Danh sách giao dịch">
                     <VBox prefHeight="456.0" prefWidth="766.0">
                         <children>
-                            <TableView fx:id="transactionTable" prefHeight="402.0" prefWidth="745.0">
+                            <TableView fx:id="transactionTable" prefHeight="466.0" prefWidth="1060.0">
                                 <columns>
                                     <TableColumn fx:id="dateCol" prefWidth="107.19997727870941" text="Ngày" />
                                     <TableColumn fx:id="typeCol" prefWidth="59.199989318847656" text="Loại" />
                                     <TableColumn fx:id="categoryCol" prefWidth="120.79997253417969" text="Danh mục" />
                                     <TableColumn fx:id="amountCol" prefWidth="169.5999755859375" text="Số tiền" />
                                     <TableColumn fx:id="accountCol" prefWidth="223.19992065429688" text="Tài khoản" />
-                                    <TableColumn fx:id="descriptionCol" prefWidth="311.20001220703125" text="Mô tả" />
-                                    <TableColumn fx:id="actionCol" prefWidth="192.0" text="Thao tác" />
+                                    <TableColumn fx:id="descriptionCol" prefWidth="267.2000732421875" text="Mô tả" />
+                                    <TableColumn fx:id="actionCol" prefWidth="136.7999267578125" text="Thao tác" />
                                 </columns>
                             </TableView>
-                            <Pagination fx:id="pagination" prefHeight="59.0" prefWidth="745.0" />
+                            <Pagination fx:id="pagination" prefHeight="59.0" prefWidth="745.0" visible="false" />
                         </children>
                         <padding>
                             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -101,4 +101,7 @@
             </tabs>
         </TabPane>
     </center>
+   <padding>
+      <Insets bottom="10.0" left="74.0" right="30.0" top="10.0" />
+   </padding>
 </BorderPane>

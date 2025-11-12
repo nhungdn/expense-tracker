@@ -107,8 +107,8 @@ public class DashboardController {
         recentTransaction();
 
         // Cuon trong accountList
-        leftButton.setOnAction(e -> scrollHorizontally(-0.2));
-        rightButton.setOnAction(e -> scrollHorizontally(0.2));
+        leftButton.setOnAction(e -> scrollHorizontally(-1));
+        rightButton.setOnAction(e -> scrollHorizontally(1));
 
         // Navigate
         viewAllTransaction.setOnAction(e -> {

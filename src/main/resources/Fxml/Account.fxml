@@ -12,11 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-            prefHeight="660.0" prefWidth="1200.0"
-            xmlns="http://javafx.com/javafx/25"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.bachulun.Controllers.AccountController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="660.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bachulun.Controllers.AccountController">
 
    <top>
       <VBox alignment="CENTER" prefHeight="90.0" prefWidth="766.0" BorderPane.alignment="CENTER">
@@ -56,13 +52,13 @@
                   <TableView fx:id="accounTableView" prefHeight="507.0" VBox.vgrow="ALWAYS">
                      <columns>
                         <TableColumn fx:id="numCol" prefWidth="50" text="STT" />
-                        <TableColumn fx:id="accountNameCol" prefWidth="364.8" text="Tài khoản" />
-                        <TableColumn fx:id="amountCol" prefWidth="300.8" text="Số dư" />
-                        <TableColumn fx:id="actionCol" minWidth="119.2" prefWidth="192.0" text="Thao tác" />
+                        <TableColumn fx:id="accountNameCol" prefWidth="326.4000701904297" text="Tài khoản" />
+                        <TableColumn fx:id="amountCol" prefWidth="244.00003051757812" text="Số dư" />
+                        <TableColumn fx:id="actionCol" minWidth="119.2" prefWidth="200.800048828125" text="Thao tác" />
                      </columns>
                   </TableView>
 
-                  <Pagination fx:id="pagination" prefHeight="41.0" />
+                  <Pagination fx:id="pagination" prefHeight="41.0" visible="false" />
                </children>
                <padding>
                   <Insets bottom="10" left="10" right="10" top="10" />
@@ -93,4 +89,7 @@
          </children>
       </HBox>
    </center>
+   <padding>
+      <Insets bottom="10.0" left="74.0" right="10.0" top="10.0" />
+   </padding>
 </BorderPane>

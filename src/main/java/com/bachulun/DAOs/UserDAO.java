@@ -34,14 +34,14 @@ public class UserDAO implements IUserDAO {
             stat.setTimestamp(6, Timestamp.valueOf(user.getCreatedAt()));
             stat.executeUpdate();
         } catch (SQLException e) {
-            if (e.getSQLState().equals("23000")) {
-                String message = e.getMessage();
-                if (message.contains("username")) { // Trung username
-                    throw new InvalidInputException("Username đã tồn tại!");
-                } else if (message.contains("email")) { // Trung email
-                    throw new InvalidInputException("Email đã tồn tại!");
-                }
+            String message = e.getMessage();
+            if (message.contains("Users.username")) { // Trung username
+                throw new InvalidInputException("Username đã tồn tại!");
+            } else if (message.contains("Users.email")) { // Trung email
+                throw new InvalidInputException("Email đã tồn tại!");
             }
+
+            System.err.println(e.getMessage());
             throw new DatabaseException("Failed to register user", e);
         }
 
@@ -61,6 +61,7 @@ public class UserDAO implements IUserDAO {
             if (rs.next()) { // Ton tai username dang muon log in
                 String hashedPassword = rs.getString("password");
                 if (PasswordUtil.verifyPassword(password, hashedPassword)) {
+                    System.out.println("Dang nhap thanh cong!");
                     // mat khau dung thi tao doi tuong User
                     return new User(
                             rs.getInt("id"),
@@ -78,7 +79,6 @@ public class UserDAO implements IUserDAO {
             }
         } catch (SQLException e) {
             throw new DatabaseException("Failed to login user", e);
-
         }
     }
 

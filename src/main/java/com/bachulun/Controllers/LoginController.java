@@ -36,7 +36,7 @@ public class LoginController {
             errorLabel.setText("Login successful!");
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Fxml/Menu.fxml"));
             Scene scene = new Scene(loader.load());
-            //Lấy controller của menu
+            // Lấy controller của menu
             MenuController menuController = loader.getController();
             // Gọi Dashboard ngay khi vào
             menuController.viewDashboard();
@@ -47,7 +47,8 @@ public class LoginController {
         } catch (InvalidInputException e) {
             errorLabel.setText(e.getMessage());
         } catch (DatabaseException e) {
-            errorLabel.setText("Database error occurred");
+            errorLabel.setText("Lỗi hệ thống. Vui lòng thử lại sau.");
+            e.printStackTrace();
         } catch (IOException e) {
             errorLabel.setText("Failed to load dashboard");
             e.printStackTrace();
